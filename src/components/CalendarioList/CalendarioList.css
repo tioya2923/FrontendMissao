@@ -1,0 +1,300 @@
+
+/* Fonte global */
+.section,
+.calendario-navegacao-custom,
+.calendario-navegacao-custom select,
+.calendario-navegacao-custom button,
+.calendario-grid,
+.calendario-grupo,
+.calendario-dia,
+.calendario-dia-num,
+.section h2 {
+  font-family: 'Times New Roman', Times, serif !important;
+}
+
+/* Navegação */
+.calendario-navegacao-custom {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-radius: 18px;
+  padding: 6px 8px;
+  gap: 4px;
+  margin: 12px auto 24px auto;
+  max-width: 900px;
+}
+
+/* Selects e botões */
+.calendario-navegacao-custom select,
+.calendario-navegacao-custom button {
+  background: transparent;
+  color: #000;
+  border: none;
+  font-size: 0.98rem;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: 0;
+  outline: none;
+  transition: background 0.2s, color 0.2s;
+  text-align: center;
+  max-width: 110px;
+  white-space: nowrap;
+}
+
+.calendario-navegacao-custom select:focus,
+.calendario-navegacao-custom button:focus {
+  background: #000;
+  color: #fff;
+}
+
+/* Select custom */
+.calendario-navegacao-custom select {
+  position: relative;
+  padding-right: 22px;
+  min-width: 70px;
+  max-width: 110px;
+  appearance: none;
+  text-align-last: center;
+}
+
+.calendario-navegacao-custom select.mes-select::after,
+.calendario-navegacao-custom select.ano-select::after {
+  content: '\02C7';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000;
+  font-size: 1.1em;
+  pointer-events: none;
+}
+
+.calendario-navegacao-custom button {
+  cursor: pointer;
+}
+
+/* Data */
+.calendario-data {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #000;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+/* Grid */
+.calendario-grid.oito-dias {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+  align-items: stretch;
+  width: 100%;
+  background: #f2f1f1;
+  border-radius: 12px;
+}
+
+.calendario-grupo {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+/* Dia */
+.calendario-dia {
+  width: 200px;
+  min-width: 200px;
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px 8px 8px 4px;
+  color: #000;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-height: 60px;
+  word-break: break-word;
+  position: relative;
+  border: 2px solid #000;
+}
+
+.calendario-dia-num {
+  background: none;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}
+
+/* Section */
+.section {
+  background: #e0e0e0;
+  border-radius: 8px;
+  margin-top: 74px;
+  margin-bottom: 32px;
+  padding: 24px 32px;
+  text-align: left;
+  max-width: 800px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section h2 {
+  margin-top: 0;
+  color: #000;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.section ul {
+  list-style: disc inside;
+  padding-left: 16px;
+}
+
+.section li {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.section hr {
+  margin: 32px 0;
+  border: none;
+  border-top: 1px solid #000;
+}
+
+.loading {
+  color: #000;
+  font-style: italic;
+}
+
+/* Botões escuros */
+.calendario-navegacao-custom select {
+  background: #000;
+  color: #fff;
+}
+
+.calendario-navegacao-custom select:focus {
+  background: #000;
+}
+
+.calendario-navegacao-custom button,
+.calendario-navegacao-custom input[type="button"],
+.calendario-navegacao-custom input[type="submit"] {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.calendario-navegacao-custom button:hover,
+.calendario-navegacao-custom input[type="button"]:hover,
+.calendario-navegacao-custom input[type="submit"]:hover {
+  background: #000;
+  color: #fff;
+}
+  .evento-item {
+    width: 100%;
+    box-sizing: border-box;
+    white-space: pre-line;
+    word-break: break-word;
+    text-align: left;
+    line-height: 1.1;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+
+  .section {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 16px 12px;
+    box-sizing: border-box;
+  }
+
+  .calendario-grid.oito-dias {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .calendario-grupo {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .calendario-dia {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex: none;
+    margin: 0;
+    box-sizing: border-box;
+  }
+ 
+  .evento-item {
+    width: 100%;
+    box-sizing: border-box;
+    white-space: pre-line;
+    word-break: break-word;
+    text-align: left;
+    line-height: 1.1;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  
+}
+}
+
+
+@media (max-width: 600px) {
+  .calendario-navegacao-custom {
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 4px 2px;
+  }
+
+  .calendario-navegacao-custom select,
+  .calendario-navegacao-custom button {
+    font-size: 0.92rem;
+    padding: 3px 5px;
+    max-width: 80px;
+  }
+   .evento-item {
+    width: 100%;
+    box-sizing: border-box;
+    white-space: pre-line;
+    word-break: break-word;
+    text-align: left;
+    line-height: 1.1;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  
+}
+}

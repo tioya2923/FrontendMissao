@@ -1,0 +1,33 @@
+.canticos-pt-topicos-container {
+  background: #fff;
+  color: #181818;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  margin-top: 40px;
+}
+
+.canticos-pt-topicos-container h2 {
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.canticos-pt-topicos-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.canticos-pt-topicos-list li {
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  font-size: 1.1rem;
+}
+
+.canticos-pt-topicos-list li:last-child {
+  border-bottom: none;
+}
