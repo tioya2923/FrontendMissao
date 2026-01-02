@@ -30,7 +30,7 @@ export default function NoticiaDetalhe() {
     <div className="noticia-detalhe-section">
       {noticia.imagemUrl && (
         <img
-          src={`http://localhost:5018${noticia.imagemUrl}`}
+          src={`https://backendmissaohuambo.onrender.com${noticia.imagemUrl}`}
           alt={noticia.titulo}
           className="noticia-detalhe-img"
         />
