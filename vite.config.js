@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5018', // ajuste a porta conforme o backend
+      '/api': {
+        target: process.env.VITE_API_URL || 'https://backendmissaohuambo.onrender.com',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });
