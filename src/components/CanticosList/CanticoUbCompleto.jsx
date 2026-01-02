@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams } from "react-router-dom";
 
 export default function CanticoUbCompleto() {
@@ -10,13 +12,9 @@ export default function CanticoUbCompleto() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`/api/umbundu/canticos/${slug}`)
+    api.get(`/api/umbundu/canticos/${slug}`)
       .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar cântico");
-        return res.json();
-      })
-      .then(data => {
-        setCantico(data);
+        setCantico(res.data);
         setLoading(false);
       })
       .catch(err => {

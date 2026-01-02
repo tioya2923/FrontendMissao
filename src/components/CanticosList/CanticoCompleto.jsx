@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams, Link } from "react-router-dom";
 
 export default function CanticoCompleto() {
@@ -11,13 +13,9 @@ export default function CanticoCompleto() {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/Canticos/${encodeURIComponent(slug)}`)
+    api.get(`/api/Canticos/${encodeURIComponent(slug)}`)
       .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar cântico");
-        return res.json();
-      })
-      .then(data => {
-        setCantico(data);
+        setCantico(res.data);
         setLoading(false);
       })
       .catch(err => {

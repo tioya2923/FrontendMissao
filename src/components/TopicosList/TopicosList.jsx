@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+import api from '../../api';
 import './TopicosList.css';
 
 export default function TopicosList() {
@@ -6,12 +8,12 @@ export default function TopicosList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/topicos')
-      .then(res => res.json())
-      .then(data => {
-        setTopicos(data);
+    api.get('/api/topicos')
+      .then(res => {
+        setTopicos(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Carregando tópicos...</div>;

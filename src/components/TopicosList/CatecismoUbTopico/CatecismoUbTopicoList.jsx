@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+import api from '../../../api';
 import CatecismoUbTopico from './CatecismoUbTopico';
 
 export default function CatecismoUbTopicoList() {
@@ -6,12 +8,12 @@ export default function CatecismoUbTopicoList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/catecismubttopicos')
-      .then(res => res.json())
-      .then(data => {
-        setTopicos(data);
+    api.get('/api/catecismubttopicos')
+      .then(res => {
+        setTopicos(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Carregando tópicos...</div>;

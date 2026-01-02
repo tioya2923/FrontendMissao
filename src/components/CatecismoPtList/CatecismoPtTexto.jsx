@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams } from "react-router-dom";
 
 export default function CatecismoPtTexto() {
@@ -7,12 +9,12 @@ export default function CatecismoPtTexto() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/catecismopt/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setItem(data);
+    api.get(`/api/catecismopt/${id}`)
+      .then(res => {
+        setItem(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, [id]);
 
   if (loading) return <div className="loading">Carregando texto...</div>;

@@ -1,5 +1,7 @@
 
+
 import React, { useEffect, useState } from 'react';
+import api from '../../api';
 import './CatecismoUbList.css';
 
 export default function CatecismoUbList() {
@@ -7,12 +9,12 @@ export default function CatecismoUbList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/catecismoub')
-      .then(res => res.json())
-      .then(data => {
-        setItens(data);
+    api.get('/api/catecismoub')
+      .then(res => {
+        setItens(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Carregando catecismo (UB)...</div>;

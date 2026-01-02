@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+import api from '../../api';
 import './CanticosList.css';
 
 export default function CanticosList() {
@@ -6,12 +8,12 @@ export default function CanticosList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/canticos')
-      .then(res => res.json())
-      .then(data => {
-        setCanticos(data);
+    api.get('/api/canticos')
+      .then(res => {
+        setCanticos(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Carregando cânticos...</div>;

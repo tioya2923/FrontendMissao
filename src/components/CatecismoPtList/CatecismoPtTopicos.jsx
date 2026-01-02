@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { Link, useNavigate } from "react-router-dom";
 import "./CatecismoPtTopicos.css";
 
@@ -9,13 +11,9 @@ export default function CatecismoPtTopicos() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/catecismopttopicos/topicos')
+    api.get('/api/catecismopttopicos/topicos')
       .then(res => {
-        if (!res.ok) throw new Error('Erro ao buscar tópicos');
-        return res.json();
-      })
-      .then(data => {
-        setTopicos(data);
+        setTopicos(res.data);
         setLoading(false);
       })
       .catch(err => {

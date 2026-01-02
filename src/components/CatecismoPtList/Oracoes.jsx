@@ -1,16 +1,18 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 
 export default function Oracoes() {
   const [conteudo, setConteudo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/CatecismoPt/1")
-      .then((res) => res.json())
-      .then((data) => {
-        setConteudo(data);
+    api.get('/api/CatecismoPt/1')
+      .then(res => {
+        setConteudo(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Carregando oração...</div>;

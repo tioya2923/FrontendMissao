@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams, Link } from "react-router-dom";
 
 export default function CanticosPorTopico() {
@@ -11,13 +13,9 @@ export default function CanticosPorTopico() {
         setLoading(true);
         setError(null);
 
-        fetch(`/api/Canticos/topico/${encodeURIComponent(nome)}`) // <-- corrigido
+        api.get(`/api/Canticos/topico/${encodeURIComponent(nome)}`)
             .then(res => {
-                if (!res.ok) throw new Error("Erro ao buscar cânticos do tópico");
-                return res.json();
-            })
-            .then(data => {
-                setCanticos(data);
+                setCanticos(res.data);
                 setLoading(false);
             })
             .catch(err => {

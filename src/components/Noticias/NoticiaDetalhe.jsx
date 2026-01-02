@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams } from "react-router-dom";
 import "./NoticiaDetalhe.css";
 
@@ -9,13 +11,9 @@ export default function NoticiaDetalhe() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/noticias/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Erro ao buscar notícia");
-        return res.json();
-      })
-      .then((data) => {
-        setNoticia(data);
+    api.get(`/api/noticias/${id}`)
+      .then(res => {
+        setNoticia(res.data);
         setLoading(false);
       })
       .catch((err) => {

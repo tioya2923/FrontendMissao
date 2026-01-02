@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams, Link } from "react-router-dom";
 
 export default function CatecismoPtPorTopico() {
@@ -11,13 +13,9 @@ export default function CatecismoPtPorTopico() {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/catecismopt/perguntas-com-topico`)
+    api.get(`/api/catecismopt/perguntas-com-topico`)
       .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar perguntas do catecismo");
-        return res.json();
-      })
-      .then(data => {
-        const arr = Array.isArray(data) ? data : [];
+        const arr = Array.isArray(res.data) ? res.data : [];
         const filtradas = arr.filter(p =>
           p.topico &&
           p.topico.slug &&

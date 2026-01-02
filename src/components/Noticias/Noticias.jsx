@@ -1,5 +1,7 @@
 
+
 import React, { useEffect, useState, useRef } from "react";
+import api from '../../api';
 import { Link } from "react-router-dom";
 import "./Noticias.css";
 
@@ -12,14 +14,9 @@ export default function Noticias() {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    fetch("/api/noticias")
-      .then((res) => {
-        if (!res.ok) throw new Error("Erro ao buscar notícias");
-        return res.json();
-      })
-      .then((data) => {
-        // Sort by created date descending if available, else by id
-        let arr = Array.isArray(data) ? data : [];
+    api.get('/api/noticias')
+      .then(res => {
+        let arr = Array.isArray(res.data) ? res.data : [];
         arr = arr.sort((a, b) => {
           if (a.dataCriacao && b.dataCriacao) {
             return new Date(b.dataCriacao) - new Date(a.dataCriacao);

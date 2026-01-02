@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useParams, Link } from "react-router-dom";
 
 export default function CanticosUbPorTopico() {
@@ -11,13 +13,9 @@ export default function CanticosUbPorTopico() {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/umbundu/canticos/canticos-com-topico`)
+    api.get(`/api/umbundu/canticos/canticos-com-topico`)
       .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar cânticos");
-        return res.json();
-      })
-      .then(data => {
-        const arr = Array.isArray(data) ? data : [];
+        const arr = Array.isArray(res.data) ? res.data : [];
         const filtrados = arr.filter(c =>
           c.topico &&
           c.topico.slug &&

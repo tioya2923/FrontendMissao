@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState, useRef } from 'react';
+import api from '../../api';
 import './CalendarioList.css';
 
 export default function CalendarioList() {
@@ -9,12 +11,12 @@ export default function CalendarioList() {
 
     // Carregar eventos
     useEffect(() => {
-        fetch('/api/calendario')
-            .then(res => res.json())
-            .then(data => {
-                setEventos(Array.isArray(data) ? data : []);
+        api.get('/api/calendario')
+            .then(res => {
+                setEventos(Array.isArray(res.data) ? res.data : []);
                 setLoading(false);
-            });
+            })
+            .catch(() => setLoading(false));
     }, []);
 
     // Constantes

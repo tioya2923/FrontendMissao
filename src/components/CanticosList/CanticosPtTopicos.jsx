@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { useNavigate } from "react-router-dom";
 import "./CanticosPtTopicos.css";
 
@@ -9,13 +11,9 @@ export default function CanticosPtTopicos() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/topicos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Erro ao buscar tópicos");
-        return res.json();
-      })
-      .then((data) => {
-        setTopicos(Array.isArray(data) ? data : []);
+    api.get('/api/topicos')
+      .then(res => {
+        setTopicos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);
       })
       .catch((err) => {

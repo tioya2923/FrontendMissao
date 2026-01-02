@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import api from '../../api';
 import { Link, useParams } from "react-router-dom";
 
 export default function CatecismoUbTitulos() {
@@ -7,12 +9,12 @@ export default function CatecismoUbTitulos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/catecismoub?topicoId=${topicoId}`)
-      .then(res => res.json())
-      .then(data => {
-        setTitulos(data);
+    api.get(`/api/catecismoub?topicoId=${topicoId}`)
+      .then(res => {
+        setTitulos(res.data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, [topicoId]);
 
   if (loading) return <div className="loading">Carregando títulos...</div>;
