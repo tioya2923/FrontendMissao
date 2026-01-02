@@ -70,7 +70,7 @@ export default function Noticias() {
               <Link to={`/noticias/${noticia.id}`} className="noticia-img-link">
                 <div className="noticia-img-container">
                   <img
-                    src={`http://localhost:5018${noticia.imagemUrl}`}
+                    src={`https://backendmissaohuambo.onrender.com${noticia.imagemUrl}`}
                     alt={noticia.titulo}
                     className="noticia-img"
                   />
