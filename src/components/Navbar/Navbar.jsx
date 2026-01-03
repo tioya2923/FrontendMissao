@@ -40,7 +40,7 @@ export default function Navbar() {
             <li><Link to="/catequese/umbundu" onClick={() => setMenuOpen(false)}>Umbundu</Link></li>
           </ul>
         </li>
-        <li><a href="#" onClick={() => setMenuOpen(false)}>Contacto</a></li>
+        <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>
         <li><Link to="/sobre" onClick={() => setMenuOpen(false)}>Sobre</Link></li>
       </ul>
     </nav>

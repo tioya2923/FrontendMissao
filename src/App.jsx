@@ -28,7 +28,9 @@ import CatecismoUbTopicos from './components/CatecismoUbList/CatecismoUbTopicos'
 import CatecismoUbTitulos from './components/CatecismoUbList/CatecismoUbTitulos';
 import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
 
+
 import Sobre from './components/Sobre/Sobre';
+import Contacto from './components/Contacto/Contacto';
 import './App.css';
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
 
       <div style={{ maxWidth: 800, margin: '0 auto', padding: 24, paddingBottom: 80 }}>
         <Routes>
+                    {/* Contacto */}
+                    <Route path="/contacto" element={<Contacto />} />
           {/* Sobre */}
           <Route path="/sobre" element={<Sobre />} />
 
