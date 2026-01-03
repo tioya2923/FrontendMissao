@@ -41,7 +41,7 @@ export default function Navbar() {
           </ul>
         </li>
         <li><a href="#" onClick={() => setMenuOpen(false)}>Contacto</a></li>
-        <li><a href="#" onClick={() => setMenuOpen(false)}>Sobre</a></li>
+        <li><Link to="/sobre" onClick={() => setMenuOpen(false)}>Sobre</Link></li>
       </ul>
     </nav>
   );

@@ -36,7 +36,7 @@ const Fotografias = () => {
   return (
     <>
       <div className="fotografias-container">
-        {fotos.slice(0, 9).map((foto) => (
+        {fotos.slice(0, 12).map((foto) => (
           <div className="fotografia-item" key={foto.id}>
             <img
               className="fotografia-img"
