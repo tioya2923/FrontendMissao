@@ -1,3 +1,16 @@
+/* SearchBar na Navbar */
+.navbar-searchbar-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 /* Hamburger icon styles */
 
 /* Dropdown para Catequese */
@@ -167,6 +180,21 @@
 .navbar-links {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+/* SearchBar não expande nem empurra outros itens */
+.navbar-links .navbar-searchbar-wrapper {
+  min-width: unset;
+  max-width: unset;
+  width: auto;
+  flex: 0 0 auto;
+}
+@media (max-width: 700px) {
+  .navbar-links .navbar-searchbar-wrapper {
+    width: 100%;
+    justify-content: center;
+    margin: 0.3rem 0;
+  }
 }
 
 .navbar-hamburger {
