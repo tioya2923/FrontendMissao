@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Fotografias.css';
 
-// Insira seu user_id do Flickr abaixo
-const FLICKR_USER_ID = '196213097@N03';
-const FLICKR_API_KEY = 'bd81050e8ac39860c8b02d6b3b15ec80';
+
+const FLICKR_USER_ID = import.meta.env.VITE_FLICKR_USER_ID;
+const FLICKR_API_KEY = import.meta.env.VITE_FLICKR_API_KEY;
 const FLICKR_API_URL = `https://www.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=${FLICKR_API_KEY}&user_id=${FLICKR_USER_ID}&format=json&nojsoncallback=1&extras=url_m`;
 
 const Fotografias = () => {

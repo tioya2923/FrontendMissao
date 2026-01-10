@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Videos.css';
 
-const YOUTUBE_CHANNEL_ID = 'UCxRbG-qhuGeF83gDV6BlXaA';
-const YOUTUBE_API_KEY = 'AIzaSyAFW5L-BKJfOiZq0TAXUl0e2OAD5ihudyE';
+
+const YOUTUBE_CHANNEL_ID = import.meta.env.VITE_YOUTUBE_CHANNEL_ID;
+const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 const MAX_RESULTS = 6;
 
 const Videos = () => {
