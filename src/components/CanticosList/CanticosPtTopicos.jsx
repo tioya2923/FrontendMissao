@@ -55,7 +55,7 @@ export default function CanticosPtTopicos() {
 
   return (
     <div className="canticos-pt-topicos-container">
-      <h2>Cânticos em Português</h2>
+      
 
       {loading && <div>Carregando...</div>}
       {error && <div style={{ color: "red" }}>Erro: {error}</div>}

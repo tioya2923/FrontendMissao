@@ -40,7 +40,7 @@ export default function CanticosUbTopicos() {
 
   return (
     <div className="canticos-ub-topicos-container">
-      <h2>Cânticos em Umbundu</h2>
+      
 
       {loading && <div>Carregando...</div>}
       {error && <div style={{ color: "red" }}>Erro: {error}</div>}

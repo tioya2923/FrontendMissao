@@ -7,9 +7,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'https://backendmissaohuambo.onrender.com',
+        // Força HTTPS para backend
+        target: process.env.VITE_API_URL?.replace('http://', 'https://') || 'https://backendmissaohuambo.onrender.com',
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },

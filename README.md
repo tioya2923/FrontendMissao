@@ -1,5 +1,10 @@
 <<<<<<< HEAD
+
 # React + Vite
+
+## Segurança: HTTPS
+
+Este projeto está configurado para forçar o uso de HTTPS tanto no frontend quanto no backend. Certifique-se de que todas as URLs e variáveis de ambiente utilizem sempre o protocolo seguro (https://) para evitar conteúdo misto e problemas de segurança.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
