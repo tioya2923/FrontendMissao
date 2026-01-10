@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Adiciona o arquivo de exemplo de variáveis de ambiente
+.env.example
