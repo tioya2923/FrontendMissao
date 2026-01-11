@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-
-// Força HTTPS na URL da API
-let baseURL = import.meta.env.VITE_API_URL || 'https://backendmissaohuambo.onrender.com';
-if (baseURL.startsWith('http://')) {
-  baseURL = baseURL.replace('http://', 'https://');
-}
+// Define a URL base priorizando a variável de ambiente segura
+const baseURL = import.meta.env.VITE_API_URL 
+  ? import.meta.env.VITE_API_URL.replace('http://', 'https://') 
+  : 'https://backendmissaohuambo.onrender.com';
 
 const api = axios.create({
-  baseURL: baseURL
+  baseURL: baseURL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 export default api;

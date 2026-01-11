@@ -40,8 +40,8 @@ function App() {
 
       <div style={{ maxWidth: 800, margin: '0 auto', padding: 24, paddingBottom: 80 }}>
         <Routes>
-                    {/* Contacto */}
-                    <Route path="/contacto" element={<Contacto />} />
+          {/* Contacto */}
+          <Route path="/contacto" element={<Contacto />} />
           {/* Sobre */}
           <Route path="/sobre" element={<Sobre />} />
 
@@ -96,6 +96,15 @@ function App() {
 
           {/* Calendário */}
           <Route path="/calendario" element={<CalendarioList />} />
+
+          {/* ROTA DE ERRO 404 - Adicionar esta linha por último */}
+          <Route path="*" element={
+            <div style={{ textAlign: 'center', padding: '50px 20px' }}>
+              <h2>404 - Página não encontrada</h2>
+              <p>O conteúdo que procura não existe ou foi movido.</p>
+              <a href="/" style={{ color: '#007bff' }}>Voltar para a Página Inicial</a>
+            </div>
+          } />
 
         </Routes>
       </div>

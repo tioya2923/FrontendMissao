@@ -1,0 +1,11 @@
+{
+  "root": "dist/",
+  "clean_urls": true,
+  "routes": {
+    "/**/*.php": { "status": 404 },
+    "/**/*.env": { "status": 404 },
+    "/wp-admin/**": { "status": 404 },
+    "/**": "index.html"
+  },
+  "https_only": true
+}
