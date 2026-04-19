@@ -1,15 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 
-import Noticias from './components/Noticias/Noticias';
-import NoticiaDetalhe from './components/Noticias/NoticiaDetalhe';
-
 import CalendarioList from './components/CalendarioList';
-import Fotografias from './components/Fotografias';
-import Videos from './components/Videos';
 
 import CanticosPtTopicos from './components/CanticosList/CanticosPtTopicos';
 import CanticosPorTopico from './components/CanticosList/CanticosPorTopico';
@@ -27,7 +21,6 @@ import Oracoes from './components/CatecismoPtList/Oracoes';
 import CatecismoUbTopicos from './components/CatecismoUbList/CatecismoUbTopicos';
 import CatecismoUbTitulos from './components/CatecismoUbList/CatecismoUbTitulos';
 import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
-
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
@@ -57,17 +50,11 @@ function App() {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
               }}>
                 <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 24px' }}>
-                  <Noticias />
+                  <CalendarioList />
                 </div>
-                <CalendarioList />
-                <Fotografias />
-                <Videos />
               </div>
             }
           />
-
-          {/* Notícias */}
-          <Route path="/noticias/:id" element={<NoticiaDetalhe />} />
 
           {/* Alias Catequese → Catecismo */}
           <Route path="/catequese/portugues" element={<CatecismoPtTopicos />} />
@@ -97,7 +84,6 @@ function App() {
           {/* Calendário */}
           <Route path="/calendario" element={<CalendarioList />} />
 
-          {/* ROTA DE ERRO 404 - Adicionar esta linha por último */}
           <Route path="*" element={
             <div style={{ textAlign: 'center', padding: '50px 20px' }}>
               <h2>404 - Página não encontrada</h2>
