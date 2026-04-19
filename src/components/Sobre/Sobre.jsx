@@ -11,18 +11,7 @@ export default function Sobre() {
 
         <p><b>Nossa Missão:</b> Evangelização, Catequese, Formação e Informação Religiosa do Huambo.</p>
 
-        <p><b>Evangelização:</b> Levamos o Evangelho para todos os cantos do Huambo, para o mundo, espalhando a mensagem de amor, perdão, esperança e redenção.</p>
-
         <p><b>Catequese:</b> Educamos e nutrimos a fé daqueles que procuram entender os princípios fundamentais da nossa fé.</p>
-
-        <p><b>Formação:</b> Oferecemos recursos e orientações para o crescimento espiritual contínuo, fortalecendo a base da comunidade.</p>
-        <p><b>Informação Religiosa:</b> Mantemo-nos actualizados sobre os acontecimentos e eventos religiosos no Huambo.</p>
-
-        <p>Junte-se a nós nesta jornada de fé e compartilhe o amor de Deus com o mundo. Este é um espaço de aprendizado, reflexão e comunhão. Juntos, podemos fazer a diferença e cumprir a missão divina de “Ide e Anunciai” (Mc 16, 15-18).</p>
-
-        <p>Acreditamos que a fé é uma jornada constante, e estamos aqui para acompanhá-lo em cada passo desse caminho, oferecendo orientação espiritual e recursos valiosos.</p>
-
-        <p><em>A MH agradece a todos os seus seguidores, pedindo a Deus que vos cuide e que derrame sobre vós e sobre as vossas famílias bênçãos sobre bênçãos!</em></p>
 
         <p><b>MISSÃO NO HUAMBO - ide e anunciai - Unidos na fé, guiados pelo amor e fortalecidos pela esperança!</b></p>
       </p>
