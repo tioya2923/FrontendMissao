@@ -18,7 +18,7 @@
   padding: 0.35rem 0.5rem;
   border: none;
   font-size: 0.9rem;
-  color: #fff;
+  color: #060606;
   background: transparent;
   outline: none;
 }
@@ -37,7 +37,7 @@
 }
 
 .search-bar-button:hover { background: rgba(255,255,255,0.1); }
-.search-bar-button svg { stroke: #ccc; }
+.search-bar-button svg { stroke: #100f0f; }
 
 /* Feedback */
 .search-bar-loading,
