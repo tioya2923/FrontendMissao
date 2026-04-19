@@ -20,41 +20,6 @@
   letter-spacing: 1px;
 }
 
-.title-footer {
-  color: #fff;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.social-icons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.social-icons a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #333;
-  transition: background 0.3s;
-}
-
-.social-icons a:hover {
-  background: #555;
-}
-
-.social-icons i {
-  font-size: 1.4rem;
-  color: #fff;
-  transition: color 0.3s;
-}
-
 @media (max-width: 700px) {
   .footer {
     position: relative;
