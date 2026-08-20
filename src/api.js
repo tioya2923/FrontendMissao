@@ -12,9 +12,12 @@ const api = axios.create({
   }
 });
 
-// Anexa o token do Gestor autenticado (se existir) a todos os pedidos
+// Anexa o token da sessão ativa (Gestor ou Loja, consoante a área do site) a todos os pedidos
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('gestor_token');
+  const emAreaDeLoja = window.location.pathname.startsWith('/loja');
+  const token = emAreaDeLoja
+    ? localStorage.getItem('loja_token')
+    : localStorage.getItem('gestor_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

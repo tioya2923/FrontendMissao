@@ -72,8 +72,8 @@ export default function AdminEncomendas() {
         <div className="admin-header-row">
           <div>
             <Link to="/admin" className="admin-breadcrumb">← Administração</Link>
-            <h1 className="admin-titulo">Encomendas</h1>
-            <p className="admin-subtitulo" style={{ margin: 0 }}>Loja{nome ? ` · ${nome}` : ''}</p>
+            <h1 className="admin-titulo">Todas as encomendas</h1>
+            <p className="admin-subtitulo" style={{ margin: 0 }}>Marketplace{nome ? ` · ${nome}` : ''}</p>
           </div>
           <button className="admin-btn admin-btn-secundario" onClick={sair}>Sair</button>
         </div>
@@ -100,6 +100,9 @@ export default function AdminEncomendas() {
                       </span>
                     </span>
                     <div className="admin-item-desc">
+                      Loja: <strong>{enc.lojaNome}</strong>
+                    </div>
+                    <div className="admin-item-desc">
                       {enc.contacto}{enc.morada ? ` · ${enc.morada}` : ''}
                     </div>
                     <div className="admin-item-desc">
@@ -121,8 +124,8 @@ export default function AdminEncomendas() {
                 </div>
 
                 <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: 10 }}>
-                  {enc.itens.map(item => (
-                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', padding: '3px 0' }}>
+                  {enc.itens.map((item, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', padding: '3px 0' }}>
                       <span>{item.quantidade}× {item.produtoNome}</span>
                       <span>{(item.precoUnitario * item.quantidade).toFixed(2)} Kz</span>
                     </div>
@@ -130,6 +133,14 @@ export default function AdminEncomendas() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: 6 }}>
                     <span>Total</span>
                     <span>{Number(enc.total).toFixed(2)} Kz</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#2e7d32', marginTop: 2 }}>
+                    <span>Comissão ({Number(enc.percentualComissaoAplicado).toFixed(1)}%)</span>
+                    <span>{Number(enc.valorComissao).toFixed(2)} Kz</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#666' }}>
+                    <span>Valor líquido da loja</span>
+                    <span>{Number(enc.valorLiquido).toFixed(2)} Kz</span>
                   </div>
                 </div>
               </div>

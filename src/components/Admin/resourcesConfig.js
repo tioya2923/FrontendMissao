@@ -24,29 +24,6 @@ export const RECURSOS = [
     ],
   },
 
-  // ── Loja ───────────────────────────────────────────────────────────────
-  {
-    key: 'produtos',
-    titulo: 'Produtos',
-    grupo: 'Loja',
-    api: { base: '/api/produtos', list: '/api/produtos/admin' },
-    tituloCampo: 'nome',
-    campos: [
-      { nome: 'nome', label: 'Nome', tipo: 'text', obrigatorio: true },
-      { nome: 'descricao', label: 'Descrição', tipo: 'textarea' },
-      { nome: 'preco', label: 'Preço (Kz)', tipo: 'number', obrigatorio: true, valorInicial: 0 },
-      { nome: 'categoria', label: 'Categoria', tipo: 'text' },
-      { nome: 'imagemUrl', label: 'URL da imagem', tipo: 'text' },
-      { nome: 'ordem', label: 'Ordem de exibição', tipo: 'number', valorInicial: 0 },
-      { nome: 'disponivel', label: 'Visível na loja', tipo: 'boolean', valorInicial: true },
-    ],
-    colunas: [
-      { campo: 'nome', label: 'Nome' },
-      { campo: 'categoria', label: 'Categoria' },
-      { campo: 'preco', label: 'Preço', formatar: (v) => `${Number(v).toFixed(2)} Kz` },
-      { campo: 'disponivel', label: 'Visível', formatar: (v) => v ? 'Sim' : 'Não' },
-    ],
-  },
 
   // ── Calendário ─────────────────────────────────────────────────────────
   {
@@ -291,7 +268,9 @@ export const RECURSOS = [
 // Ecrãs de administração que não seguem o CRUD genérico (fluxo próprio),
 // mas que ainda assim devem aparecer no menu da Administração.
 export const EXTRAS = [
-  { key: 'encomendas', titulo: 'Encomendas', grupo: 'Loja', rota: '/admin/encomendas' },
+  { key: 'lojas', titulo: 'Lojas parceiras', grupo: 'Marketplace', rota: '/admin/lojas' },
+  { key: 'encomendas', titulo: 'Todas as encomendas', grupo: 'Marketplace', rota: '/admin/encomendas' },
+  { key: 'comissoes', titulo: 'Comissões', grupo: 'Marketplace', rota: '/admin/comissoes' },
 ];
 
 export function getRecurso(key) {

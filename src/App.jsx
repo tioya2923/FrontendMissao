@@ -28,13 +28,21 @@ import AdminLogin from './components/Admin/AdminLogin';
 import AdminHome from './components/Admin/AdminHome';
 import AdminResourceCrud from './components/Admin/AdminResourceCrud';
 import AdminEncomendas from './components/Admin/AdminEncomendas';
+import AdminLojas from './components/Admin/AdminLojas';
+import AdminComissoes from './components/Admin/AdminComissoes';
 import ProtectedRoute from './components/Admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import LojaLogin from './components/Loja/LojaLogin';
+import LojaRegistar from './components/Loja/LojaRegistar';
+import LojaPainel from './components/Loja/LojaPainel';
+import LojaProtectedRoute from './components/Loja/LojaProtectedRoute';
+import { LojaAuthProvider } from './context/LojaAuthContext';
 import './App.css';
 
 function App() {
   return (
     <AuthProvider>
+    <LojaAuthProvider>
     <Router>
       <Navbar />
 
@@ -49,7 +57,14 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
           <Route path="/admin/encomendas" element={<ProtectedRoute><AdminEncomendas /></ProtectedRoute>} />
+          <Route path="/admin/lojas" element={<ProtectedRoute><AdminLojas /></ProtectedRoute>} />
+          <Route path="/admin/comissoes" element={<ProtectedRoute><AdminComissoes /></ProtectedRoute>} />
           <Route path="/admin/:key" element={<ProtectedRoute><AdminResourceCrud /></ProtectedRoute>} />
+
+          {/* Área das lojas parceiras */}
+          <Route path="/loja/login" element={<LojaLogin />} />
+          <Route path="/loja/registar" element={<LojaRegistar />} />
+          <Route path="/loja/painel" element={<LojaProtectedRoute><LojaPainel /></LojaProtectedRoute>} />
 
           {/* Página inicial */}
           <Route
@@ -110,6 +125,7 @@ function App() {
 
       <Footer />
     </Router>
+    </LojaAuthProvider>
     </AuthProvider>
   );
 }
