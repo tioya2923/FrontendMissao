@@ -10,17 +10,22 @@ export default function CanticoUbCompleto() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let ignore = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset loading/error before re-fetching when slug changes
     setLoading(true);
     setError(null);
     api.get(`/api/umbundu/canticos/${slug}`)
       .then(res => {
+        if (ignore) return;
         setCantico(res.data);
         setLoading(false);
       })
       .catch(err => {
+        if (ignore) return;
         setError(err.message);
         setLoading(false);
       });
+    return () => { ignore = true; };
   }, [slug]);
 
   return (

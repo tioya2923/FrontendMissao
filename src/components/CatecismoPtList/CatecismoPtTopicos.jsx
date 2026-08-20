@@ -1,14 +1,13 @@
 
 import React, { useEffect, useState } from "react";
 import api from '../../api';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./CatecismoPtTopicos.css";
 
 export default function CatecismoPtTopicos() {
   const [topicos, setTopicos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     api.get('/api/catecismopttopicos/topicos')
@@ -21,21 +20,6 @@ export default function CatecismoPtTopicos() {
         setLoading(false);
       });
   }, []);
-
-  const handleTopicoClick = (topico) => {
-    const slug = topico.slug || topico.Slug;
-    const nome = slug
-      ? encodeURIComponent(slug)
-      : encodeURIComponent(
-          (topico.titulo || topico.nome || topico)
-            .toString()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/\s+/g, '-')
-            .toLowerCase()
-        );
-    navigate(`/catecismo/portugues/topicos/${nome}`);
-  };
 
   if (loading) return <div className="loading">Carregando tópicos...</div>;
 

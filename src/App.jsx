@@ -24,10 +24,17 @@ import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
+import AdminLogin from './components/Admin/AdminLogin';
+import AdminHome from './components/Admin/AdminHome';
+import AdminResourceCrud from './components/Admin/AdminResourceCrud';
+import AdminEncomendas from './components/Admin/AdminEncomendas';
+import ProtectedRoute from './components/Admin/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Navbar />
 
@@ -37,6 +44,12 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           {/* Sobre */}
           <Route path="/sobre" element={<Sobre />} />
+
+          {/* Administração */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
+          <Route path="/admin/encomendas" element={<ProtectedRoute><AdminEncomendas /></ProtectedRoute>} />
+          <Route path="/admin/:key" element={<ProtectedRoute><AdminResourceCrud /></ProtectedRoute>} />
 
           {/* Página inicial */}
           <Route
@@ -97,6 +110,7 @@ function App() {
 
       <Footer />
     </Router>
+    </AuthProvider>
   );
 }
 

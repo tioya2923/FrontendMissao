@@ -62,17 +62,14 @@ export default function CalendarioList() {
         setAnoSelecionado(novaData.getFullYear());
     };
 
-    // Cálculo dos 8 dias, agrupados de 2 em 2, começando e terminando no domingo
+    // Cálculo dos 7 dias (domingo a sábado), agrupados de 2 em 2
     const diaSemanaBase = dataBase.getDay();
-    // Encontrar o domingo anterior ou igual à dataBase
     const inicio = new Date(dataBase);
     inicio.setDate(dataBase.getDate() - diaSemanaBase);
 
-    // Gerar 8 dias consecutivos, incluindo a data completa (yyyy-mm-dd)
-    const diasOito = Array.from({ length: 8 }, (_, idx) => {
+    const diasGrid = Array.from({ length: 7 }, (_, idx) => {
         const data = new Date(inicio);
         data.setDate(inicio.getDate() + idx);
-        // Formato ISO para comparar datas (yyyy-mm-dd)
         const dataISO = data.toISOString().slice(0, 10);
         return {
             dia: data.getDate(),
@@ -83,10 +80,10 @@ export default function CalendarioList() {
         };
     });
 
-    // Agrupar de 2 em 2
+    // Agrupar de 2 em 2 (último grupo pode ter só 1 elemento — Sábado)
     const grupos = [];
-    for (let i = 0; i < 8; i += 2) {
-        grupos.push([diasOito[i], diasOito[i + 1]]);
+    for (let i = 0; i < diasGrid.length; i += 2) {
+        grupos.push(diasGrid.slice(i, i + 2));
     }
 
     // Render
@@ -94,6 +91,8 @@ export default function CalendarioList() {
         <div className="section">
 
             <h2>Calendário Litúrgico</h2>
+
+            {loading && <div>Carregando calendário...</div>}
 
             <div className="calendario-navegacao-custom">
                 {/* ...navegação existente... */}

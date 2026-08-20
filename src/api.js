@@ -12,4 +12,13 @@ const api = axios.create({
   }
 });
 
+// Anexa o token do Gestor autenticado (se existir) a todos os pedidos
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('gestor_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export default api;

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import logoMissao from "../../assets/logo-missao.png";
 import SearchBar from "../SearchBar";
 
 export default function Navbar() {
@@ -12,7 +11,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-top">
         <Link to="/" className="navbar-logo">
-          <img src={logoMissao} alt="Missão no Huambo" style={{ height: "60px", marginRight: "12px" }} />
+          <img src="/logo-ndatava.svg" alt="Ndatava" style={{ height: "48px", marginRight: "12px" }} />
         </Link>
         <button
           className="navbar-hamburger"
