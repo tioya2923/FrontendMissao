@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 120" width="380" height="120">
   <rect x="0" y="0" width="380" height="120" rx="14" fill="#181818"/>
-  <text x="32" y="76" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700" letter-spacing="4" fill="#ffffff">NDATAVA</text>
+  <g transform="translate(20,20)">
+    <circle cx="40" cy="40" r="34" fill="none" stroke="#c9a84c" stroke-width="3.4"/>
+    <rect x="35" y="19" width="10" height="42" rx="5" fill="#c9a84c"/>
+    <rect x="19" y="35" width="42" height="10" rx="5" fill="#c9a84c"/>
+  </g>
+  <text x="118" y="76" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="700" letter-spacing="3" fill="#ffffff">NDATAVA</text>
 </svg>
