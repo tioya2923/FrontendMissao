@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLojaAuth } from '../../context/useLojaAuth';
+import { useAuth } from '../../context/useAuth';
+import CampoPassword from '../Admin/CampoPassword';
 import '../Admin/Admin.css';
 
 export default function LojaLogin() {
   const { login } = useLojaAuth();
+  const { login: loginGestor } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +21,14 @@ export default function LojaLogin() {
     try {
       await login(email, password);
       navigate('/loja/painel', { replace: true });
+      return;
+    } catch {
+      // Não é uma loja — tenta como administrador antes de desistir, para que
+      // o mesmo formulário sirva de atalho também para quem gere a plataforma.
+    }
+    try {
+      await loginGestor(email, password);
+      navigate('/admin', { replace: true });
     } catch {
       setErro('Credenciais inválidas.');
     } finally {
@@ -38,10 +49,10 @@ export default function LojaLogin() {
             <label htmlFor="email">Email</label>
             <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" required />
           </div>
-          <div className="admin-field">
-            <label htmlFor="password">Palavra-passe</label>
-            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
-          </div>
+          <CampoPassword
+            id="password" label="Palavra-passe" value={password}
+            onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required
+          />
           <button type="submit" className="admin-btn" disabled={loading} style={{ width: '100%' }}>
             {loading ? 'A entrar…' : 'Entrar'}
           </button>

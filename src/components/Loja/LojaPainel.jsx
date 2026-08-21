@@ -4,7 +4,7 @@ import { useLojaAuth } from '../../context/useLojaAuth';
 import {
   getPerfilProprio, atualizarPerfilProprio, pausarOuReativar,
   getMeusProdutos, criarProduto, atualizarProduto, eliminarProduto,
-  getMinhasEncomendas, atualizarEstadoEncomenda,
+  getMinhasEncomendas, atualizarEstadoEncomenda, uploadImagemProduto,
 } from '../../api/loja';
 import { METODOS_PAGAMENTO } from '../../constants/metodosPagamento';
 import { MOEDAS, formatarPreco } from '../../constants/moeda';
@@ -64,6 +64,8 @@ function AbaProdutos({ moeda }) {
   const [rascunho, setRascunho] = useState(PRODUTO_VAZIO);
   const [erroForm, setErroForm] = useState(null);
   const [aGuardar, setAGuardar] = useState(false);
+  const [modoImagem, setModoImagem] = useState('url'); // 'url' | 'ficheiro'
+  const [aCarregarImagem, setACarregarImagem] = useState(false);
 
   const carregar = useCallback(async () => {
     setLoading(true);
@@ -73,7 +75,7 @@ function AbaProdutos({ moeda }) {
 
   useEffect(() => { carregar(); }, [carregar]);
 
-  const iniciarNovo = () => { setRascunho(PRODUTO_VAZIO); setErroForm(null); setAEditar('nova'); };
+  const iniciarNovo = () => { setRascunho(PRODUTO_VAZIO); setErroForm(null); setModoImagem('url'); setAEditar('nova'); };
   const iniciarEdicao = (p) => {
     setRascunho({
       nome: p.nome, descricao: p.descricao || '', preco: p.preco,
@@ -81,7 +83,24 @@ function AbaProdutos({ moeda }) {
       categoria: p.categoria || '', imagemUrl: p.imagemUrl || '', ordem: p.ordem, disponivel: p.disponivel,
     });
     setErroForm(null);
+    setModoImagem('url');
     setAEditar(p.id);
+  };
+
+  const escolherFicheiro = async (e) => {
+    const ficheiro = e.target.files?.[0];
+    e.target.value = '';
+    if (!ficheiro) return;
+    setACarregarImagem(true);
+    setErroForm(null);
+    try {
+      const url = await uploadImagemProduto(ficheiro);
+      setRascunho((r) => ({ ...r, imagemUrl: url }));
+    } catch (err) {
+      setErroForm(err.message || 'Não foi possível carregar a imagem.');
+    } finally {
+      setACarregarImagem(false);
+    }
   };
 
   const guardar = async (e) => {
@@ -153,8 +172,44 @@ function AbaProdutos({ moeda }) {
             <input value={rascunho.categoria} onChange={(e) => setRascunho((r) => ({ ...r, categoria: e.target.value }))} />
           </div>
           <div className="admin-field">
-            <label>URL da imagem</label>
-            <input value={rascunho.imagemUrl} onChange={(e) => setRascunho((r) => ({ ...r, imagemUrl: e.target.value }))} />
+            <label>Imagem</label>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <button
+                type="button"
+                className={modoImagem === 'url' ? 'admin-btn' : 'admin-btn admin-btn-secundario'}
+                onClick={() => setModoImagem('url')}
+              >
+                URL da imagem
+              </button>
+              <button
+                type="button"
+                className={modoImagem === 'ficheiro' ? 'admin-btn' : 'admin-btn admin-btn-secundario'}
+                onClick={() => setModoImagem('ficheiro')}
+              >
+                Carregar do dispositivo
+              </button>
+            </div>
+
+            {modoImagem === 'url' ? (
+              <input
+                value={rascunho.imagemUrl}
+                onChange={(e) => setRascunho((r) => ({ ...r, imagemUrl: e.target.value }))}
+                placeholder="https://..."
+              />
+            ) : (
+              <>
+                <input type="file" accept="image/jpeg,image/png,image/webp" onChange={escolherFicheiro} disabled={aCarregarImagem} />
+                {aCarregarImagem && <p style={{ fontSize: '0.85rem', color: '#666', marginTop: 6 }}>A carregar…</p>}
+              </>
+            )}
+
+            {rascunho.imagemUrl && (
+              <img
+                src={rascunho.imagemUrl}
+                alt="Pré-visualização"
+                style={{ marginTop: 10, maxWidth: 160, maxHeight: 160, borderRadius: 8, border: '1px solid #eee', objectFit: 'cover' }}
+              />
+            )}
           </div>
           <div className="admin-field">
             <label>Ordem de exibição</label>

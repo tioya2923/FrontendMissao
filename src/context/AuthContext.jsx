@@ -17,6 +17,16 @@ export function AuthProvider({ children }) {
     setNome(data.nome);
   }, []);
 
+  // Autentica com um token já emitido noutro sítio (ex.: a app móvel, depois de
+  // validar as credenciais do gestor diretamente contra /api/auth/login), sem
+  // pedir a password outra vez.
+  const entrarComToken = useCallback((novoToken, novoNome) => {
+    localStorage.setItem(TOKEN_KEY, novoToken);
+    localStorage.setItem(NOME_KEY, novoNome);
+    setToken(novoToken);
+    setNome(novoNome);
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(NOME_KEY);
@@ -25,7 +35,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, nome, isAuthenticated: !!token, login, logout }}>
+    <AuthContext.Provider value={{ token, nome, isAuthenticated: !!token, login, entrarComToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

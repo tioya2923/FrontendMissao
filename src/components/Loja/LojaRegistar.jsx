@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLojaAuth } from '../../context/useLojaAuth';
 import { MOEDAS } from '../../constants/moeda';
+import CampoPassword from '../Admin/CampoPassword';
 import '../Admin/Admin.css';
 
 export default function LojaRegistar() {
@@ -9,7 +10,7 @@ export default function LojaRegistar() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    nome: '', email: '', password: '', telefone: '', morada: '', categoria: '', descricao: '', moeda: 'AOA',
+    nome: '', email: '', password: '', confirmarPassword: '', telefone: '', morada: '', categoria: '', descricao: '', moeda: 'AOA',
   });
   const [coords, setCoords] = useState(null);
   const [aLocalizar, setALocalizar] = useState(false);
@@ -53,10 +54,15 @@ export default function LojaRegistar() {
       setErro('A password tem de ter pelo menos 6 caracteres.');
       return;
     }
+    if (form.password !== form.confirmarPassword) {
+      setErro('As palavras-passe não coincidem.');
+      return;
+    }
 
     setLoading(true);
     try {
-      await registar({ ...form, latitude: coords.latitude, longitude: coords.longitude });
+      const { confirmarPassword: _confirmarPassword, ...dados } = form;
+      await registar({ ...dados, latitude: coords.latitude, longitude: coords.longitude });
       navigate('/loja/painel', { replace: true });
     } catch (e) {
       setErro(e.response?.data || 'Não foi possível concluir o registo. Tente novamente.');
@@ -84,10 +90,12 @@ export default function LojaRegistar() {
             <label>Email</label>
             <input type="email" value={form.email} onChange={campo('email')} autoComplete="username" required />
           </div>
-          <div className="admin-field">
-            <label>Palavra-passe</label>
-            <input type="password" value={form.password} onChange={campo('password')} autoComplete="new-password" required />
-          </div>
+          <CampoPassword
+            label="Palavra-passe" value={form.password} onChange={campo('password')} autoComplete="new-password" required
+          />
+          <CampoPassword
+            label="Confirmar palavra-passe" value={form.confirmarPassword} onChange={campo('confirmarPassword')} autoComplete="new-password" required
+          />
           <div className="admin-field">
             <label>Telefone</label>
             <input value={form.telefone} onChange={campo('telefone')} />

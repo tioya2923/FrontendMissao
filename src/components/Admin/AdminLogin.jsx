@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
+import CampoPassword from './CampoPassword';
 import './Admin.css';
 
 export default function AdminLogin() {
-  const { login } = useAuth();
+  const { login, entrarComToken } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
@@ -13,6 +14,19 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
 
   const destino = location.state?.from || '/admin';
+
+  // Ponte para a app móvel: depois de validar as credenciais do gestor no
+  // ecrã "Vender no Ndatava", a app abre esta página com o token já emitido,
+  // para o administrador não ter de os escrever outra vez no navegador.
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    const nome = params.get('nome');
+    if (token && nome) {
+      entrarComToken(token, nome);
+      navigate('/admin', { replace: true });
+    }
+  }, [location.search, entrarComToken, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,17 +62,10 @@ export default function AdminLogin() {
               required
             />
           </div>
-          <div className="admin-field">
-            <label htmlFor="password">Palavra-passe</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-            />
-          </div>
+          <CampoPassword
+            id="password" label="Palavra-passe" value={password}
+            onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required
+          />
           <button type="submit" className="admin-btn" disabled={loading} style={{ width: '100%' }}>
             {loading ? 'A entrar…' : 'Entrar'}
           </button>
