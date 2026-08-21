@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLojaAuth } from '../../context/useLojaAuth';
+import { MOEDAS } from '../../constants/moeda';
 import '../Admin/Admin.css';
 
 export default function LojaRegistar() {
@@ -8,7 +9,7 @@ export default function LojaRegistar() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    nome: '', email: '', password: '', telefone: '', morada: '', categoria: '', descricao: '',
+    nome: '', email: '', password: '', telefone: '', morada: '', categoria: '', descricao: '', moeda: 'AOA',
   });
   const [coords, setCoords] = useState(null);
   const [aLocalizar, setALocalizar] = useState(false);
@@ -98,6 +99,17 @@ export default function LojaRegistar() {
           <div className="admin-field">
             <label>Categoria (ex.: Livros, Devocionais, Artesanato...)</label>
             <input value={form.categoria} onChange={campo('categoria')} />
+          </div>
+          <div className="admin-field">
+            <label>Moeda em que a loja vende</label>
+            <select value={form.moeda} onChange={campo('moeda')}>
+              {MOEDAS.map((m) => (
+                <option key={m.codigo} value={m.codigo}>{m.label}</option>
+              ))}
+            </select>
+            <p style={{ fontSize: '0.8rem', color: '#666', marginTop: 6 }}>
+              Todos os seus produtos e encomendas usarão esta moeda. Escolha conforme o país onde a sua loja opera.
+            </p>
           </div>
           <div className="admin-field">
             <label>Descrição</label>

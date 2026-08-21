@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 import api from '../../api';
+import { formatarPreco } from '../../constants/moeda';
 import './Admin.css';
 
 const ESTADOS = ['Pendente', 'Confirmada', 'Enviada', 'Cancelada'];
@@ -127,20 +128,12 @@ export default function AdminEncomendas() {
                   {enc.itens.map((item, i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', padding: '3px 0' }}>
                       <span>{item.quantidade}× {item.produtoNome}</span>
-                      <span>{(item.precoUnitario * item.quantidade).toFixed(2)} Kz</span>
+                      <span>{formatarPreco(item.precoUnitario * item.quantidade, enc.moeda)}</span>
                     </div>
                   ))}
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: 6 }}>
-                    <span>Total</span>
-                    <span>{Number(enc.total).toFixed(2)} Kz</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#2e7d32', marginTop: 2 }}>
-                    <span>Comissão ({Number(enc.percentualComissaoAplicado).toFixed(1)}%)</span>
-                    <span>{Number(enc.valorComissao).toFixed(2)} Kz</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#666' }}>
-                    <span>Valor líquido da loja</span>
-                    <span>{Number(enc.valorLiquido).toFixed(2)} Kz</span>
+                    <span>Total (100% para a loja — sem comissão)</span>
+                    <span>{formatarPreco(enc.total, enc.moeda)}</span>
                   </div>
                 </div>
               </div>

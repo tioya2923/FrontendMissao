@@ -7,6 +7,7 @@ import {
   getMinhasEncomendas, atualizarEstadoEncomenda,
 } from '../../api/loja';
 import { METODOS_PAGAMENTO } from '../../constants/metodosPagamento';
+import { MOEDAS, formatarPreco } from '../../constants/moeda';
 import '../Admin/Admin.css';
 
 const ESTADOS = ['Pendente', 'Confirmada', 'Enviada', 'Cancelada'];
@@ -18,6 +19,9 @@ export default function LojaPainel() {
   const { nome, logout } = useLojaAuth();
   const navigate = useNavigate();
   const [aba, setAba] = useState('produtos');
+  const [moeda, setMoeda] = useState('AOA');
+
+  useEffect(() => { getPerfilProprio().then((p) => setMoeda(p.moeda)); }, []);
 
   const sair = () => { logout(); navigate('/loja/login', { replace: true }); };
 
@@ -44,16 +48,16 @@ export default function LojaPainel() {
           ))}
         </div>
 
-        {aba === 'produtos' && <AbaProdutos />}
+        {aba === 'produtos' && <AbaProdutos moeda={moeda} />}
         {aba === 'encomendas' && <AbaEncomendas />}
-        {aba === 'perfil' && <AbaPerfil />}
+        {aba === 'perfil' && <AbaPerfil onMoedaChange={setMoeda} />}
       </div>
     </div>
   );
 }
 
 // ── Produtos ────────────────────────────────────────────────────────────────
-function AbaProdutos() {
+function AbaProdutos({ moeda }) {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [aEditar, setAEditar] = useState(null); // 'nova' | id | null
@@ -133,11 +137,11 @@ function AbaProdutos() {
             <textarea rows={3} value={rascunho.descricao} onChange={(e) => setRascunho((r) => ({ ...r, descricao: e.target.value }))} />
           </div>
           <div className="admin-field">
-            <label>Preço (Kz)</label>
+            <label>Preço ({moeda})</label>
             <input type="number" value={rascunho.preco} onChange={(e) => setRascunho((r) => ({ ...r, preco: e.target.value }))} required />
           </div>
           <div className="admin-field">
-            <label>Preço promocional (opcional — deixe vazio para não estar em promoção)</label>
+            <label>Preço promocional em {moeda} (opcional — deixe vazio para não estar em promoção)</label>
             <input type="number" value={rascunho.precoPromocional} onChange={(e) => setRascunho((r) => ({ ...r, precoPromocional: e.target.value }))} />
           </div>
           <div className="admin-checkbox">
@@ -182,11 +186,11 @@ function AbaProdutos() {
                   <td>
                     {p.precoPromocional != null ? (
                       <>
-                        <span style={{ textDecoration: 'line-through', color: '#999', marginRight: 6 }}>{Number(p.preco).toFixed(2)} Kz</span>
-                        <span style={{ color: '#c0392b', fontWeight: 700 }}>{Number(p.precoPromocional).toFixed(2)} Kz</span>
+                        <span style={{ textDecoration: 'line-through', color: '#999', marginRight: 6 }}>{formatarPreco(p.preco, moeda)}</span>
+                        <span style={{ color: '#c0392b', fontWeight: 700 }}>{formatarPreco(p.precoPromocional, moeda)}</span>
                       </>
                     ) : (
-                      <>{Number(p.preco).toFixed(2)} Kz</>
+                      <>{formatarPreco(p.preco, moeda)}</>
                     )}
                   </td>
                   <td>{p.emDestaque ? '⭐' : ''}</td>
@@ -252,18 +256,11 @@ function AbaEncomendas() {
             {enc.itens.map((item, i) => (
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', padding: '3px 0' }}>
                 <span>{item.quantidade}× {item.produtoNome}</span>
-                <span>{(item.precoUnitario * item.quantidade).toFixed(2)} Kz</span>
+                <span>{formatarPreco(item.precoUnitario * item.quantidade, enc.moeda)}</span>
               </div>
             ))}
             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: 6 }}>
-              <span>Total</span><span>{Number(enc.total).toFixed(2)} Kz</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#b45309' }}>
-              <span>Comissão da app ({Number(enc.percentualComissaoAplicado).toFixed(1)}%)</span>
-              <span>−{Number(enc.valorComissao).toFixed(2)} Kz</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', fontWeight: 700, color: '#2e7d32' }}>
-              <span>Fica para si</span><span>{Number(enc.valorLiquido).toFixed(2)} Kz</span>
+              <span>Total (100% seu — sem comissão)</span><span>{formatarPreco(enc.total, enc.moeda)}</span>
             </div>
           </div>
         </div>
@@ -273,7 +270,7 @@ function AbaEncomendas() {
 }
 
 // ── Perfil da loja ──────────────────────────────────────────────────────────
-function AbaPerfil() {
+function AbaPerfil({ onMoedaChange }) {
   const [perfil, setPerfil] = useState(null);
   const [erro, setErro] = useState(null);
   const [ok, setOk] = useState(false);
@@ -330,6 +327,7 @@ function AbaPerfil() {
     try {
       await atualizarPerfilProprio(perfil);
       setOk(true);
+      onMoedaChange?.(perfil.moeda);
     } catch (e) {
       setErro(e.response?.data || 'Não foi possível guardar.');
     } finally {
@@ -361,10 +359,25 @@ function AbaPerfil() {
       <div className="admin-field"><label>Telefone</label><input value={perfil.telefone || ''} onChange={(e) => setPerfil((p) => ({ ...p, telefone: e.target.value }))} /></div>
       <div className="admin-field"><label>Morada</label><input value={perfil.morada || ''} onChange={(e) => setPerfil((p) => ({ ...p, morada: e.target.value }))} /></div>
       <div className="admin-field"><label>Categoria</label><input value={perfil.categoria || ''} onChange={(e) => setPerfil((p) => ({ ...p, categoria: e.target.value }))} /></div>
-      <div className="admin-erro" style={{ background: '#f5f5f5', color: '#444', border: 'none' }}>
-        A app fica com <strong>{Number(perfil.percentualComissao).toFixed(1)}%</strong> de comissão sobre cada encomenda
-        vendida. O restante é seu — o acerto de contas é feito diretamente consigo, à parte da app. Esta percentagem
-        é definida pelo administrador.
+      <div className="admin-field">
+        <label>Moeda em que a loja vende</label>
+        <select value={perfil.moeda} onChange={(e) => setPerfil((p) => ({ ...p, moeda: e.target.value }))}>
+          {MOEDAS.map((m) => (
+            <option key={m.codigo} value={m.codigo}>{m.label}</option>
+          ))}
+        </select>
+        <p style={{ fontSize: '0.8rem', color: '#666', marginTop: 6 }}>
+          Todos os seus produtos e novas encomendas passam a usar esta moeda. Encomendas já feitas
+          mantêm a moeda em que foram criadas.
+        </p>
+      </div>
+      <div className="admin-erro" style={{ background: '#eef4fc', color: '#1c4a7a', border: 'none' }}>
+        A Ndatava <strong>não cobra nenhuma comissão</strong> sobre as suas vendas — o valor de cada
+        encomenda é inteiramente seu. Se um dia quiser apoiar a manutenção do serviço, pode fazê-lo
+        voluntariamente, segundo as suas possibilidades, na{' '}
+        <a href="/apoiar" target="_blank" rel="noreferrer" style={{ color: '#1c4a7a', fontWeight: 700 }}>
+          página de apoio
+        </a>. Nunca é uma cobrança nem uma condição para vender.
       </div>
 
       <div className="admin-field">

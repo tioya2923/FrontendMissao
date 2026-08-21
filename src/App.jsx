@@ -24,12 +24,13 @@ import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
+import Apoiar from './components/Apoiar/Apoiar';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminHome from './components/Admin/AdminHome';
 import AdminResourceCrud from './components/Admin/AdminResourceCrud';
 import AdminEncomendas from './components/Admin/AdminEncomendas';
 import AdminLojas from './components/Admin/AdminLojas';
-import AdminComissoes from './components/Admin/AdminComissoes';
+import AdminVendas from './components/Admin/AdminVendas';
 import ProtectedRoute from './components/Admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import LojaLogin from './components/Loja/LojaLogin';
@@ -52,13 +53,15 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           {/* Sobre */}
           <Route path="/sobre" element={<Sobre />} />
+          {/* Apoiar (doações voluntárias) */}
+          <Route path="/apoiar" element={<Apoiar />} />
 
           {/* Administração */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
           <Route path="/admin/encomendas" element={<ProtectedRoute><AdminEncomendas /></ProtectedRoute>} />
           <Route path="/admin/lojas" element={<ProtectedRoute><AdminLojas /></ProtectedRoute>} />
-          <Route path="/admin/comissoes" element={<ProtectedRoute><AdminComissoes /></ProtectedRoute>} />
+          <Route path="/admin/vendas" element={<ProtectedRoute><AdminVendas /></ProtectedRoute>} />
           <Route path="/admin/:key" element={<ProtectedRoute><AdminResourceCrud /></ProtectedRoute>} />
 
           {/* Área das lojas parceiras */}

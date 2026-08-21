@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 import api from '../../api';
 import { labelMetodoPagamento } from '../../constants/metodosPagamento';
+import { labelMoeda } from '../../constants/moeda';
 import './Admin.css';
 
 export default function AdminLojas() {
@@ -11,7 +12,6 @@ export default function AdminLojas() {
   const [lojas, setLojas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
-  const [comissaoEdit, setComissaoEdit] = useState({});
 
   const carregar = useCallback(async () => {
     setLoading(true);
@@ -34,23 +34,13 @@ export default function AdminLojas() {
   useEffect(() => { carregar(); }, [carregar]);
 
   const moderar = async (loja, alteracoes) => {
-    const payload = { aprovada: loja.aprovada, ativa: loja.ativa, percentualComissao: loja.percentualComissao, ...alteracoes };
+    const payload = { aprovada: loja.aprovada, ativa: loja.ativa, ...alteracoes };
     try {
       await api.put(`/api/lojas/${loja.id}/moderar`, payload);
       setLojas((lista) => lista.map((l) => (l.id === loja.id ? { ...l, ...payload } : l)));
     } catch {
       alert('Não foi possível atualizar a loja.');
     }
-  };
-
-  const guardarComissao = async (loja) => {
-    const valor = Number(comissaoEdit[loja.id]);
-    if (Number.isNaN(valor) || valor < 0 || valor > 100) {
-      alert('Indique uma percentagem entre 0 e 100.');
-      return;
-    }
-    await moderar(loja, { percentualComissao: valor });
-    setComissaoEdit((c) => { const novo = { ...c }; delete novo[loja.id]; return novo; });
   };
 
   const remover = async (loja) => {
@@ -75,7 +65,7 @@ export default function AdminLojas() {
             <p className="admin-subtitulo" style={{ margin: 0 }}>Marketplace{nome ? ` · ${nome}` : ''}</p>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <Link to="/admin/comissoes" className="admin-btn admin-btn-secundario">Ver comissões</Link>
+            <Link to="/admin/vendas" className="admin-btn admin-btn-secundario">Ver vendas</Link>
             <button className="admin-btn admin-btn-secundario" onClick={sair}>Sair</button>
           </div>
         </div>
@@ -102,23 +92,7 @@ export default function AdminLojas() {
                     {!l.ativa && <span className="admin-item-badge">Pausada</span>}
                   </span>
                   <div className="admin-item-desc">{l.email}{l.telefone ? ` · ${l.telefone}` : ''}</div>
-                  <div className="admin-item-desc">{l.morada}{l.categoria ? ` · ${l.categoria}` : ''}</div>
-                  <div className="admin-item-desc" style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                    <span>Comissão:</span>
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="0.5"
-                      style={{ width: 70, padding: '4px 6px', borderRadius: 6, border: '1px solid #ccc' }}
-                      value={comissaoEdit[l.id] ?? l.percentualComissao}
-                      onChange={(e) => setComissaoEdit((c) => ({ ...c, [l.id]: e.target.value }))}
-                    />
-                    <span>%</span>
-                    {comissaoEdit[l.id] !== undefined && Number(comissaoEdit[l.id]) !== l.percentualComissao && (
-                      <button className="admin-btn" style={{ padding: '4px 10px' }} onClick={() => guardarComissao(l)}>Guardar</button>
-                    )}
-                  </div>
+                  <div className="admin-item-desc">{l.morada}{l.categoria ? ` · ${l.categoria}` : ''} · {labelMoeda(l.moeda)}</div>
                   <div className="admin-item-desc" style={{ marginTop: 4 }}>
                     Pagamento: {l.formasPagamento?.length > 0
                       ? l.formasPagamento.map((f) => labelMetodoPagamento(f.metodo)).join(', ')

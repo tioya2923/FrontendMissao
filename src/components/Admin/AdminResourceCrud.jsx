@@ -42,7 +42,7 @@ export default function AdminResourceCrud() {
   const [erroForm, setErroForm] = useState(null);
 
   const camposSelect = useMemo(
-    () => (recurso ? recurso.campos.filter(c => c.tipo === 'select') : []),
+    () => (recurso ? recurso.campos.filter(c => c.tipo === 'select' && c.opcoes?.endpoint) : []),
     [recurso]
   );
 
@@ -108,7 +108,7 @@ export default function AdminResourceCrud() {
     for (const c of recurso.campos) {
       let v = rascunho[c.nome];
       if (c.tipo === 'number') v = Number(v) || 0;
-      if (c.tipo === 'select') v = v === '' || v === null ? null : Number(v);
+      if (c.tipo === 'select' && !c.opcoesEstaticas) v = v === '' || v === null ? null : Number(v);
       if (typeof v === 'string') v = v.trim();
       if (v === '' && !c.obrigatorio) v = null;
       payload[c.nome] = v;
@@ -221,13 +221,17 @@ export default function AdminResourceCrud() {
                         onChange={(e) => setRascunho(r => ({ ...r, [c.nome]: e.target.value }))}
                       >
                         <option value="">{c.obrigatorio ? '— Selecionar —' : '— Nenhum —'}</option>
-                        {(opcoesPorCampo[c.nome] || [])
-                          .filter(o => !(c.excluirProprio && aEditar !== 'nova' && o[c.opcoes.valor] === aEditar))
-                          .map(o => (
-                            <option key={o[c.opcoes.valor]} value={o[c.opcoes.valor]}>
-                              {o[c.opcoes.label]}
-                            </option>
-                          ))}
+                        {c.opcoesEstaticas
+                          ? c.opcoesEstaticas.map(o => (
+                              <option key={o.valor} value={o.valor}>{o.label}</option>
+                            ))
+                          : (opcoesPorCampo[c.nome] || [])
+                              .filter(o => !(c.excluirProprio && aEditar !== 'nova' && o[c.opcoes.valor] === aEditar))
+                              .map(o => (
+                                <option key={o[c.opcoes.valor]} value={o[c.opcoes.valor]}>
+                                  {o[c.opcoes.label]}
+                                </option>
+                              ))}
                       </select>
                     ) : (
                       <input

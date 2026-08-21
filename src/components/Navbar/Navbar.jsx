@@ -46,6 +46,8 @@ export default function Navbar() {
         </li>
         <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>
         <li><Link to="/sobre" onClick={() => setMenuOpen(false)}>Sobre</Link></li>
+        <li><Link to="/apoiar" onClick={() => setMenuOpen(false)}>Apoiar</Link></li>
+        <li><Link to="/loja/login" onClick={() => setMenuOpen(false)}>Vender no Ndatava</Link></li>
         <li className="navbar-searchbar-wrapper">
           <SearchBar />
         </li>

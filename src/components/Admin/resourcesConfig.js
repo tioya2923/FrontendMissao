@@ -3,6 +3,8 @@
 // automaticamente na página de Administração, com listagem, criação,
 // edição e eliminação — sem precisar de escrever um ecrã novo.
 
+import { MOEDAS, labelMoeda } from '../../constants/moeda';
+
 export const RECURSOS = [
   // ── Apoio ──────────────────────────────────────────────────────────────
   {
@@ -12,13 +14,19 @@ export const RECURSOS = [
     api: { base: '/api/formasapoio', list: '/api/formasapoio/admin' },
     tituloCampo: 'label',
     campos: [
-      { nome: 'label', label: 'Nome', tipo: 'text', obrigatorio: true },
+      {
+        nome: 'moeda', label: 'Moeda que recebe', tipo: 'select', obrigatorio: true,
+        valorInicial: 'AOA',
+        opcoesEstaticas: MOEDAS.map((m) => ({ valor: m.codigo, label: m.label })),
+      },
+      { nome: 'label', label: 'Nome (ex.: IBAN, Multicaixa Express, PIX...)', tipo: 'text', obrigatorio: true },
       { nome: 'valor', label: 'Valor (referência, IBAN, etc.)', tipo: 'text', obrigatorio: true },
       { nome: 'descricao', label: 'Descrição', tipo: 'text' },
       { nome: 'ordem', label: 'Ordem de exibição', tipo: 'number', valorInicial: 0 },
       { nome: 'ativo', label: 'Visível na aplicação', tipo: 'boolean', valorInicial: true },
     ],
     colunas: [
+      { campo: 'moeda', label: 'Moeda', formatar: labelMoeda },
       { campo: 'label', label: 'Nome' },
       { campo: 'valor', label: 'Valor' },
     ],
@@ -270,7 +278,7 @@ export const RECURSOS = [
 export const EXTRAS = [
   { key: 'lojas', titulo: 'Lojas parceiras', grupo: 'Marketplace', rota: '/admin/lojas' },
   { key: 'encomendas', titulo: 'Todas as encomendas', grupo: 'Marketplace', rota: '/admin/encomendas' },
-  { key: 'comissoes', titulo: 'Comissões', grupo: 'Marketplace', rota: '/admin/comissoes' },
+  { key: 'vendas', titulo: 'Vendas das lojas', grupo: 'Marketplace', rota: '/admin/vendas' },
 ];
 
 export function getRecurso(key) {
