@@ -6,8 +6,8 @@ import {
   getMeusProdutos, criarProduto, atualizarProduto, eliminarProduto,
   getMinhasEncomendas, atualizarEstadoEncomenda, uploadImagemProduto,
 } from '../../api/loja';
-import { METODOS_PAGAMENTO } from '../../constants/metodosPagamento';
-import { MOEDAS, formatarPreco } from '../../constants/moeda';
+import { METODOS_PAGAMENTO, metodosPorMoeda } from '../../constants/metodosPagamento';
+import { MOEDAS, formatarPreco, labelMoeda } from '../../constants/moeda';
 import '../Admin/Admin.css';
 
 const ESTADOS = ['Pendente', 'Confirmada', 'Enviada', 'Cancelada'];
@@ -416,14 +416,26 @@ function AbaPerfil({ onMoedaChange }) {
       <div className="admin-field"><label>Categoria</label><input value={perfil.categoria || ''} onChange={(e) => setPerfil((p) => ({ ...p, categoria: e.target.value }))} /></div>
       <div className="admin-field">
         <label>Moeda em que a loja vende</label>
-        <select value={perfil.moeda} onChange={(e) => setPerfil((p) => ({ ...p, moeda: e.target.value }))}>
+        <select
+          value={perfil.moeda}
+          onChange={(e) => {
+            const novaMoeda = e.target.value;
+            const validos = metodosPorMoeda(novaMoeda).map((m) => m.codigo);
+            setPerfil((p) => ({
+              ...p,
+              moeda: novaMoeda,
+              formasPagamento: p.formasPagamento.filter((f) => validos.includes(f.metodo)),
+            }));
+          }}
+        >
           {MOEDAS.map((m) => (
             <option key={m.codigo} value={m.codigo}>{m.label}</option>
           ))}
         </select>
         <p style={{ fontSize: '0.8rem', color: '#666', marginTop: 6 }}>
           Todos os seus produtos e novas encomendas passam a usar esta moeda. Encomendas já feitas
-          mantêm a moeda em que foram criadas.
+          mantêm a moeda em que foram criadas. As formas de pagamento disponíveis abaixo também mudam
+          consoante o país da moeda escolhida.
         </p>
       </div>
       <div className="admin-erro" style={{ background: '#eef4fc', color: '#1c4a7a', border: 'none' }}>
@@ -436,9 +448,9 @@ function AbaPerfil({ onMoedaChange }) {
       </div>
 
       <div className="admin-field">
-        <label>Formas de pagamento aceites (escolha uma ou várias)</label>
+        <label>Formas de pagamento aceites em {labelMoeda(perfil.moeda)} (escolha uma ou várias)</label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 4 }}>
-          {METODOS_PAGAMENTO.map((metodo) => {
+          {metodosPorMoeda(perfil.moeda).map((metodo) => {
             const selecionado = perfil.formasPagamento.find((f) => f.metodo === metodo.codigo);
             return (
               <div key={metodo.codigo} style={{ border: '1px solid #e5e5e5', borderRadius: 8, padding: '10px 12px' }}>
