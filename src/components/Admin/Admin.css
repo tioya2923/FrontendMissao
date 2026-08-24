@@ -9,7 +9,7 @@
 
 .admin-breadcrumb {
   display: inline-block;
-  color: #1976d2;
+  color: #7a1f2b;
   font-size: 0.85rem;
   text-decoration: none;
   margin-bottom: 6px;
@@ -159,7 +159,7 @@
 .admin-field input:focus,
 .admin-field textarea:focus {
   outline: none;
-  border-color: #1976d2;
+  border-color: #7a1f2b;
 }
 
 .admin-checkbox {
@@ -268,7 +268,7 @@
 }
 
 .admin-item-valor {
-  color: #1976d2;
+  color: #7a1f2b;
   font-weight: 600;
   margin-top: 4px;
 }

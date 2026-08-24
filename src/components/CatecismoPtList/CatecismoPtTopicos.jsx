@@ -30,7 +30,7 @@ export default function CatecismoPtTopicos() {
       <ul className="catecismo-pt-topicos-list">
         {topicos.map((topico, idx) => (
           <li key={idx}>
-            <Link to={`/catecismo/portugues/topico/${topico.id}`} style={{cursor: 'pointer', color: '#1976d2', textDecoration: 'underline'}}>
+            <Link to={`/catecismo/portugues/topico/${topico.id}`} style={{cursor: 'pointer', color: '#7a1f2b', textDecoration: 'underline'}}>
               {topico.titulo}
             </Link>
           </li>

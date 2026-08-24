@@ -53,7 +53,7 @@ export default function CanticosPorTopico() {
                             <li key={c.id || i}>
                                 <Link
                                     to={`/canticos/portugues/cantico/${c.slug}`}
-                                    style={{ color: '#1976d2', textDecoration: 'underline', cursor: 'pointer' }}
+                                    style={{ color: '#7a1f2b', textDecoration: 'underline', cursor: 'pointer' }}
                                 >
                                     {c.titulo || c.nome || c}
                                 </Link>

@@ -55,7 +55,7 @@ export default function CatecismoPtPorTopico() {
                 <Link
                   to={`/catecismo/portugues/pergunta/${p.slug}`}
                   style={{
-                    color: "#1976d2",
+                    color: "#7a1f2b",
                     textDecoration: "underline",
                     cursor: "pointer"
                   }}

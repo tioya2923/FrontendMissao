@@ -76,7 +76,7 @@
   margin: 0.75rem auto 0;
   background: none;
   border: none;
-  color: #1976d2;
+  color: #7a1f2b;
   font-weight: 700;
   cursor: pointer;
 }
@@ -102,7 +102,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #1976d2;
+  color: #7a1f2b;
 }
 
 .apoiar-lista {
@@ -144,7 +144,7 @@
 
 .apoiar-item-valor {
   font-size: 0.95rem;
-  color: #1976d2;
+  color: #7a1f2b;
   font-weight: 600;
   margin-top: 0.15rem;
 }
