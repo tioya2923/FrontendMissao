@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: missaofrontend
+    name: ndatava
     runtime: node
     plan: free
     buildCommand: npm install && npm run build
