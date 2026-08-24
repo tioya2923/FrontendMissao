@@ -34,6 +34,7 @@ import CatecismoOtcTexto from './components/CatecismoOtcList/CatecismoOtcTexto';
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
+import Privacidade from './components/Privacidade/Privacidade';
 import Apoiar from './components/Apoiar/Apoiar';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminHome from './components/Admin/AdminHome';
@@ -63,6 +64,8 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           {/* Sobre */}
           <Route path="/sobre" element={<Sobre />} />
+          {/* Política de Privacidade */}
+          <Route path="/privacidade" element={<Privacidade />} />
           {/* Apoiar (doações voluntárias) */}
           <Route path="/apoiar" element={<Apoiar />} />
 
