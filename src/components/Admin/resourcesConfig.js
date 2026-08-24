@@ -378,6 +378,7 @@ export const EXTRAS = [
   { key: 'lojas', titulo: 'Lojas parceiras', grupo: 'Marketplace', rota: '/admin/lojas' },
   { key: 'encomendas', titulo: 'Todas as encomendas', grupo: 'Marketplace', rota: '/admin/encomendas' },
   { key: 'vendas', titulo: 'Vendas das lojas', grupo: 'Marketplace', rota: '/admin/vendas' },
+  { key: 'versao-app', titulo: 'Versão da App', grupo: 'Aplicação Móvel', rota: '/admin/versao-app' },
 ];
 
 export function getRecurso(key) {

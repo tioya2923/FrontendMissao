@@ -42,6 +42,7 @@ import AdminResourceCrud from './components/Admin/AdminResourceCrud';
 import AdminEncomendas from './components/Admin/AdminEncomendas';
 import AdminLojas from './components/Admin/AdminLojas';
 import AdminVendas from './components/Admin/AdminVendas';
+import AdminVersaoApp from './components/Admin/AdminVersaoApp';
 import ProtectedRoute from './components/Admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import LojaLogin from './components/Loja/LojaLogin';
@@ -75,6 +76,7 @@ function App() {
           <Route path="/admin/encomendas" element={<ProtectedRoute><AdminEncomendas /></ProtectedRoute>} />
           <Route path="/admin/lojas" element={<ProtectedRoute><AdminLojas /></ProtectedRoute>} />
           <Route path="/admin/vendas" element={<ProtectedRoute><AdminVendas /></ProtectedRoute>} />
+          <Route path="/admin/versao-app" element={<ProtectedRoute><AdminVersaoApp /></ProtectedRoute>} />
           <Route path="/admin/:key" element={<ProtectedRoute><AdminResourceCrud /></ProtectedRoute>} />
 
           {/* Área das lojas parceiras */}
