@@ -13,6 +13,12 @@ import CanticosUbTopicos from './components/CanticosList/CanticosUbTopicos';
 import CanticosUbPorTopico from './components/CanticosList/CanticosUbPorTopico';
 import CanticoUbCompleto from './components/CanticosList/CanticoUbCompleto';
 
+import CanticosKmbTopicos from './components/CanticosList/CanticosKmbTopicos';
+import CanticosKmbPorTopico from './components/CanticosList/CanticosKmbPorTopico';
+import CanticoKmbCompleto from './components/CanticosList/CanticoKmbCompleto';
+
+import CanticosOtcTopicos from './components/CanticosList/CanticosOtcTopicos';
+
 import CatecismoPtTopicos from './components/CatecismoPtList/CatecismoPtTopicos';
 import CatecismoPtTitulos from './components/CatecismoPtList/CatecismoPtTitulos';
 import CatecismoPtTexto from './components/CatecismoPtList/CatecismoPtTexto';
@@ -21,6 +27,10 @@ import Oracoes from './components/CatecismoPtList/Oracoes';
 import CatecismoUbTopicos from './components/CatecismoUbList/CatecismoUbTopicos';
 import CatecismoUbTitulos from './components/CatecismoUbList/CatecismoUbTitulos';
 import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
+
+import CatecismoOtcTopicos from './components/CatecismoOtcList/CatecismoOtcTopicos';
+import CatecismoOtcTitulos from './components/CatecismoOtcList/CatecismoOtcTitulos';
+import CatecismoOtcTexto from './components/CatecismoOtcList/CatecismoOtcTexto';
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
@@ -90,6 +100,7 @@ function App() {
           {/* Alias Catequese → Catecismo */}
           <Route path="/catequese/portugues" element={<CatecismoPtTopicos />} />
           <Route path="/catequese/umbundu" element={<CatecismoUbTopicos />} />
+          <Route path="/catequese/otchikwama" element={<CatecismoOtcTopicos />} />
 
           {/* Catecismo Português */}
           <Route path="/catecismo/portugues" element={<CatecismoPtTopicos />} />
@@ -102,6 +113,11 @@ function App() {
           <Route path="/catecismo/umbundu/topico/:topicoId" element={<CatecismoUbTitulos />} />
           <Route path="/catecismo/umbundu/titulo/:id" element={<CatecismoUbTexto />} />
 
+          {/* Catecismo Otchikwama (Ordem da Missa) */}
+          <Route path="/catecismo/otchikwama" element={<CatecismoOtcTopicos />} />
+          <Route path="/catecismo/otchikwama/topico/:topicoId" element={<CatecismoOtcTitulos />} />
+          <Route path="/catecismo/otchikwama/titulo/:id" element={<CatecismoOtcTexto />} />
+
           {/* Cânticos Português */}
           <Route path="/canticos/portugues" element={<CanticosPtTopicos />} />
           <Route path="/canticos/portugues/topico/:nome" element={<CanticosPorTopico />} />
@@ -111,6 +127,14 @@ function App() {
           <Route path="/canticos/umbundu" element={<CanticosUbTopicos />} />
           <Route path="/canticos/umbundu/topicos/:nome" element={<CanticosUbPorTopico />} />
           <Route path="/canticos/umbundu/cantico/:slug" element={<CanticoUbCompleto />} />
+
+          {/* Cânticos Kimbundu */}
+          <Route path="/canticos/kimbundu" element={<CanticosKmbTopicos />} />
+          <Route path="/canticos/kimbundu/topicos/:nome" element={<CanticosKmbPorTopico />} />
+          <Route path="/canticos/kimbundu/cantico/:slug" element={<CanticoKmbCompleto />} />
+
+          {/* Cânticos Otchikwama (ainda sem conteúdo) */}
+          <Route path="/canticos/otchikwama" element={<CanticosOtcTopicos />} />
 
           {/* Calendário */}
           <Route path="/calendario" element={<CalendarioList />} />

@@ -35,6 +35,8 @@ export default function Navbar() {
           <ul className="navbar-canticos-dropdown">
             <li><Link to="/canticos/portugues" onClick={() => setMenuOpen(false)}>Português</Link></li>
             <li><Link to="/canticos/umbundu" onClick={() => setMenuOpen(false)}>Umbundu</Link></li>
+            <li><Link to="/canticos/kimbundu" onClick={() => setMenuOpen(false)}>Kimbundu</Link></li>
+            <li><Link to="/canticos/otchikwama" onClick={() => setMenuOpen(false)}>Otchikwama</Link></li>
           </ul>
         </li>
         <li className="navbar-catequese">
@@ -42,6 +44,7 @@ export default function Navbar() {
           <ul className="navbar-catequese-dropdown">
             <li><Link to="/catequese/portugues" onClick={() => setMenuOpen(false)}>Português</Link></li>
             <li><Link to="/catequese/umbundu" onClick={() => setMenuOpen(false)}>Umbundu</Link></li>
+            <li><Link to="/catequese/otchikwama" onClick={() => setMenuOpen(false)}>Otchikwama</Link></li>
           </ul>
         </li>
         <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>

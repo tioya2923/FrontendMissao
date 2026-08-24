@@ -158,6 +158,41 @@ export const RECURSOS = [
     ],
   },
 
+  // ── Cânticos — Kimbundu ────────────────────────────────────────────────
+  {
+    key: 'canticos-kmb-topicos',
+    titulo: 'Tópicos',
+    grupo: 'Cânticos (Kimbundu)',
+    api: { base: '/api/kimbundu/topicos', list: '/api/kimbundu/topicos' },
+    tituloCampo: 'nome',
+    campos: [
+      { nome: 'nome', label: 'Nome', tipo: 'text', obrigatorio: true },
+    ],
+    colunas: [
+      { campo: 'nome', label: 'Nome' },
+      { campo: 'slug', label: 'Slug' },
+    ],
+  },
+  {
+    key: 'canticos-kmb',
+    titulo: 'Cânticos',
+    grupo: 'Cânticos (Kimbundu)',
+    api: { base: '/api/kimbundu/canticos', list: '/api/kimbundu/canticos/canticos-com-topico' },
+    tituloCampo: 'titulo',
+    campos: [
+      { nome: 'titulo', label: 'Título', tipo: 'text', obrigatorio: true },
+      {
+        nome: 'topicoId', label: 'Tópico', tipo: 'select', obrigatorio: true,
+        opcoes: { endpoint: '/api/kimbundu/topicos', valor: 'id', label: 'nome' },
+      },
+      { nome: 'letra', label: 'Letra', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+    ],
+    colunas: [
+      { campo: 'titulo', label: 'Título' },
+      { campo: 'topicoId', label: 'Tópico', ref: 'topicoId' },
+    ],
+  },
+
   // ── Catecismo — Português ──────────────────────────────────────────────
   {
     key: 'catecismo-pt-topicos',
@@ -269,6 +304,70 @@ export const RECURSOS = [
     colunas: [
       { campo: 'titulo', label: 'Título' },
       { campo: 'catecismoLatTopicoId', label: 'Tópico', ref: 'catecismoLatTopicoId' },
+    ],
+  },
+  // ── Utilizadores da app ────────────────────────────────────────────────
+  {
+    key: 'utilizadores',
+    titulo: 'Utilizadores',
+    grupo: 'Utilizadores',
+    api: { base: '/api/utilizadores', list: '/api/utilizadores' },
+    tituloCampo: 'nome',
+    campos: [
+      { nome: 'nome', label: 'Nome', tipo: 'text', obrigatorio: true },
+      { nome: 'email', label: 'Email', tipo: 'text', obrigatorio: true },
+      {
+        nome: 'passwordInicial', label: 'Password inicial (só ao criar; a pessoa deve alterá-la depois)',
+        tipo: 'text',
+      },
+      { nome: 'diocese', label: 'Diocese', tipo: 'text' },
+      { nome: 'paroquia', label: 'Paróquia', tipo: 'text' },
+      { nome: 'nascimento', label: 'Nascimento (DD/MM/AAAA)', tipo: 'text' },
+      { nome: 'baptismo', label: 'Batismo (DD/MM/AAAA)', tipo: 'text' },
+      { nome: 'comunhao', label: 'Comunhão (DD/MM/AAAA)', tipo: 'text' },
+      { nome: 'crisma', label: 'Crisma (DD/MM/AAAA)', tipo: 'text' },
+      { nome: 'casamento', label: 'Casamento (DD/MM/AAAA)', tipo: 'text' },
+      { nome: 'ordem', label: 'Ordem (DD/MM/AAAA)', tipo: 'text' },
+    ],
+    colunas: [
+      { campo: 'nome', label: 'Nome' },
+      { campo: 'email', label: 'Email' },
+      { campo: 'paroquia', label: 'Paróquia' },
+    ],
+  },
+
+  // ── Catecismo — Otchikwama ─────────────────────────────────────────────
+  {
+    key: 'catecismo-otc-topicos',
+    titulo: 'Tópicos',
+    grupo: 'Catecismo (Otchikwama)',
+    api: { base: '/api/CatecismoOtcTopicos', list: '/api/CatecismoOtcTopicos' },
+    tituloCampo: 'titulo',
+    campos: [
+      { nome: 'titulo', label: 'Título', tipo: 'text', obrigatorio: true },
+    ],
+    colunas: [
+      { campo: 'titulo', label: 'Título' },
+      { campo: 'slug', label: 'Slug' },
+    ],
+  },
+  {
+    key: 'catecismo-otc',
+    titulo: 'Conteúdo (Omisa)',
+    grupo: 'Catecismo (Otchikwama)',
+    api: { base: '/api/CatecismoOtc', list: '/api/CatecismoOtc' },
+    tituloCampo: 'titulo',
+    campos: [
+      { nome: 'titulo', label: 'Título', tipo: 'text', obrigatorio: true },
+      {
+        nome: 'catecismoOtcTopicoId', label: 'Tópico', tipo: 'select', obrigatorio: true,
+        opcoes: { endpoint: '/api/CatecismoOtcTopicos', valor: 'id', label: 'titulo' },
+      },
+      { nome: 'texto', label: 'Texto', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+    ],
+    colunas: [
+      { campo: 'titulo', label: 'Título' },
+      { campo: 'catecismoOtcTopicoId', label: 'Tópico', ref: 'catecismoOtcTopicoId' },
     ],
   },
 ];
