@@ -107,8 +107,13 @@
   padding: 0;
 }
 
-/* Item clicável */
-.search-bar-item {
+/* Item clicável — seletor reforçado (.search-bar-results .search-bar-item) de
+   propósito: a regra ".navbar-links li a" do Navbar.css tem mais
+   especificidade do que ".search-bar-item" sozinho, porque a pesquisa vive
+   dentro do menu principal — sem isto, os resultados ficavam brancos sobre
+   fundo branco, só visíveis com o rato em cima (que já tinha um :hover
+   próprio a forçar a cor escura). */
+.search-bar-results .search-bar-item {
   display: block;
   padding: 8px 16px;
   font-size: 0.9rem;
@@ -119,7 +124,7 @@
   line-height: 1.4;
 }
 
-.search-bar-item:hover {
+.search-bar-results .search-bar-item:hover {
   background: #f5f5f5;
   color: #000;
 }
