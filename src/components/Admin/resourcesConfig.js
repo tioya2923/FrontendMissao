@@ -81,6 +81,7 @@ export const RECURSOS = [
         opcoes: { endpoint: '/api/topicos', valor: 'id', label: 'nome' },
       },
       { nome: 'letra', label: 'Letra', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+      { nome: 'autor', label: 'Autor (opcional)', tipo: 'text' },
     ],
     colunas: [
       { campo: 'titulo', label: 'Título' },
@@ -116,6 +117,7 @@ export const RECURSOS = [
         opcoes: { endpoint: '/api/umbundu/topicos', valor: 'id', label: 'nome' },
       },
       { nome: 'letra', label: 'Letra', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+      { nome: 'autor', label: 'Autor (opcional)', tipo: 'text' },
     ],
     colunas: [
       { campo: 'titulo', label: 'Título' },
@@ -151,6 +153,7 @@ export const RECURSOS = [
         opcoes: { endpoint: '/api/topicoslat', valor: 'id', label: 'nome' },
       },
       { nome: 'letra', label: 'Letra', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+      { nome: 'autor', label: 'Autor (opcional)', tipo: 'text' },
     ],
     colunas: [
       { campo: 'titulo', label: 'Título' },
@@ -186,6 +189,7 @@ export const RECURSOS = [
         opcoes: { endpoint: '/api/kimbundu/topicos', valor: 'id', label: 'nome' },
       },
       { nome: 'letra', label: 'Letra', tipo: 'textarea', obrigatorio: true, linhas: 10 },
+      { nome: 'autor', label: 'Autor (opcional)', tipo: 'text' },
     ],
     colunas: [
       { campo: 'titulo', label: 'Título' },
