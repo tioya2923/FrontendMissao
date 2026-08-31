@@ -47,6 +47,11 @@ export default function CanticoUbCompleto() {
           >
             {cantico.letra || cantico.texto || cantico.conteudo || "Sem conteúdo."}
           </pre>
+          {cantico.autor && (
+            <p style={{ textAlign: "right", color: "#666", fontSize: "0.9em", marginTop: 8 }}>
+              Letra e Música: {cantico.autor}
+            </p>
+          )}
         </div>
       )}
     </div>
