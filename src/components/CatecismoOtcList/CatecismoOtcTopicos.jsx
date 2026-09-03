@@ -10,7 +10,7 @@ export default function CatecismoOtcTopicos() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get('/api/CatecismoOtcTopicos')
+    api.get('/api/catecismopttopicos/topicos?idioma=otc')
       .then(res => {
         setTopicos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);

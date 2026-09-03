@@ -10,7 +10,7 @@ export default function CatecismoOtcTitulos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/api/CatecismoOtc?topicoId=${topicoId}`)
+    api.get(`/api/catecismopt?topicoId=${topicoId}&idioma=otc`)
       .then(res => {
         setTitulos(res.data);
         setLoading(false);
