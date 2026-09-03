@@ -10,7 +10,7 @@ export default function CatecismoUbTopicos() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get('/api/catecismoubtopicos')
+    api.get('/api/catecismopttopicos/topicos?idioma=umb')
       .then(res => {
         setTopicos(res.data);
         setLoading(false);

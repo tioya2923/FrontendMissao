@@ -11,7 +11,7 @@ export default function CanticosUbTopicos() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/api/umbundu/topicos')
+    api.get('/api/topicos?idioma=umb')
       .then(res => {
         setTopicos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);

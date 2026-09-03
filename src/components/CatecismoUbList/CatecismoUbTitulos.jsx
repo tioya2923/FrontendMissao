@@ -9,7 +9,7 @@ export default function CatecismoUbTitulos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/api/catecismoub?topicoId=${topicoId}`)
+    api.get(`/api/catecismopt?topicoId=${topicoId}&idioma=umb`)
       .then(res => {
         setTitulos(res.data);
         setLoading(false);

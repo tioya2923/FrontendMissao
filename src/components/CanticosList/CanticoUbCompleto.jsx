@@ -14,7 +14,7 @@ export default function CanticoUbCompleto() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset loading/error before re-fetching when slug changes
     setLoading(true);
     setError(null);
-    api.get(`/api/umbundu/canticos/${slug}`)
+    api.get(`/api/canticos/${encodeURIComponent(slug)}?idioma=umb`)
       .then(res => {
         if (ignore) return;
         setCantico(res.data);

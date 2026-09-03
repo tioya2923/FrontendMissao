@@ -9,7 +9,7 @@ export default function CatecismoUbTexto() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/api/catecismoub/${id}`)
+    api.get(`/api/catecismopt/${id}`)
       .then(res => {
         setItem(res.data);
         setLoading(false);

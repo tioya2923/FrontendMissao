@@ -11,7 +11,7 @@ export default function CanticosKmbTopicos() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/api/kimbundu/topicos')
+    api.get('/api/topicos?idioma=kmb')
       .then(res => {
         setTopicos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);

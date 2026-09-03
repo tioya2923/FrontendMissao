@@ -15,16 +15,10 @@ export default function CanticosUbPorTopico() {
     setLoading(true);
     setError(null);
 
-    api.get(`/api/umbundu/canticos/canticos-com-topico`)
+    api.get(`/api/canticos/topico/${encodeURIComponent(nome)}?idioma=umb`)
       .then(res => {
         if (ignore) return;
-        const arr = Array.isArray(res.data) ? res.data : [];
-        const filtrados = arr.filter(c =>
-          c.topico &&
-          c.topico.slug &&
-          c.topico.slug.toLowerCase() === nome.toLowerCase()
-        );
-        setCanticos(filtrados);
+        setCanticos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);
       })
       .catch(err => {
