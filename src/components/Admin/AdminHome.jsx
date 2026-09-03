@@ -1,14 +1,21 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
+import api from '../../api';
 import { getGrupos } from './resourcesConfig';
 import './Admin.css';
 
 export default function AdminHome() {
   const { nome, logout } = useAuth();
   const navigate = useNavigate();
-  const grupos = getGrupos();
+  const [idiomas, setIdiomas] = useState([]);
   const [pesquisa, setPesquisa] = useState('');
+
+  useEffect(() => {
+    api.get('/api/idiomas').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
+  }, []);
+
+  const grupos = useMemo(() => getGrupos(idiomas), [idiomas]);
 
   const sair = () => { logout(); navigate('/admin/login', { replace: true }); };
 

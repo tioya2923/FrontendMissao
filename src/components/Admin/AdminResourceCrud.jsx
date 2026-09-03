@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 import api from '../../api';
 import { listarRecurso, criarRecurso, atualizarRecurso, eliminarRecurso } from '../../api/adminApi';
-import { getRecurso } from './resourcesConfig';
+import { getRecurso, getRecursoComIdiomas } from './resourcesConfig';
 import './Admin.css';
 
 function valorInicialDoCampo(campo) {
@@ -27,9 +27,26 @@ function paraDataInput(valor) {
 
 export default function AdminResourceCrud() {
   const { key } = useParams();
-  const recurso = getRecurso(key);
   const { nome, logout } = useAuth();
   const navigate = useNavigate();
+
+  // Recursos estáticos (ex: Apoio, Idiomas) resolvem já; recursos por idioma
+  // (Cânticos/Catecismo de um idioma) só resolvem depois de /api/idiomas carregar.
+  const [idiomas, setIdiomas] = useState(null);
+  useEffect(() => {
+    api.get('/api/idiomas').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
+  }, []);
+
+  // Memoizado: getRecursoComIdiomas/gerarRecursosIdioma criam objetos novos a
+  // cada chamada, e sem isto o "recurso" mudava de identidade em todos os
+  // renders, fazendo o carregar() (que depende de "recurso") disparar em loop
+  // infinito — o ecrã ficava preso em "A carregar…" mesmo com os pedidos a
+  // terem sucesso.
+  const recurso = useMemo(
+    () => (idiomas === null ? getRecurso(key) : getRecursoComIdiomas(key, idiomas)),
+    [key, idiomas]
+  );
+  const aResolverIdioma = !recurso && idiomas === null && !getRecurso(key);
 
   const [itens, setItens] = useState([]);
   const [opcoesPorCampo, setOpcoesPorCampo] = useState({});
@@ -77,8 +94,12 @@ export default function AdminResourceCrud() {
     return (
       <div className="admin-container">
         <div className="admin-card">
-          <p className="admin-erro">Tipo de conteúdo desconhecido.</p>
-          <Link to="/admin" className="admin-btn admin-btn-secundario">← Voltar à Administração</Link>
+          <p className={aResolverIdioma ? 'admin-vazio' : 'admin-erro'}>
+            {aResolverIdioma ? 'A carregar…' : 'Tipo de conteúdo desconhecido.'}
+          </p>
+          {!aResolverIdioma && (
+            <Link to="/admin" className="admin-btn admin-btn-secundario">← Voltar à Administração</Link>
+          )}
         </div>
       </div>
     );
