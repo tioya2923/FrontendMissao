@@ -12,14 +12,14 @@ const ORDEM = [
   "Cordeiro de Deus", "Comunhão", "Acção de Graças", "Saída",
 ];
 
-export default function CanticosOtcTopicos() {
+export default function CanticosLatTopicos() {
   const [topicos, setTopicos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/api/topicos?idioma=otc')
+    api.get('/api/topicos?idioma=lat')
       .then(res => {
         setTopicos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);
@@ -31,7 +31,7 @@ export default function CanticosOtcTopicos() {
   }, []);
 
   const handleTopicoClick = (topico) => {
-    navigate(`/canticos/otchikwama/topico/${encodeURIComponent(topico.slug)}`);
+    navigate(`/canticos/latim/topico/${encodeURIComponent(topico.slug)}`);
   };
 
   const filtrados = topicos.filter(t => (t.nome || '').toLowerCase() !== 'geral');
