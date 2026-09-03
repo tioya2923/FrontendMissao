@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 import { getGrupos } from './resourcesConfig';
@@ -7,8 +8,17 @@ export default function AdminHome() {
   const { nome, logout } = useAuth();
   const navigate = useNavigate();
   const grupos = getGrupos();
+  const [pesquisa, setPesquisa] = useState('');
 
   const sair = () => { logout(); navigate('/admin/login', { replace: true }); };
+
+  const gruposFiltrados = useMemo(() => {
+    const termo = pesquisa.trim().toLowerCase();
+    if (!termo) return grupos;
+    return grupos
+      .map(g => ({ ...g, itens: g.itens.filter(r => r.titulo.toLowerCase().includes(termo)) }))
+      .filter(g => g.itens.length > 0);
+  }, [grupos, pesquisa]);
 
   return (
     <div className="admin-container admin-container-largo">
@@ -21,21 +31,39 @@ export default function AdminHome() {
           <button className="admin-btn admin-btn-secundario" onClick={sair}>Sair</button>
         </div>
 
-        <div className="admin-grupos">
-          {grupos.map(g => (
-            <div className="admin-grupo" key={g.nome}>
-              <h2 className="admin-grupo-titulo">{g.nome}</h2>
-              <div className="admin-grupo-itens">
-                {g.itens.map(r => (
-                  <Link key={r.key} to={r.rota || `/admin/${r.key}`} className="admin-grupo-link">
-                    {r.titulo}
-                    <span className="admin-item-acoes" style={{ color: '#999' }}>›</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="admin-search-wrap">
+          <input
+            type="text"
+            className="admin-search"
+            placeholder="Pesquisar (ex: cânticos, utilizadores, loja...)"
+            value={pesquisa}
+            onChange={e => setPesquisa(e.target.value)}
+            autoFocus
+          />
         </div>
+
+        {gruposFiltrados.length === 0 ? (
+          <p className="admin-search-vazio">Nenhum resultado para "{pesquisa}".</p>
+        ) : (
+          <div className="admin-grupos">
+            {gruposFiltrados.map(g => (
+              <div className="admin-grupo" key={g.nome}>
+                <div className="admin-grupo-cabecalho">
+                  <span className="admin-grupo-icone" aria-hidden="true">{g.nome.charAt(0)}</span>
+                  <h2 className="admin-grupo-titulo">{g.nome}</h2>
+                </div>
+                <div className="admin-grupo-itens">
+                  {g.itens.map(r => (
+                    <Link key={r.key} to={r.rota || `/admin/${r.key}`} className="admin-grupo-link">
+                      {r.titulo}
+                      <span className="admin-item-acoes" style={{ color: '#6b6155' }}>›</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

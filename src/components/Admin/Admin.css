@@ -4,7 +4,7 @@
 }
 
 .admin-container-largo {
-  max-width: 960px;
+  max-width: 980px;
 }
 
 .admin-breadcrumb {
@@ -13,25 +13,81 @@
   font-size: 0.85rem;
   text-decoration: none;
   margin-bottom: 6px;
+  font-weight: 600;
 }
 
 .admin-breadcrumb:hover {
   text-decoration: underline;
 }
 
+/* ── Pesquisa (painel principal) ─────────────────────────────────────── */
+
+.admin-search-wrap {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.admin-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ede6dc;
+  border-radius: 999px;
+  padding: 12px 18px 12px 40px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #faf7f1 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8175' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat 14px center;
+  color: #2a2420;
+}
+
+.admin-search:focus {
+  outline: none;
+  border-color: #7a1f2b;
+  background-color: #fff;
+}
+
+.admin-search-vazio {
+  text-align: center;
+  color: #8a8175;
+  font-style: italic;
+  padding: 32px 0;
+}
+
+/* ── Grupos de recursos ──────────────────────────────────────────────── */
+
 .admin-grupos {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
+}
+
+.admin-grupo-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px 0;
+}
+
+.admin-grupo-icone {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f3e6e3;
+  color: #7a1f2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .admin-grupo-titulo {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: #666;
+  color: #6b6155;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 10px 0;
+  margin: 0;
 }
 
 .admin-grupo-itens {
@@ -45,17 +101,22 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  color: #181818;
+  border: 1px solid #ede6dc;
+  border-radius: 14px;
+  background: #fff;
+  color: #2a2420;
   text-decoration: none;
   font-weight: 600;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
 
 .admin-grupo-link:hover {
-  background: #f7f7f7;
-  border-color: #ccc;
+  background: #f3e6e3;
+  border-color: #d8a8ab;
+}
+
+.admin-grupo-link:active {
+  transform: scale(0.98);
 }
 
 .admin-tabela-wrap {
@@ -72,17 +133,17 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: #888;
+  color: #8a8175;
   padding: 8px 10px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid #ede6dc;
   white-space: nowrap;
 }
 
 .admin-tabela td {
   padding: 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f3ece0;
   font-size: 0.92rem;
-  color: #181818;
+  color: #2a2420;
   vertical-align: top;
 }
 
@@ -93,13 +154,13 @@
 }
 
 .admin-field select {
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #ddd2bf;
+  border-radius: 10px;
   padding: 10px 12px;
   font-size: 1rem;
   font-family: inherit;
   background: #fff;
-  color: #181818;
+  color: #2a2420;
   color-scheme: light;
 }
 
@@ -110,21 +171,21 @@
 
 .admin-card {
   background: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border: 1px solid #ede6dc;
+  border-radius: 18px;
   padding: 28px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 2px rgba(58, 42, 31, 0.05), 0 8px 24px rgba(58, 42, 31, 0.05);
 }
 
 .admin-titulo {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #181818;
+  color: #2a2420;
   margin: 0 0 4px 0;
 }
 
 .admin-subtitulo {
-  color: #666;
+  color: #6b6155;
   font-size: 0.95rem;
   margin: 0 0 20px 0;
 }
@@ -139,25 +200,26 @@
 .admin-field label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #444;
+  color: #6b6155;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
 
 .admin-field input,
 .admin-field textarea {
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #ddd2bf;
+  border-radius: 10px;
   padding: 10px 12px;
   font-size: 1rem;
   font-family: inherit;
   background: #fff;
-  color: #181818;
+  color: #2a2420;
   color-scheme: light;
 }
 
 .admin-field input:focus,
-.admin-field textarea:focus {
+.admin-field textarea:focus,
+.admin-field select:focus {
   outline: none;
   border-color: #7a1f2b;
 }
@@ -170,28 +232,29 @@
 }
 
 .admin-erro {
-  background: #fdecea;
-  color: #b71c1c;
-  border: 1px solid #f5c6cb;
-  border-radius: 6px;
+  background: #faeee0;
+  color: #8a4a12;
+  border: 1px solid #e8c9a0;
+  border-radius: 10px;
   padding: 10px 14px;
   font-size: 0.9rem;
   margin-bottom: 16px;
 }
 
 .admin-btn {
-  background: #181818;
+  background: #7a1f2b;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 11px 20px;
+  border-radius: 999px;
+  padding: 11px 22px;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.15s;
 }
 
 .admin-btn:hover {
-  background: #333;
+  background: #5c1620;
 }
 
 .admin-btn:disabled {
@@ -201,22 +264,22 @@
 
 .admin-btn-secundario {
   background: #fff;
-  color: #181818;
-  border: 1px solid #ccc;
+  color: #2a2420;
+  border: 1px solid #ddd2bf;
 }
 
 .admin-btn-secundario:hover {
-  background: #f5f5f5;
+  background: #faf7f1;
 }
 
 .admin-btn-perigo {
   background: #fff;
-  color: #b71c1c;
-  border: 1px solid #e0a3a3;
+  color: #b3261e;
+  border: 1px solid #eabdb8;
 }
 
 .admin-btn-perigo:hover {
-  background: #fdecea;
+  background: #faeee0;
 }
 
 .admin-header-row {
@@ -233,8 +296,8 @@
 }
 
 .admin-item {
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border: 1px solid #ede6dc;
+  border-radius: 14px;
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -251,7 +314,7 @@
 .admin-item-label {
   font-weight: 700;
   font-size: 1.05rem;
-  color: #181818;
+  color: #2a2420;
 }
 
 .admin-item-badge {
@@ -262,8 +325,8 @@
   padding: 2px 8px;
   border-radius: 10px;
   margin-left: 8px;
-  background: #eee;
-  color: #666;
+  background: #f3ece0;
+  color: #6b6155;
   vertical-align: middle;
 }
 
@@ -274,7 +337,7 @@
 }
 
 .admin-item-desc {
-  color: #777;
+  color: #8a8175;
   font-size: 0.85rem;
   margin-top: 2px;
 }
@@ -287,7 +350,7 @@
 
 .admin-vazio {
   text-align: center;
-  color: #888;
+  color: #8a8175;
   font-style: italic;
   padding: 24px 0;
 }
