@@ -63,6 +63,22 @@ export default function AdminResourceCrud() {
     [recurso]
   );
 
+  // Lista longa (ex: 641 entradas de Catecismo/Orações em Português) fica
+  // difícil de navegar sem isto — reaproveita a coluna "ref" já definida na
+  // configuração do recurso (ex: Tópico) como filtro rápido acima da tabela.
+  const colunaFiltro = useMemo(() => (recurso ? recurso.colunas.find(c => c.ref) : null), [recurso]);
+  const campoFiltro = useMemo(
+    () => (colunaFiltro && recurso ? recurso.campos.find(c => c.nome === colunaFiltro.ref) : null),
+    [colunaFiltro, recurso]
+  );
+  const [filtro, setFiltro] = useState('');
+  useEffect(() => { setFiltro(''); }, [key]);
+
+  const itensFiltrados = useMemo(() => {
+    if (!colunaFiltro || !filtro) return itens;
+    return itens.filter(it => String(it[colunaFiltro.ref]) === filtro);
+  }, [itens, colunaFiltro, filtro]);
+
   const carregar = useCallback(async () => {
     if (!recurso) return;
     setLoading(true);
@@ -106,7 +122,11 @@ export default function AdminResourceCrud() {
   }
 
   const iniciarNova = () => {
-    setRascunho(rascunhoVazio(recurso.campos));
+    const vazio = rascunhoVazio(recurso.campos);
+    // Se há um filtro de tópico ativo, o "+ Novo" já começa com esse tópico
+    // escolhido — poupa ter de o selecionar outra vez.
+    if (campoFiltro && filtro) vazio[campoFiltro.nome] = filtro;
+    setRascunho(vazio);
     setErroForm(null);
     setAEditar('nova');
   };
@@ -205,6 +225,24 @@ export default function AdminResourceCrud() {
 
         {erro && <div className="admin-erro">{erro}</div>}
 
+        {!loading && colunaFiltro && campoFiltro && (opcoesPorCampo[campoFiltro.nome] || []).length > 0 && (
+          <div className="admin-field" style={{ maxWidth: 320 }}>
+            <label htmlFor="f-filtro-topico">Filtrar por {colunaFiltro.label.toLowerCase()}</label>
+            <select
+              id="f-filtro-topico"
+              value={filtro}
+              onChange={(e) => setFiltro(e.target.value)}
+            >
+              <option value="">— Todos ({itens.length}) —</option>
+              {(opcoesPorCampo[campoFiltro.nome] || []).map(o => (
+                <option key={o[campoFiltro.opcoes.valor]} value={o[campoFiltro.opcoes.valor]}>
+                  {o[campoFiltro.opcoes.label]}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {aEditar && (
           <form onSubmit={guardar} className="admin-card" style={{ boxShadow: 'none', border: '1px solid #ddd', marginBottom: 20 }}>
             <h2 style={{ fontSize: '1.05rem', margin: '0 0 14px 0' }}>
@@ -280,6 +318,8 @@ export default function AdminResourceCrud() {
           <p className="admin-vazio">A carregar…</p>
         ) : itens.length === 0 ? (
           <p className="admin-vazio">Ainda não existe conteúdo aqui.</p>
+        ) : itensFiltrados.length === 0 ? (
+          <p className="admin-vazio">Nenhum item para este filtro.</p>
         ) : (
           <div className="admin-tabela-wrap">
             <table className="admin-tabela">
@@ -290,7 +330,7 @@ export default function AdminResourceCrud() {
                 </tr>
               </thead>
               <tbody>
-                {itens.map((item) => (
+                {itensFiltrados.map((item) => (
                   <tr key={item.id}>
                     {recurso.colunas.map(col => (
                       <td key={col.campo}>
