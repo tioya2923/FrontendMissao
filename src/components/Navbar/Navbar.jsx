@@ -37,7 +37,7 @@ export default function Navbar() {
             <li><Link to="/canticos/umbundu" onClick={() => setMenuOpen(false)}>Umbundu</Link></li>
             <li><Link to="/canticos/kimbundu" onClick={() => setMenuOpen(false)}>Kimbundu</Link></li>
             <li><Link to="/canticos/latim" onClick={() => setMenuOpen(false)}>Latim</Link></li>
-            <li><Link to="/canticos/otchikwama" onClick={() => setMenuOpen(false)}>Otchikwama</Link></li>
+            <li><Link to="/canticos/otchikwama" onClick={() => setMenuOpen(false)}>Oshikwanhama</Link></li>
           </ul>
         </li>
         <li className="navbar-catequese">
@@ -46,7 +46,7 @@ export default function Navbar() {
             <li><Link to="/catequese/portugues" onClick={() => setMenuOpen(false)}>Português</Link></li>
             <li><Link to="/catequese/umbundu" onClick={() => setMenuOpen(false)}>Umbundu</Link></li>
             <li><Link to="/catequese/latim" onClick={() => setMenuOpen(false)}>Latim</Link></li>
-            <li><Link to="/catequese/otchikwama" onClick={() => setMenuOpen(false)}>Otchikwama</Link></li>
+            <li><Link to="/catequese/otchikwama" onClick={() => setMenuOpen(false)}>Oshikwanhama</Link></li>
           </ul>
         </li>
         <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>
