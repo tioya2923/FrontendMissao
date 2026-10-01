@@ -7,7 +7,7 @@ import "./CanticosKmbTopicos.css";
 // Ordem litúrgica habitual — os nomes dos tópicos são os mesmos termos em
 // português usados em todos os idiomas (só a letra dos cânticos muda).
 const ORDEM = [
-  "Procissão", "Entrada", "Kyrie", "Entronização da Palavra", "Aleluia",
+  "Procissão", "Entrada", "Kyrie", "Glória", "Entronização da Palavra", "Aleluia",
   "Oração dos Fiéis", "Ofertório", "Elevação", "Santo", "Saudação",
   "Cordeiro de Deus", "Comunhão", "Acção de Graças", "Saída",
 ];

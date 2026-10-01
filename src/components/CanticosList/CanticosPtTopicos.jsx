@@ -27,6 +27,7 @@ export default function CanticosPtTopicos() {
     "Procissão",
     "Entrada",
     "Kyrie",
+    "Glória",
     "Entronização da Palavra",
     "Aleluia",
     "Oração dos Fiéis",
@@ -47,6 +48,13 @@ export default function CanticosPtTopicos() {
     )
     .filter(Boolean);
 
+  // Qualquer tópico que o admin crie e que ainda não conste da ordem acima
+  // continua a aparecer (no fim da lista) em vez de ser omitido em silêncio.
+  const outrosTopicos = topicos.filter(
+    (t) => !ordemDesejada.includes(t.nome || t.titulo || t)
+  );
+  const todosOsTopicos = [...topicosOrdenados, ...outrosTopicos];
+
   // Redireciona para a página do tópico
   const handleTopicoClick = (topico) => {
     const nome = encodeURIComponent(topico.nome || topico.titulo || topico);
@@ -61,7 +69,7 @@ export default function CanticosPtTopicos() {
       {error && <div style={{ color: "red" }}>Erro: {error}</div>}
 
       <ul className="canticos-pt-topicos-list">
-        {topicosOrdenados.map((topico, idx) => (
+        {todosOsTopicos.map((topico, idx) => (
           <li
             key={idx}
             style={{ cursor: "pointer" }}

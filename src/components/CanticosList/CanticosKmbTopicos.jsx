@@ -49,7 +49,7 @@ export default function CanticosKmbTopicos() {
       <ul className="canticos-kmb-topicos-list">
         {(() => {
           const ordem = [
-            "Procissão", "Entrada", "Kyrie", "Entronização da Palavra", "Aleluia",
+            "Procissão", "Entrada", "Kyrie", "Glória", "Entronização da Palavra", "Aleluia",
             "Oração dos Fiéis", "Ofertório", "Elevação", "Santo", "Saudação",
             "Cordeiro de Deus", "Comunhão", "Acção de Graças", "Saída",
           ];

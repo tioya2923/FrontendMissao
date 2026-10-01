@@ -51,6 +51,7 @@ export default function CanticosUbTopicos() {
             "Procissão",
             "Entrada",
             "Kyrie",
+            "Glória",
             "Entronização da Palavra",
             "Aleluia",
             "Oração dos Fiéis",
