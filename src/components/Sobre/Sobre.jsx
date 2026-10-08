@@ -2,9 +2,9 @@ import React from "react";
 
 export default function Sobre() {
   return (
-    <div style={{ background: '#fff', borderRadius: 8, padding: 32, maxWidth: 900, margin: '32px auto', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+    <div className="pagina-texto">
 
-      <div style={{ fontSize: '1.1rem', lineHeight: 1.7, textAlign: 'justify' }}>
+      <div className="texto-corrido">
         <p>Bem-vindo ao <strong>NDATAVA</strong></p>
 
         <p>O Ndatava nasceu para pôr a vida da Igreja ao alcance de um toque: o calendário litúrgico do dia, cânticos completos e catequese para que cada comunidade encontre a liturgia na sua própria língua.</p>

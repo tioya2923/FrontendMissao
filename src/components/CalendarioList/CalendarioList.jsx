@@ -1,50 +1,67 @@
-
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import api from '../../api';
 import './CalendarioList.css';
 
+const DIAS_SEMANA = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+const MESES = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
+const ANOS = Array.from({ length: 2100 - 2026 + 1 }, (_, i) => 2026 + i);
+
+// Cores litúrgicas (as mesmas da app)
+const COR_MAP = {
+    branco: { bg: '#ffffff', claro: true },
+    vermelho: { bg: '#c0392b' },
+    verde: { bg: '#27ae60' },
+    roxo: { bg: '#6c3483' },
+    morado: { bg: '#6c3483' },
+    rosa: { bg: '#d45f9e' },
+    preto: { bg: '#1a1a1a' },
+    dourado: { bg: '#c9a84c' },
+};
+const COR_PADRAO = { bg: '#8a8178' };
+
+function coresDoDia(descricao) {
+    const parte = (descricao || '').split(/[–-]/)[0].toLowerCase();
+    const nomes = Object.keys(COR_MAP).filter(k => parte.includes(k));
+    if (nomes.length === 0) return [COR_PADRAO];
+    // "Verde ou branco" aparece duas vezes se houver sinónimos iguais; ficamos com cores distintas
+    const vistas = [];
+    nomes.forEach(n => { if (!vistas.some(c => c.bg === COR_MAP[n].bg)) vistas.push(COR_MAP[n]); });
+    return vistas;
+}
+
+function paraISO(data) {
+    const a = data.getFullYear();
+    const m = String(data.getMonth() + 1).padStart(2, '0');
+    const d = String(data.getDate()).padStart(2, '0');
+    return `${a}-${m}-${d}`;
+}
+
+const html = (valor) => ({ __html: valor });
+
 export default function CalendarioList() {
-    // Estado principal
     const [eventos, setEventos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(false);
     const [dataBase, setDataBase] = useState(new Date());
+    const [mesSelecionado, setMesSelecionado] = useState(dataBase.getMonth());
+    const [anoSelecionado, setAnoSelecionado] = useState(dataBase.getFullYear());
 
-    // Carregar eventos
     useEffect(() => {
         api.get('/api/calendario')
-            .then(res => {
-                setEventos(Array.isArray(res.data) ? res.data : []);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+            .then(res => setEventos(Array.isArray(res.data) ? res.data : []))
+            .catch(() => setErro(true))
+            .finally(() => setLoading(false));
     }, []);
 
-    // Constantes
-    const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
-    // Navegação customizada
-    const meses = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
-    const [mesSelecionado, setMesSelecionado] = useState(dataBase.getMonth());
-    const [openMes, setOpenMes] = useState(false);
-    const mesRef = useRef();
-    const [anoSelecionado, setAnoSelecionado] = useState(dataBase.getFullYear());
-    const [openAno, setOpenAno] = useState(false);
-    const anoRef = useRef();
-
-    // Geração de anos para o select (2026 até 2100)
-    const anos = [];
-    for (let y = 2026; y <= 2100; y++) {
-        anos.push(y);
-    }
-
     const irParaMesAno = () => {
-        const novaData = new Date(dataBase);
-        novaData.setFullYear(anoSelecionado);
-        novaData.setMonth(mesSelecionado);
-        setDataBase(novaData);
+        const nova = new Date(dataBase);
+        nova.setDate(1);
+        nova.setFullYear(anoSelecionado);
+        nova.setMonth(mesSelecionado);
+        setDataBase(nova);
     };
 
     const irParaHoje = () => {
@@ -55,256 +72,97 @@ export default function CalendarioList() {
     };
 
     const mudarSemana = (delta) => {
-        const novaData = new Date(dataBase);
-        novaData.setDate(novaData.getDate() + delta * 7);
-        setDataBase(novaData);
-        setMesSelecionado(novaData.getMonth());
-        setAnoSelecionado(novaData.getFullYear());
+        const nova = new Date(dataBase);
+        nova.setDate(nova.getDate() + delta * 7);
+        setDataBase(nova);
+        setMesSelecionado(nova.getMonth());
+        setAnoSelecionado(nova.getFullYear());
     };
 
-    // Cálculo dos 7 dias (domingo a sábado), agrupados de 2 em 2
-    const diaSemanaBase = dataBase.getDay();
-    const inicio = new Date(dataBase);
-    inicio.setDate(dataBase.getDate() - diaSemanaBase);
+    const hojeISO = paraISO(new Date());
 
-    const diasGrid = Array.from({ length: 7 }, (_, idx) => {
-        const data = new Date(inicio);
-        data.setDate(inicio.getDate() + idx);
-        const dataISO = data.toISOString().slice(0, 10);
-        return {
-            dia: data.getDate(),
-            mes: data.toLocaleString('default', { month: 'long' }),
-            ano: data.getFullYear(),
-            diaSemana: diasSemana[data.getDay()],
-            dataISO
-        };
-    });
+    const dias = useMemo(() => {
+        const inicio = new Date(dataBase);
+        inicio.setDate(dataBase.getDate() - dataBase.getDay());
+        return Array.from({ length: 7 }, (_, i) => {
+            const d = new Date(inicio);
+            d.setDate(inicio.getDate() + i);
+            return { numero: d.getDate(), semana: DIAS_SEMANA[d.getDay()], iso: paraISO(d) };
+        });
+    }, [dataBase]);
 
-    // Agrupar de 2 em 2 (último grupo pode ter só 1 elemento — Sábado)
-    const grupos = [];
-    for (let i = 0; i < diasGrid.length; i += 2) {
-        grupos.push(diasGrid.slice(i, i + 2));
-    }
+    const primeiro = new Date(dias[0].iso + 'T00:00:00');
+    const ultimo = new Date(dias[6].iso + 'T00:00:00');
+    const rotuloSemana = primeiro.getMonth() === ultimo.getMonth()
+        ? `${MESES[primeiro.getMonth()]} ${primeiro.getFullYear()}`
+        : `${MESES[primeiro.getMonth()]} – ${MESES[ultimo.getMonth()]} ${ultimo.getFullYear()}`;
 
-    // Render
     return (
-        <div className="section">
+        <div className="calendario">
+            <h2 className="calendario-titulo">Calendário Litúrgico</h2>
 
-            <h2>Calendário Litúrgico</h2>
-
-            {loading && <div>Carregando calendário...</div>}
-
-            <div className="calendario-navegacao-custom">
-                {/* ...navegação existente... */}
-                {/* Dropdown customizado de mês */}
-                <span
-                    style={{ position: 'relative', display: 'inline-block', minWidth: 120 }}
-                    ref={mesRef}
-                    onMouseEnter={() => setOpenMes(true)}
-                    onMouseLeave={() => setOpenMes(false)}
-                >
-                    <div
-                        className="mes-select custom-select"
-                        style={{ paddingRight: 24, cursor: 'pointer', border: '1.5px solid #0f0f0fff', borderRadius: 8, minWidth: 120, background: '#fff', height: 32, display: 'flex', alignItems: 'center', userSelect: 'none' }}
-                    >
-                        <span style={{ flex: 1 }}>{meses[mesSelecionado]}</span>
-                        <span style={{ fontSize: 12, color: '#888', marginLeft: 8 }}>▼</span>
-                    </div>
-                    {openMes && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 36,
-                            left: 0,
-                            zIndex: 10,
-                            background: '#fff',
-                            borderRadius: 8,
-                            boxShadow: '0 4px 16px rgba(25, 118, 210, 0.10)',
-                            minWidth: 120,
-                            maxHeight: 260,
-                            overflowY: 'auto',
-                            overflowX: 'hidden',
-                            padding: '4px 0',
-                            scrollbarColor: '#000 #fff',
-                            scrollbarWidth: 'thin'
-                        }}>
-                            {meses.map((mes, idx) => (
-                                <div
-                                    key={mes}
-                                    className="dropdown-item"
-                                    style={{
-                                        padding: '8px 20px',
-                                        cursor: 'pointer',
-                                        background: idx === mesSelecionado ? '#e3f0fc' : '#fff',
-                                        color: idx === mesSelecionado ? '#090909ff' : '#222',
-                                        fontWeight: idx === mesSelecionado ? 600 : 400,
-                                        transition: 'background 0.15s, color 0.15s'
-                                    }}
-                                    onMouseOver={e => e.currentTarget.style.background = '#f0f7ff'}
-                                    onMouseOut={e => e.currentTarget.style.background = idx === mesSelecionado ? '#e3f0fc' : '#fff'}
-                                    onClick={() => { setMesSelecionado(idx); setOpenMes(false); }}
-                                >
-                                    {mes}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </span>
-                {/* Dropdown customizado de ano */}
-                <span
-                    style={{ position: 'relative', display: 'inline-block', marginLeft: 4, marginRight: 4, minWidth: 80 }}
-                    ref={anoRef}
-                    onMouseEnter={() => setOpenAno(true)}
-                    onMouseLeave={() => setOpenAno(false)}
-                >
-                    <div
-                        className="ano-select custom-select"
-                        style={{ paddingRight: 24, cursor: 'pointer', border: '1.5px solid #0d0d0eff', borderRadius: 8, minWidth: 90, background: '#fff', height: 32, display: 'flex', alignItems: 'center', userSelect: 'none' }}
-                    >
-                        <span style={{ flex: 1 }}>{anoSelecionado}</span>
-                        <span style={{ fontSize: 12, color: '#888', marginLeft: 8 }}>▼</span>
-                    </div>
-                    {openAno && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 36,
-                            left: 0,
-                            zIndex: 10,
-                            background: '#fff',
-                            borderRadius: 8,
-                            boxShadow: '0 4px 16px rgba(25, 118, 210, 0.10)',
-                            maxHeight: 260,
-                            minWidth: 90,
-                            overflowY: 'auto',
-                            overflowX: 'hidden',
-                            padding: '4px 0',
-                            scrollbarColor: '#000 #fff',
-                            scrollbarWidth: 'thin'
-                        }}>
-                            {anos.map((ano) => (
-                                <div
-                                    key={ano}
-                                    className="dropdown-item"
-                                    style={{
-                                        padding: '8px 20px',
-                                        cursor: 'pointer',
-                                        background: ano === anoSelecionado ? '#e3f0fc' : '#fff',
-                                        color: ano === anoSelecionado ? '#0b0b0bff' : '#222',
-                                        fontWeight: ano === anoSelecionado ? 600 : 400,
-                                        transition: 'background 0.15s, color 0.15s'
-                                    }}
-                                    onMouseOver={e => e.currentTarget.style.background = '#f0f7ff'}
-                                    onMouseOut={e => e.currentTarget.style.background = ano === anoSelecionado ? '#e3f0fc' : '#fff'}
-                                    onClick={() => { setAnoSelecionado(ano); setOpenAno(false); }}
-                                >
-                                    {ano}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </span>
-                <button onClick={irParaMesAno}>Ir</button>
-                <button onClick={() => mudarSemana(-1)} style={{ marginLeft: 16 }}>Anterior</button>
-                <button onClick={irParaHoje} style={{ marginLeft: 4, marginRight: 4, fontWeight: 'bold' }}>Hoje</button>
-                <button onClick={() => mudarSemana(1)}>Próximo</button>
+            <div className="calendario-barra">
+                <div className="calendario-seletores">
+                    <select aria-label="Mês" value={mesSelecionado} onChange={e => setMesSelecionado(Number(e.target.value))}>
+                        {MESES.map((mes, i) => <option key={mes} value={i}>{mes}</option>)}
+                    </select>
+                    <select aria-label="Ano" value={anoSelecionado} onChange={e => setAnoSelecionado(Number(e.target.value))}>
+                        {ANOS.map(ano => <option key={ano} value={ano}>{ano}</option>)}
+                    </select>
+                    <button onClick={irParaMesAno}>Ir</button>
+                </div>
+                <div className="calendario-navegacao">
+                    <button className="btn-contorno" onClick={() => mudarSemana(-1)}>‹ Anterior</button>
+                    <button onClick={irParaHoje}>Hoje</button>
+                    <button className="btn-contorno" onClick={() => mudarSemana(1)}>Próximo ›</button>
+                </div>
+                <div className="calendario-semana">{rotuloSemana}</div>
             </div>
 
-            <div className="calendario-grid oito-dias">
-                {grupos.map((par, idx) => (
-                    <div className="calendario-grupo" key={idx}>
-                        {par.map((dia, j) => {
-                            // Filtrar eventos para o dia
-                            const eventosDoDia = eventos.filter(ev => {
-                                // Suporte para data no formato ISO (yyyy-mm-dd) ou Date
-                                const dataStr = ev.data || ev.Data;
-                                if (dataStr) {
-                                    // Se vier como string ISO
-                                    return dataStr.slice(0, 10) === dia.dataISO;
-                                }
-                                return false;
-                            });
-                            // Determinar cor do fundo e da borda do dia
-                            let corFundoData = '#fff';
-                            let corBordaDia = '#000';
-                            if (eventosDoDia.length > 0) {
-                                const desc = eventosDoDia.map(ev => (ev['descrição'] || ev['descricao'] || '')).join(' ').toLowerCase();
-                                if (desc.includes('vermelho')) {
-                                    corFundoData = 'red';
-                                    corBordaDia = 'red';
-                                } else if (desc.includes('roxo')) {
-                                    corFundoData = 'purple';
-                                    corBordaDia = 'purple';
-                                } else if (desc.includes('verde')) {
-                                    corFundoData = 'green';
-                                    corBordaDia = 'green';
-                                } else if (desc.includes('branco')) {
-                                    corFundoData = '#fff';
-                                    corBordaDia = '#fff';
-                                }
-                            }
-                            return (
-                                <div className="calendario-dia" key={j} style={{ border: `2px solid ${corBordaDia}` }}>
-                                    <span
-                                        className="calendario-dia-num"
-                                        style={{
-                                            background: corFundoData,
-                                            border: `1px solid ${corBordaDia}`,
-                                            borderRadius: '50%',
-                                            width: 36,
-                                            height: 36,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: corFundoData === 'red' ? '#fff' : '#000',
-                                            fontWeight: 700,
-                                            fontSize: '1.1em',
-                                            position: 'absolute',
-                                            top: 4,
-                                            right: 4,
-                                            zIndex: 2,
-                                        }}
-                                    >
-                                        {dia.dia}
-                                    </span>
-                                    <div className="eventos-do-dia" style={{ marginRight: 8 }}>
-                                        {eventosDoDia.length > 0 ? (
-                                            eventosDoDia.map((ev, idxEv) => (
-                                                <div
-                                                    className="evento-item"
-                                                    key={idxEv}
-                                                    style={{
-                                                        fontSize: '0.95em',
-                                                        marginTop: 2,
-                                                        color: '#111',
-                                                        background: 'none',
-                                                        borderRadius: 4,
-                                                        padding: '2px 4px',
-                                                        whiteSpace: 'pre-line',
-                                                        wordBreak: 'break-word',
-                                                        width: '100%',
-                                                        textAlign: 'left',
-                                                    }}
-                                                >
-                                                    {/* ...exibe apenas eventos, sem notícias... */}
-                                                    {Object.entries(ev).map(([key, value]) => (
-                                                        key !== 'data' && value && typeof value === 'string' && value.trim() !== '' ? (
-                                                            <div key={key} style={{ marginBottom: 0 }}>
-                                                                {key === 'titulo'
-                                                                    ? <strong><span dangerouslySetInnerHTML={{ __html: value }} /></strong>
-                                                                    : (['descrição', 'descricao', 'leituras', 'observações', 'observacoes'].includes(key)
-                                                                        ? <span dangerouslySetInnerHTML={{ __html: value }} />
-                                                                        : (<><strong>{key}:</strong> <span dangerouslySetInnerHTML={{ __html: value }} /></>))}
-                                                            </div>
-                                                        ) : null
-                                                    ))}
-                                                </div>
-                                            ))
-                                        ) : null}
+            {loading && <div className="loading">A carregar o calendário…</div>}
+            {erro && <div className="erro">Não foi possível carregar o calendário.</div>}
+
+            <div className="calendario-grid">
+                {dias.map(dia => {
+                    const doDia = eventos.filter(ev => (ev.data || ev.Data || '').slice(0, 10) === dia.iso);
+                    const primeiraDesc = doDia[0] ? (doDia[0].descricao || doDia[0]['descrição'] || '') : '';
+                    const cores = doDia.length ? coresDoDia(primeiraDesc) : [];
+                    const cor = cores[0];
+                    const dupla = cores.length >= 2;
+                    const fundoBadge = !cor ? 'transparent'
+                        : dupla ? `linear-gradient(90deg, ${cores[0].bg} 50%, ${cores[1].bg} 50%)`
+                        : cor.bg;
+                    const textoClaro = cores.some(c => c.claro);
+                    return (
+                        <article
+                            key={dia.iso}
+                            className={`calendario-dia${dia.iso === hojeISO ? ' hoje' : ''}${doDia.length ? '' : ' vazio'}`}
+                            style={cor ? { borderLeftColor: cor.claro ? '#b0aaa2' : cor.bg } : undefined}
+                        >
+                            <header className="calendario-dia-topo">
+                                <span className="calendario-dia-semana">{dia.semana}</span>
+                                <span
+                                    className={`calendario-dia-num${cor ? '' : ' sem-cor'}${textoClaro ? ' texto-escuro' : ''}`}
+                                    style={{ background: fundoBadge }}
+                                >
+                                    {dia.numero}
+                                </span>
+                            </header>
+                            {doDia.map((ev, i) => {
+                                const descricao = ev.descricao || ev['descrição'];
+                                const observacoes = ev.observacoes || ev['observações'];
+                                return (
+                                    <div className="calendario-evento" key={ev.id ?? i}>
+                                        {ev.titulo && <h3 dangerouslySetInnerHTML={html(ev.titulo)} />}
+                                        {descricao && <p className="descricao" dangerouslySetInnerHTML={html(descricao)} />}
+                                        {ev.leituras && <p className="meta" dangerouslySetInnerHTML={html(ev.leituras)} />}
+                                        {observacoes && <p className="meta" dangerouslySetInnerHTML={html(observacoes)} />}
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
+                                );
+                            })}
+                        </article>
+                    );
+                })}
             </div>
         </div>
     );

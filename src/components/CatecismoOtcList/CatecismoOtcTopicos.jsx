@@ -25,7 +25,7 @@ export default function CatecismoOtcTopicos() {
 
   return (
     <div className="catecismo-otc-topicos-container">
-      {error && <div style={{ color: 'red' }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       <ul className="catecismo-otc-topicos-list">
         {topicos.map(topico => (
           <li key={topico.id}>

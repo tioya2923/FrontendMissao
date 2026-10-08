@@ -43,7 +43,7 @@ export default function CanticosUbTopicos() {
       
 
       {loading && <div>Carregando...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
 
       <ul className="canticos-ub-topicos-list">
         {(() => {

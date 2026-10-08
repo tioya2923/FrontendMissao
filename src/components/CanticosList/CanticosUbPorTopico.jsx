@@ -34,9 +34,9 @@ export default function CanticosUbPorTopico() {
       {/* Título do tópico removido conforme solicitado */}
 
       {loading && <div>Carregando cânticos...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       {!loading && !error && canticos.length === 0 && (
-        <div style={{ color: "#888" }}>Nenhum cântico para este tópico.</div>
+        <div className="vazio">Nenhum cântico para este tópico.</div>
       )}
 
       {!loading && !error && canticos.length > 0 && (
@@ -51,11 +51,6 @@ export default function CanticosUbPorTopico() {
               <li key={c.id || i}>
                 <Link
                   to={`/canticos/umbundu/cantico/${c.slug}`}
-                  style={{
-                    color: "#7a1f2b",
-                    textDecoration: "underline",
-                    cursor: "pointer"
-                  }}
                 >
                   {c.titulo || c.nome || c}
                 </Link>

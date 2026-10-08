@@ -12,45 +12,46 @@
 .apoiar-hero-icone {
   display: inline-block;
   font-size: 2.2rem;
-  color: #181818;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .apoiar-hero h1 {
   margin: 0 0 0.75rem;
   font-size: 1.6rem;
-  color: #181818;
+  color: var(--text);
 }
 
 .apoiar-hero p {
   margin: 0 auto;
   max-width: 46ch;
-  color: #555;
+  color: var(--text-2);
   line-height: 1.6;
   font-size: 0.98rem;
 }
 
 .apoiar-nota-lojas {
-  background: #eef4fc;
-  border: 1px solid #cfe0f5;
+  background: var(--info-bg);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.9rem 1.1rem;
   margin: 1.25rem 0;
   font-size: 0.9rem;
-  color: #1c4a7a;
+  color: var(--info-text);
   line-height: 1.55;
 }
 
 .apoiar-nota-lojas strong {
-  color: #123a63;
+  color: var(--info-text);
 }
 
 .apoiar-card {
-  background: #fff;
-  border-radius: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin-top: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
 }
 
 .apoiar-card h2 {
@@ -59,13 +60,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #666;
-  border-bottom: 1px solid #eee;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0.75rem;
 }
 
 .apoiar-estado {
-  color: #666;
+  color: var(--text-2);
   font-style: italic;
   text-align: center;
   margin: 0.5rem 0;
@@ -76,7 +77,7 @@
   margin: 0.75rem auto 0;
   background: none;
   border: none;
-  color: #7a1f2b;
+  color: var(--primary);
   font-weight: 700;
   cursor: pointer;
 }
@@ -84,7 +85,7 @@
 .apoiar-nota-moedas {
   margin: -0.5rem 0 1.25rem;
   font-size: 0.85rem;
-  color: #777;
+  color: var(--text-2);
   line-height: 1.5;
 }
 
@@ -102,7 +103,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #7a1f2b;
+  color: var(--primary);
 }
 
 .apoiar-lista {
@@ -117,7 +118,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 
 .apoiar-item:last-child {
@@ -133,28 +134,28 @@
 
 .apoiar-item-label {
   font-weight: 600;
-  color: #181818;
+  color: var(--text);
   font-size: 1rem;
 }
 
 .apoiar-item-desc {
   font-size: 0.82rem;
-  color: #777;
+  color: var(--text-2);
 }
 
 .apoiar-item-valor {
   font-size: 0.95rem;
-  color: #7a1f2b;
+  color: var(--primary);
   font-weight: 600;
   margin-top: 0.15rem;
 }
 
 .apoiar-copiar {
   flex-shrink: 0;
-  background: #181818;
+  background: var(--fill);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   padding: 0.5rem 0.9rem;
   font-size: 0.85rem;
   font-weight: 700;
@@ -167,7 +168,7 @@
 
 .apoiar-rodape {
   text-align: center;
-  color: #777;
+  color: var(--text-2);
   font-style: italic;
   font-size: 0.85rem;
   margin-top: 1.75rem;

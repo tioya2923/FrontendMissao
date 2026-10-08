@@ -4,7 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#7a1f2b" />
+
+    <script>
+      (function () {
+        try {
+          var p = localStorage.getItem('ndatava:tema');
+          var privada = /^\/(admin|loja)(\/|$)/.test(location.pathname);
+          if (privada || p === 'claro') document.documentElement.setAttribute('data-theme', 'light');
+          else if (p === 'escuro') document.documentElement.setAttribute('data-theme', 'dark');
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon-ndatava.svg" />

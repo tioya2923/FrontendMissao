@@ -25,7 +25,7 @@ export default function CatecismoUbTopicos() {
 
   return (
     <div className="section">
-      {error && <div style={{color: 'red'}}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       <ul>
         {topicos.map(topico => (
           <li key={topico.id}>

@@ -2,11 +2,11 @@ import React from "react";
 
 export default function Privacidade() {
   return (
-    <div style={{ background: '#fff', borderRadius: 8, padding: 32, maxWidth: 900, margin: '32px auto', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-      <div style={{ fontSize: '1.05rem', lineHeight: 1.7, textAlign: 'justify' }}>
+    <div className="pagina-texto">
+      <div className="texto-corrido">
 
         <h1 style={{ fontSize: '1.6rem', marginBottom: 4 }}>Política de Privacidade</h1>
-        <p style={{ color: '#666', marginTop: 0, marginBottom: 24 }}>Última atualização: 24 de agosto de 2026</p>
+        <p style={{ color: 'var(--text-2)', marginTop: 0, marginBottom: 24 }}>Última atualização: 24 de agosto de 2026</p>
 
         <p>
           Esta política explica que dados a aplicação e o site <strong>Ndatava</strong> ("nós", "a aplicação")

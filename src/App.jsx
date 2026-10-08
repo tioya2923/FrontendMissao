@@ -70,7 +70,7 @@ function App() {
     <Router>
       <Navbar />
 
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: 24, paddingBottom: 80 }}>
+      <main className="pagina">
         <Routes>
           {/* Contacto */}
           <Route path="/contacto" element={<Contacto />} />
@@ -100,19 +100,7 @@ function App() {
           {/* Página inicial */}
           <Route
             path="/"
-            element={
-              <div style={{
-                background: '#f7f7f7',
-                borderBottom: '1.5px solid #e0e0e0',
-                padding: '32px 0 24px 0',
-                marginBottom: 32,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
-              }}>
-                <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 24px' }}>
-                  <CalendarioList />
-                </div>
-              </div>
-            }
+            element={<CalendarioList />}
           />
 
           {/* Alias Catequese → Catecismo */}
@@ -171,15 +159,15 @@ function App() {
           <Route path="/calendario" element={<CalendarioList />} />
 
           <Route path="*" element={
-            <div style={{ textAlign: 'center', padding: '50px 20px' }}>
+            <div className="nao-encontrada">
               <h2>404 - Página não encontrada</h2>
               <p>O conteúdo que procura não existe ou foi movido.</p>
-              <a href="/" style={{ color: '#007bff' }}>Voltar para a Página Inicial</a>
+              <a href="/">Voltar para a Página Inicial</a>
             </div>
           } />
 
         </Routes>
-      </div>
+      </main>
 
       <Footer />
     </Router>

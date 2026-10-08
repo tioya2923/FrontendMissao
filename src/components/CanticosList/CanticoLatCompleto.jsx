@@ -31,24 +31,15 @@ export default function CanticoLatCompleto() {
   return (
     <div className="canticos-kmb-topicos-container">
       {loading && <div>Carregando cântico...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       {cantico && (
         <div>
           <h2>{cantico.titulo}</h2>
-          <pre
-            style={{
-              whiteSpace: "pre-wrap",
-              fontFamily: "inherit",
-              fontSize: "1.1em",
-              background: "#f8f8f8",
-              padding: 16,
-              borderRadius: 8,
-            }}
-          >
+          <pre className="letra">
             {cantico.letra || "Sem conteúdo."}
           </pre>
           {cantico.autor && (
-            <p style={{ textAlign: "right", color: "#666", fontSize: "0.9em", marginTop: 8 }}>
+            <p className="autor">
               Letra e Música: {cantico.autor}
             </p>
           )}

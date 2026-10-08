@@ -24,7 +24,7 @@ export default function CatecismoOtcTexto() {
   return (
     <div className="catecismo-otc-topicos-container">
       <h2>{item.titulo}</h2>
-      <pre style={{ whiteSpace: "pre-wrap" }}>{item.texto}</pre>
+      <pre className="letra">{item.texto}</pre>
     </div>
   );
 }

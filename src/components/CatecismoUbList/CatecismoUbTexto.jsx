@@ -23,7 +23,7 @@ export default function CatecismoUbTexto() {
   return (
     <div className="section">
       <h2>{item.titulo}</h2>
-      <pre style={{ whiteSpace: "pre-wrap" }}>{item.texto}</pre>
+      <pre className="letra">{item.texto}</pre>
     </div>
   );
 }

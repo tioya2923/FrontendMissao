@@ -66,7 +66,7 @@ export default function CanticosPtTopicos() {
       
 
       {loading && <div>Carregando...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
 
       <ul className="canticos-pt-topicos-list">
         {todosOsTopicos.map((topico, idx) => (

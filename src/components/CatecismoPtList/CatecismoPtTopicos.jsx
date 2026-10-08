@@ -26,11 +26,11 @@ export default function CatecismoPtTopicos() {
   return (
     <div className="section">
       {/* <h2>Tópicos do Catecismo</h2> */}
-      {error && <div style={{color: 'red'}}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       <ul className="catecismo-pt-topicos-list">
         {topicos.map((topico, idx) => (
           <li key={idx}>
-            <Link to={`/catecismo/portugues/topico/${topico.id}`} style={{cursor: 'pointer', color: '#7a1f2b', textDecoration: 'underline'}}>
+            <Link to={`/catecismo/portugues/topico/${topico.id}`}>
               {topico.titulo}
             </Link>
           </li>

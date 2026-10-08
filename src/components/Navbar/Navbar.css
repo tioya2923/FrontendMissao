@@ -1,304 +1,172 @@
-/* SearchBar na Navbar */
-.navbar-searchbar-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-.navbar-top {
+/* Barra de topo: fundo da superfície, nome "NDATAVA" em bordô e letras espaçadas */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-/* Hamburger icon styles */
-
-/* Dropdown para Catequese */
-.navbar-catequese {
-  position: relative;
-}
-
-.navbar-catequese>span {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
+  gap: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 8px rgba(58, 42, 31, 0.05);
 }
 
-/* Removido fundo ao passar mouse */
-/* Não muda cor nem fundo ao passar mouse */
-.navbar-catequese>span:hover,
-.navbar-catequese:hover>span {
-  background: none;
-  color: inherit;
-}
+.navbar-top { display: flex; align-items: center; }
 
-.navbar-catequese-dropdown {
+.navbar-logo {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0.3rem 0;
+}
+.navbar-logo:hover { text-decoration: none; }
+
+.navbar-hamburger {
   display: none;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  background: #222;
-  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.15);
-  border-radius: 0 0 8px 8px;
-  min-width: 140px;
-  z-index: 1001;
-  flex-direction: column;
-  padding: 0.5rem 0;
-}
-
-.navbar-catequese:hover .navbar-catequese-dropdown {
-  display: flex;
-}
-
-.navbar-catequese-dropdown li {
-  width: 100%;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.5rem 1.2rem;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 0;
-  font-size: 1rem;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* Removido fundo ao passar mouse */
-/* Não muda cor nem fundo ao passar mouse */
-.navbar-catequese-dropdown a:hover {
   background: none;
-  color: inherit;
+  color: var(--primary);
+  font-size: 1.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 10px;
 }
-
-/* Dropdown para Cânticos */
-.navbar-canticos {
-  position: relative;
-}
-
-.navbar-canticos>span {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* Removido fundo ao passar mouse */
-/* Não muda cor nem fundo ao passar mouse */
-.navbar-canticos>span:hover,
-.navbar-canticos:hover>span {
-  background: none;
-  color: inherit;
-}
-
-.navbar-canticos-dropdown {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  background: #222;
-  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.15);
-  border-radius: 0 0 8px 8px;
-  min-width: 140px;
-  z-index: 1001;
-  flex-direction: column;
-  padding: 0.5rem 0;
-}
-
-.navbar-canticos-dropdown li {
-  width: 100%;
-}
-
-.navbar-canticos-dropdown a {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.5rem 1rem;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 0;
-  font-size: 1rem;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* Removido fundo ao passar mouse */
-/* Não muda cor nem fundo ao passar mouse */
-.navbar-canticos-dropdown a:hover {
-  background: none;
-  color: inherit;
-}
-
-.navbar-canticos:hover .navbar-canticos-dropdown {
-  display: flex;
-}
-
-.navbar-canticos-dropdown li {
-  width: 100%;
-}
-
-.navbar-canticos-dropdown a {
-  display: block;
-  width: 100%;
-  padding: 0.5rem 1.2rem;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 0;
-  font-size: 1rem;
-  transition: background 0.2s, color 0.2s;
-}
-
-.navbar-canticos-dropdown a:hover {
-  background: #fff;
-  color: #181818;
-}
-
-
-
-
-.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 0;
-  background: #181818;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  width: 100vw;
-  margin: 0;
-  box-sizing: border-box;
-  gap: 2rem;
-}
-
+.navbar-hamburger:hover { filter: none; background: var(--primary-light); }
 
 .navbar-links {
   display: flex;
-  gap: 1rem;
   align-items: center;
-}
-/* SearchBar não expande nem empurra outros itens */
-.navbar-links .navbar-searchbar-wrapper {
-  min-width: unset;
-  max-width: unset;
-  width: auto;
-  flex: 0 0 auto;
-}
-@media (max-width: 700px) {
-  .navbar-links .navbar-searchbar-wrapper {
-    width: 100%;
-    justify-content: center;
-    margin: 0.3rem 0;
-  }
+  gap: 0.25rem;
 }
 
-.navbar-hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: auto;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.navbar-links li a,
-.navbar-links li>span {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: normal;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
-  font-family: 'Segoe UI', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+.navbar-links > li > a,
+.navbar-links > li > span {
   display: flex;
   align-items: center;
-  height: 100%;
-}
-
-
-
-/* Removido fundo ao passar mouse */
-/* Não muda cor nem fundo ao passar mouse */
-.navbar-links li a:hover {
-  background: none;
-  color: inherit;
-}
-
-.navbar-hamburger {
-  display: none;
-  background: none;
-  border: none;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: var(--text);
   cursor: pointer;
-  padding: 0;
-  margin-left: auto;
-  z-index: 2000;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.navbar-links > li > a:hover,
+.navbar-links > li > span:hover,
+.navbar-canticos:hover > span,
+.navbar-catequese:hover > span {
+  background: var(--primary-light);
+  color: var(--primary);
+  text-decoration: none;
 }
 
-@media (max-width: 700px) {
-  .navbar {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1rem;
-  }
+.navbar-seta { font-size: 0.65rem; opacity: 0.7; }
 
-  .navbar-hamburger {
-    display: block;
-    position: absolute;
-    right: 2.3rem;
-    /* <-- fica à direita */
-    left: auto;
-    /* <-- garante que não vai para a esquerda */
-    top: 1.2rem;
-    z-index: 2001;
-  }
+/* Menus pendentes (Cânticos e Catequese) */
+.navbar-canticos,
+.navbar-catequese { position: relative; }
+
+.navbar-canticos-dropdown,
+.navbar-catequese-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  padding: 0.4rem;
+  margin-top: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-raised);
+  flex-direction: column;
+}
+.navbar-canticos::after,
+.navbar-catequese::after { /* ponte invisível para o rato não perder o menu */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  height: 0.4rem;
+}
+.navbar-canticos:hover .navbar-canticos-dropdown,
+.navbar-canticos:focus-within .navbar-canticos-dropdown,
+.navbar-catequese:hover .navbar-catequese-dropdown,
+.navbar-catequese:focus-within .navbar-catequese-dropdown { display: flex; }
+
+.navbar-canticos-dropdown a,
+.navbar-catequese-dropdown a {
+  display: block;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.navbar-canticos-dropdown a:hover,
+.navbar-catequese-dropdown a:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.navbar-searchbar-wrapper { display: flex; align-items: center; margin-left: 0.4rem; }
+.navbar-tema-wrapper { display: flex; align-items: center; }
+
+/* Botão de aparência */
+.tema-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.tema-toggle:hover { filter: none; background: var(--primary-light); color: var(--primary); }
+
+@media (max-width: 900px) {
+  .navbar { flex-wrap: wrap; gap: 0; padding: 0.55rem 1rem; }
+  .navbar-top { width: 100%; justify-content: space-between; }
+  .navbar > nav { width: 100%; }
+  .navbar-hamburger { display: inline-flex; }
 
   .navbar-links {
     display: none;
     flex-direction: column;
+    align-items: stretch;
+    gap: 0.15rem;
     width: 100%;
-    background: #181818;
-    padding: 1rem 0;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    z-index: 2000;
+    padding: 0.6rem 0 0.4rem;
   }
+  .navbar-links.open { display: flex; max-height: calc(100vh - 4.5rem); overflow-y: auto; }
 
-  .navbar-links {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    left: 0;
-    right: 0;
-    transform: none;
-    background: #222;
-    position: absolute;
-    top: 100%;
-    z-index: 1000;
-    padding: 1rem 0;
-  }
-
-  .navbar-links.open {
-    display: flex;
-  }
+  .navbar-links > li > a,
+  .navbar-links > li > span { border-radius: 12px; padding: 0.7rem 0.9rem; }
 
   .navbar-canticos-dropdown,
   .navbar-catequese-dropdown {
+    display: flex;
     position: static;
-    background: #222;
+    margin: 0 0 0.3rem 0.9rem;
+    padding: 0 0 0 0.6rem;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    border-left: 2px solid var(--border);
+    border-radius: 0;
     box-shadow: none;
   }
+  .navbar-seta { display: none; }
+
+  .navbar-searchbar-wrapper,
+  .navbar-tema-wrapper { margin: 0.4rem 0 0; padding: 0 0.2rem; }
+  .tema-toggle { width: 100%; justify-content: center; padding: 0.65rem; }
 }

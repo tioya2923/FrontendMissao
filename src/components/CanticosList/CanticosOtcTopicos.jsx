@@ -42,9 +42,9 @@ export default function CanticosOtcTopicos() {
   return (
     <div className="canticos-kmb-topicos-container">
       {loading && <div>Carregando...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       {!loading && !error && lista.length === 0 && (
-        <div style={{ color: "#888" }}>Ainda não há cânticos disponíveis neste idioma.</div>
+        <div className="vazio">Ainda não há cânticos disponíveis neste idioma.</div>
       )}
 
       <ul className="canticos-kmb-topicos-list">

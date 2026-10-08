@@ -38,9 +38,9 @@ export default function CatecismoPtPorTopico() {
   return (
     <div className="catecismo-pt-topicos-container">
       {loading && <div>Carregando perguntas...</div>}
-      {error && <div style={{ color: "red" }}>Erro: {error}</div>}
+      {error && <div className="erro">Erro: {error}</div>}
       {!loading && !error && perguntas.length === 0 && (
-        <div style={{ color: "#888" }}>Nenhuma pergunta para este tópico.</div>
+        <div className="vazio">Nenhuma pergunta para este tópico.</div>
       )}
       {!loading && !error && perguntas.length > 0 && (
         <ul className="catecismo-pt-topicos-list">
@@ -54,11 +54,6 @@ export default function CatecismoPtPorTopico() {
               <li key={p.id || i}>
                 <Link
                   to={`/catecismo/portugues/pergunta/${p.slug}`}
-                  style={{
-                    color: "#7a1f2b",
-                    textDecoration: "underline",
-                    cursor: "pointer"
-                  }}
                 >
                   {p.pergunta}
                 </Link>
