@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import api from '../../api';
 import { Link } from "react-router-dom";
-import "./CatecismoUbTopicos.css";
 
 export default function CatecismoUbTopicos() {
   const [topicos, setTopicos] = useState([]);

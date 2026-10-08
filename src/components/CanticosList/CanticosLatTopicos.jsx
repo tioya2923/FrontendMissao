@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import api from '../../api';
 import { useNavigate } from "react-router-dom";
-import "./CanticosKmbTopicos.css";
 
 // Ordem litúrgica habitual — os nomes dos tópicos são os mesmos termos em
 // português usados em todos os idiomas (só a letra dos cânticos muda).

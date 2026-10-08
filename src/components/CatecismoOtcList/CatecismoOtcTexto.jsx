@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import api from '../../api';
 import { useParams } from "react-router-dom";
-import "./CatecismoOtcTopicos.css";
 
 export default function CatecismoOtcTexto() {
   const { id } = useParams();

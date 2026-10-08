@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import api from '../../api';
 import { useNavigate } from "react-router-dom";
-import "./CanticosPtTopicos.css";
 
 export default function CanticosPtTopicos() {
   const [topicos, setTopicos] = useState([]);
