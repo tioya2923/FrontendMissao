@@ -37,6 +37,13 @@ export default function Privacidade() {
           recebam. Cada destinatário pode apagar, denunciar ou bloquear. Os cânticos denunciados são analisados pela
           nossa equipa. Ao eliminar a conta, apagamos o seu nome, email, código, contactos e todos os cânticos enviados e
           recebidos. Sem criar conta, nada disto é enviado.</p>
+        <p><strong>Grupos (opcional):</strong> com conta pode criar ou entrar em grupos (coral, oração, pastoral…). Os
+          grupos não aparecem em pesquisas: só se entra por convite de um administrador ou com o código do grupo,
+          aprovado por um administrador. Os membros veem o nome (e a paróquia, se indicada) dos outros membros e o que
+          é publicado no grupo: avisos, cânticos, orações e programas da Missa, incluindo gravações de voz quando
+          incluídas. Nos avisos, os administradores veem quem já os viu. Cada membro pode sair do grupo, e os
+          administradores podem remover membros e publicações. Qualquer membro pode denunciar uma publicação, que a
+          nossa equipa analisa. Ao sair do grupo ou eliminar a conta, apagamos as suas publicações nesse grupo.</p>
         <p><strong>Fotografias:</strong> se optar por carregar uma foto de perfil, ou se for dono de uma loja parceira e
           carregar fotos de produtos, essas imagens ficam guardadas nos nossos servidores.</p>
         <p><strong>Marketplace:</strong> se comprar através da Ndatava, guardamos os dados da encomenda (produtos, valores,
