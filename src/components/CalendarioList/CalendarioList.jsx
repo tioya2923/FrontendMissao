@@ -7,7 +7,10 @@ const MESES = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
-const ANOS = Array.from({ length: 2100 - 2026 + 1 }, (_, i) => 2026 + i);
+// O calendário só mostra de hoje em diante: hoje e os 7 dias seguintes.
+const DIAS_MOSTRADOS = 8;
+const ANO_ATUAL = new Date().getFullYear();
+const ANOS = Array.from({ length: 2100 - ANO_ATUAL + 1 }, (_, i) => ANO_ATUAL + i);
 
 // Cores litúrgicas (as mesmas da app)
 const COR_MAP = {
@@ -73,16 +76,17 @@ export default function CalendarioList() {
             .finally(() => setLoading(false));
     }, []);
 
+    const hojeInicio = () => { const h = new Date(); h.setHours(0, 0, 0, 0); return h; };
+
+    // Nunca mostra dias que já passaram.
+    const naoAntesDeHoje = (data) => (data < hojeInicio() ? hojeInicio() : data);
+
     const irParaMesAno = () => {
-        const nova = new Date(dataBase);
-        nova.setDate(1);
-        nova.setFullYear(anoSelecionado);
-        nova.setMonth(mesSelecionado);
-        setDataBase(nova);
+        setDataBase(naoAntesDeHoje(new Date(anoSelecionado, mesSelecionado, 1)));
     };
 
     const irParaHoje = () => {
-        const hoje = new Date();
+        const hoje = hojeInicio();
         setDataBase(hoje);
         setMesSelecionado(hoje.getMonth());
         setAnoSelecionado(hoje.getFullYear());
@@ -90,8 +94,10 @@ export default function CalendarioList() {
 
     const mudarSemana = (delta) => {
         const nova = new Date(dataBase);
-        nova.setDate(nova.getDate() + delta * 7);
-        setDataBase(nova);
+        nova.setDate(nova.getDate() + delta * DIAS_MOSTRADOS);
+        const limitada = naoAntesDeHoje(nova);
+        setDataBase(limitada);
+        nova.setTime(limitada.getTime());
         setMesSelecionado(nova.getMonth());
         setAnoSelecionado(nova.getFullYear());
     };
@@ -99,9 +105,8 @@ export default function CalendarioList() {
     const hojeISO = paraISO(new Date());
 
     const dias = useMemo(() => {
-        const inicio = new Date(dataBase);
-        inicio.setDate(dataBase.getDate() - dataBase.getDay());
-        return Array.from({ length: 7 }, (_, i) => {
+        const inicio = naoAntesDeHoje(new Date(dataBase.getFullYear(), dataBase.getMonth(), dataBase.getDate()));
+        return Array.from({ length: DIAS_MOSTRADOS }, (_, i) => {
             const d = new Date(inicio);
             d.setDate(inicio.getDate() + i);
             return { numero: d.getDate(), semana: DIAS_SEMANA[d.getDay()], iso: paraISO(d) };
@@ -109,7 +114,7 @@ export default function CalendarioList() {
     }, [dataBase]);
 
     const primeiro = new Date(dias[0].iso + 'T00:00:00');
-    const ultimo = new Date(dias[6].iso + 'T00:00:00');
+    const ultimo = new Date(dias[DIAS_MOSTRADOS - 1].iso + 'T00:00:00');
     const rotuloSemana = primeiro.getMonth() === ultimo.getMonth()
         ? `${MESES[primeiro.getMonth()]} ${primeiro.getFullYear()}`
         : `${MESES[primeiro.getMonth()]} – ${MESES[ultimo.getMonth()]} ${ultimo.getFullYear()}`;
@@ -129,7 +134,7 @@ export default function CalendarioList() {
                     <button onClick={irParaMesAno}>Ir</button>
                 </div>
                 <div className="calendario-navegacao">
-                    <button className="btn-contorno" onClick={() => mudarSemana(-1)}>‹ Anterior</button>
+                    <button className="btn-contorno" onClick={() => mudarSemana(-1)} disabled={dias[0].iso <= hojeISO}>‹ Anterior</button>
                     <button onClick={irParaHoje}>Hoje</button>
                     <button className="btn-contorno" onClick={() => mudarSemana(1)}>Próximo ›</button>
                 </div>
@@ -139,7 +144,7 @@ export default function CalendarioList() {
             {loading && <div className="loading">A carregar o calendário…</div>}
             {erro && <div className="erro">Não foi possível carregar o calendário.</div>}
             {!loading && !erro && !dias.some(d => eventos.some(ev => (ev.data || ev.Data || '').slice(0, 10) === d.iso)) && (
-                <div className="calendario-sem-dados">Ainda não há dados do calendário litúrgico para esta semana.</div>
+                <div className="calendario-sem-dados">Ainda não há dados do calendário litúrgico para estes dias.</div>
             )}
 
             <div className="calendario-grid">
