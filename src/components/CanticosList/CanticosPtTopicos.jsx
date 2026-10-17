@@ -56,8 +56,8 @@ export default function CanticosPtTopicos() {
 
   // Redireciona para a página do tópico
   const handleTopicoClick = (topico) => {
-    const nome = encodeURIComponent(topico.nome || topico.titulo || topico);
-    navigate(`/canticos/portugues/topico/${nome}`);
+    const destino = encodeURIComponent(topico.slug || topico.nome || topico.titulo || topico);
+    navigate(`/canticos/portugues/topico/${destino}`);
   };
 
   return (

@@ -48,6 +48,42 @@ const SECTIONS = [
   },
 ];
 
+// Idiomas além de Português e Umbundu: onde fica cada tipo de página no site.
+const ROTAS_IDIOMA = {
+  lat: {
+    cantico: (slug) => `/canticos/latim/cantico/${encodeURIComponent(slug)}`,
+    topico: (_slug, nome) => `/canticos/latim/topico/${encodeURIComponent(nome)}`,
+    catecismo: (id) => `/catecismo/latim/titulo/${id}`,
+  },
+  kmb: {
+    cantico: (slug) => `/canticos/kimbundu/cantico/${encodeURIComponent(slug)}`,
+    topico: (slug) => `/canticos/kimbundu/topicos/${encodeURIComponent(slug)}`,
+  },
+  otc: {
+    cantico: (slug) => `/canticos/otchikwama/cantico/${encodeURIComponent(slug)}`,
+    topico: (_slug, nome) => `/canticos/otchikwama/topico/${encodeURIComponent(nome)}`,
+    catecismo: (id) => `/catecismo/otchikwama/titulo/${id}`,
+  },
+};
+
+function seccoesDosOutrosIdiomas(outros) {
+  const seccoes = [];
+  for (const idioma of outros ?? []) {
+    const rotas = ROTAS_IDIOMA[idioma.codigo];
+    if (!rotas) continue; // idioma ainda sem páginas no site
+    if (rotas.cantico && idioma.canticos?.length)
+      seccoes.push({ key: `${idioma.codigo}-canticos`, label: `Cânticos (${idioma.nome})`, items: idioma.canticos,
+        href: (i) => rotas.cantico(i.slug), display: (i) => i.titulo });
+    if (rotas.topico && idioma.topicos?.length)
+      seccoes.push({ key: `${idioma.codigo}-topicos`, label: `Tópicos — Cânticos (${idioma.nome})`, items: idioma.topicos,
+        href: (i) => rotas.topico(i.slug, i.nome), display: (i) => i.nome });
+    if (rotas.catecismo && idioma.catecismos?.length)
+      seccoes.push({ key: `${idioma.codigo}-catecismo`, label: `Catecismo (${idioma.nome})`, items: idioma.catecismos,
+        href: (i) => rotas.catecismo(i.id), display: (i) => i.titulo });
+  }
+  return seccoes;
+}
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
@@ -71,7 +107,8 @@ export default function SearchBar() {
     }
   };
 
-  const hasResults = results && SECTIONS.some(s => results[s.key]?.length > 0);
+  const extras = seccoesDosOutrosIdiomas(results?.outrosIdiomas);
+  const hasResults = results && (SECTIONS.some(s => results[s.key]?.length > 0) || extras.length > 0);
 
   return (
     <div className="search-bar-container">
@@ -103,8 +140,11 @@ export default function SearchBar() {
           {!hasResults ? (
             <p className="search-bar-empty">Nenhum resultado encontrado.</p>
           ) : (
-            SECTIONS.map(section => {
-              const items = results[section.key];
+            [
+              ...SECTIONS.map(section => ({ ...section, items: results[section.key] })),
+              ...extras,
+            ].map(section => {
+              const items = section.items;
               if (!items?.length) return null;
               return (
                 <div key={section.key} className="search-bar-section">
