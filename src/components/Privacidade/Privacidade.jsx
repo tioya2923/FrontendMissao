@@ -23,11 +23,18 @@ export default function Privacidade() {
         <p><strong>Biometria (impressão digital / Face ID):</strong> usada apenas para desbloquear a aplicação no seu
           próprio dispositivo. Nunca sai do telemóvel nem chega aos nossos servidores.</p>
         <p><strong>Microfone e voz (opcional):</strong> nos programas de cânticos da Missa pode gravar a sua voz e/ou
-          converter a sua voz em texto. As gravações e os programas ficam guardados apenas no seu telemóvel e não são
-          enviados para os nossos servidores. A conversão de voz em texto usa o serviço de reconhecimento de voz do
+          converter a sua voz em texto. As gravações e os programas ficam guardados no seu telemóvel e só são enviados
+          para os nossos servidores se você os partilhar com outra pessoa (ver «Partilha de cânticos»). A conversão de voz em texto usa o serviço de reconhecimento de voz do
           próprio sistema (Google ou Apple), que pode processar o áudio nos servidores deles, segundo as respetivas
           políticas. Só é usada quando você o pede, e pode retirar a permissão do microfone a qualquer momento nas
           definições do telemóvel.</p>
+        <p><strong>Partilha de cânticos (opcional):</strong> para enviar cânticos a outras pessoas dentro da app pode
+          criar uma conta com nome, email e palavra-passe (guardada de forma cifrada). Cada conta tem um código pessoal;
+          só quem tiver o seu código lhe pode enviar cânticos. Quando partilha um cântico, guardamos nos nossos
+          servidores o título, a letra, a gravação de voz (se a incluir) e o seu nome, para que as pessoas escolhidas o
+          recebam. Cada destinatário pode apagar, denunciar ou bloquear. Os cânticos denunciados são analisados pela
+          nossa equipa. Ao eliminar a conta, apagamos o seu nome, email, código e todos os cânticos enviados e
+          recebidos. Sem criar conta, nada disto é enviado.</p>
         <p><strong>Fotografias:</strong> se optar por carregar uma foto de perfil, ou se for dono de uma loja parceira e
           carregar fotos de produtos, essas imagens ficam guardadas nos nossos servidores.</p>
         <p><strong>Marketplace:</strong> se comprar através da Ndatava, guardamos os dados da encomenda (produtos, valores,
