@@ -54,6 +54,11 @@ function fundoDoDia(cores) {
     return `linear-gradient(90deg, ${partes.join(', ')})`;
 }
 
+const hojeInicio = () => { const h = new Date(); h.setHours(0, 0, 0, 0); return h; };
+
+// Nunca mostra dias que já passaram.
+const naoAntesDeHoje = (data) => (data < hojeInicio() ? hojeInicio() : data);
+
 function paraISO(data) {
     const a = data.getFullYear();
     const m = String(data.getMonth() + 1).padStart(2, '0');
@@ -75,11 +80,6 @@ export default function CalendarioList() {
             .catch(() => setErro(true))
             .finally(() => setLoading(false));
     }, []);
-
-    const hojeInicio = () => { const h = new Date(); h.setHours(0, 0, 0, 0); return h; };
-
-    // Nunca mostra dias que já passaram.
-    const naoAntesDeHoje = (data) => (data < hojeInicio() ? hojeInicio() : data);
 
     const irParaMesAno = () => {
         setDataBase(naoAntesDeHoje(new Date(anoSelecionado, mesSelecionado, 1)));

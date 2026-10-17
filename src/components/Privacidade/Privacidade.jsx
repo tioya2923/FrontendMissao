@@ -36,7 +36,7 @@ export default function Privacidade() {
           servidores o título, a letra, a gravação de voz (se a incluir) e o seu nome, para que as pessoas escolhidas o
           recebam. Cada destinatário pode apagar, denunciar ou bloquear. Os cânticos denunciados são analisados pela
           nossa equipa. Ao eliminar a conta, apagamos o seu nome, email, código, contactos e todos os cânticos enviados e
-          recebidos. Sem criar conta, nada disto é enviado.</p>
+          recebidos. Pode ficar guardada, só durante o tempo necessário para analisar abusos, uma cópia do conteúdo denunciado por outra pessoa. Sem criar conta, nada disto é enviado.</p>
         <p><strong>Grupos (opcional):</strong> com conta pode criar ou entrar em grupos (coral, oração, pastoral…). Os
           grupos não aparecem em pesquisas: só se entra por convite de um administrador ou com o código do grupo,
           aprovado por um administrador. Os membros veem o nome (e a paróquia, se indicada) dos outros membros e o que
