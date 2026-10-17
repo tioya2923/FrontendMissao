@@ -119,3 +119,6 @@
   .calendario-grid { grid-template-columns: 1fr; }
   .calendario-titulo { font-size: 1.6rem; }
 }
+
+.calendario-evento h3 { white-space: pre-line; }
+.calendario-sem-dados { text-align: center; font-style: italic; color: var(--text-2); padding: 0.5rem 1rem 1rem; }

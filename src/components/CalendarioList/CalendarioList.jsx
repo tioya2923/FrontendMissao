@@ -22,14 +22,33 @@ const COR_MAP = {
 };
 const COR_PADRAO = { bg: '#8a8178' };
 
+// A cor vem no início da descrição ("Verde ou branco – Ofício da féria…", "Verde ou verm. – …").
+// Devolve as cores pela ordem em que aparecem no texto, aceitando as abreviaturas "verm." e "br.".
+const RAIZES_COR = [
+    [/^branc/, 'branco'], [/^br$/, 'branco'],
+    [/^vermelh/, 'vermelho'], [/^verm$/, 'vermelho'],
+    [/^verd/, 'verde'],
+    [/^rox/, 'roxo'], [/^morad/, 'morado'],
+    [/^ros/, 'rosa'], [/^pret/, 'preto'], [/^dourad/, 'dourado'],
+];
+
 function coresDoDia(descricao) {
     const parte = (descricao || '').split(/[–-]/)[0].toLowerCase();
-    const nomes = Object.keys(COR_MAP).filter(k => parte.includes(k));
-    if (nomes.length === 0) return [COR_PADRAO];
-    // "Verde ou branco" aparece duas vezes se houver sinónimos iguais; ficamos com cores distintas
     const vistas = [];
-    nomes.forEach(n => { if (!vistas.some(c => c.bg === COR_MAP[n].bg)) vistas.push(COR_MAP[n]); });
-    return vistas;
+    for (const palavra of parte.match(/[a-zçãé]+/g) || []) {
+        const par = RAIZES_COR.find(([re]) => re.test(palavra));
+        const cor = par && COR_MAP[par[1]];
+        if (cor && !vistas.some(c => c.bg === cor.bg)) vistas.push(cor);
+    }
+    return vistas.length ? vistas : [COR_PADRAO];
+}
+
+// Fundo do círculo do dia: uma cor lisa ou fatias iguais lado a lado quando há duas ou três cores.
+function fundoDoDia(cores) {
+    if (cores.length < 2) return cores[0].bg;
+    const passo = 100 / cores.length;
+    const partes = cores.map((c, i) => `${c.bg} ${i * passo}% ${(i + 1) * passo}%`);
+    return `linear-gradient(90deg, ${partes.join(', ')})`;
 }
 
 function paraISO(data) {
@@ -38,8 +57,6 @@ function paraISO(data) {
     const d = String(data.getDate()).padStart(2, '0');
     return `${a}-${m}-${d}`;
 }
-
-const html = (valor) => ({ __html: valor });
 
 export default function CalendarioList() {
     const [eventos, setEventos] = useState([]);
@@ -121,6 +138,9 @@ export default function CalendarioList() {
 
             {loading && <div className="loading">A carregar o calendário…</div>}
             {erro && <div className="erro">Não foi possível carregar o calendário.</div>}
+            {!loading && !erro && !dias.some(d => eventos.some(ev => (ev.data || ev.Data || '').slice(0, 10) === d.iso)) && (
+                <div className="calendario-sem-dados">Ainda não há dados do calendário litúrgico para esta semana.</div>
+            )}
 
             <div className="calendario-grid">
                 {dias.map(dia => {
@@ -128,10 +148,7 @@ export default function CalendarioList() {
                     const primeiraDesc = doDia[0] ? (doDia[0].descricao || doDia[0]['descrição'] || '') : '';
                     const cores = doDia.length ? coresDoDia(primeiraDesc) : [];
                     const cor = cores[0];
-                    const dupla = cores.length >= 2;
-                    const fundoBadge = !cor ? 'transparent'
-                        : dupla ? `linear-gradient(90deg, ${cores[0].bg} 50%, ${cores[1].bg} 50%)`
-                        : cor.bg;
+                    const fundoBadge = cor ? fundoDoDia(cores) : 'transparent';
                     const textoClaro = cores.some(c => c.claro);
                     return (
                         <article
@@ -153,10 +170,10 @@ export default function CalendarioList() {
                                 const observacoes = ev.observacoes || ev['observações'];
                                 return (
                                     <div className="calendario-evento" key={ev.id ?? i}>
-                                        {ev.titulo && <h3 dangerouslySetInnerHTML={html(ev.titulo)} />}
-                                        {descricao && <p className="descricao" dangerouslySetInnerHTML={html(descricao)} />}
-                                        {ev.leituras && <p className="meta" dangerouslySetInnerHTML={html(ev.leituras)} />}
-                                        {observacoes && <p className="meta" dangerouslySetInnerHTML={html(observacoes)} />}
+                                        {ev.titulo && <h3>{ev.titulo}</h3>}
+                                        {descricao && <p className="descricao">{descricao}</p>}
+                                        {ev.leituras && <p className="meta">{ev.leituras}</p>}
+                                        {observacoes && <p className="meta">{observacoes}</p>}
                                     </div>
                                 );
                             })}
