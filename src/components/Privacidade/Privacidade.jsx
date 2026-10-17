@@ -6,7 +6,7 @@ export default function Privacidade() {
       <div className="texto-corrido">
 
         <h1 style={{ fontSize: '1.6rem', marginBottom: 4 }}>Política de Privacidade</h1>
-        <p style={{ color: 'var(--text-2)', marginTop: 0, marginBottom: 24 }}>Última atualização: 24 de agosto de 2026</p>
+        <p style={{ color: 'var(--text-2)', marginTop: 0, marginBottom: 24 }}>Última atualização: 17 de outubro de 2026</p>
 
         <p>
           Esta política explica que dados a aplicação e o site <strong>Ndatava</strong> ("nós", "a aplicação")
@@ -22,6 +22,12 @@ export default function Privacidade() {
           mostrar lojas e artigos mais próximos de si. Não é guardada nem partilhada — é usada no momento do pedido.</p>
         <p><strong>Biometria (impressão digital / Face ID):</strong> usada apenas para desbloquear a aplicação no seu
           próprio dispositivo. Nunca sai do telemóvel nem chega aos nossos servidores.</p>
+        <p><strong>Microfone e voz (opcional):</strong> nos programas de cânticos da Missa pode gravar a sua voz e/ou
+          converter a sua voz em texto. As gravações e os programas ficam guardados apenas no seu telemóvel e não são
+          enviados para os nossos servidores. A conversão de voz em texto usa o serviço de reconhecimento de voz do
+          próprio sistema (Google ou Apple), que pode processar o áudio nos servidores deles, segundo as respetivas
+          políticas. Só é usada quando você o pede, e pode retirar a permissão do microfone a qualquer momento nas
+          definições do telemóvel.</p>
         <p><strong>Fotografias:</strong> se optar por carregar uma foto de perfil, ou se for dono de uma loja parceira e
           carregar fotos de produtos, essas imagens ficam guardadas nos nossos servidores.</p>
         <p><strong>Marketplace:</strong> se comprar através da Ndatava, guardamos os dados da encomenda (produtos, valores,
