@@ -1,26 +1,17 @@
 
 import React, { useEffect, useState } from "react";
 import api from '../../api';
-import { useNavigate } from "react-router-dom";
-
-// Ordem litúrgica habitual — os nomes dos tópicos são os mesmos termos em
-// português usados em todos os idiomas (só a letra dos cânticos muda).
-const ORDEM = [
-  "Procissão", "Entrada", "Kyrie", "Glória", "Entronização da Palavra", "Aleluia",
-  "Oração dos Fiéis", "Ofertório", "Elevação", "Santo", "Saudação",
-  "Cordeiro de Deus", "Comunhão", "Acção de Graças", "Saída",
-];
+import { Link } from "react-router-dom";
 
 export default function CanticosOtcTopicos() {
-  const [topicos, setTopicos] = useState([]);
+  const [canticos, setCanticos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/api/topicos?idioma=otc')
+    api.get('/api/canticos?idioma=otc')
       .then(res => {
-        setTopicos(Array.isArray(res.data) ? res.data : []);
+        setCanticos(Array.isArray(res.data) ? res.data : []);
         setLoading(false);
       })
       .catch((err) => {
@@ -29,34 +20,27 @@ export default function CanticosOtcTopicos() {
       });
   }, []);
 
-  const handleTopicoClick = (topico) => {
-    navigate(`/canticos/otchikwama/topico/${encodeURIComponent(topico.slug)}`);
-  };
-
-  const filtrados = topicos.filter(t => (t.nome || '').toLowerCase() !== 'geral');
-  const ordenados = ORDEM.map(nome => filtrados.find(t => t.nome === nome)).filter(Boolean);
-  const outros = filtrados.filter(t => !ORDEM.includes(t.nome));
-  const lista = [...ordenados, ...outros];
+  const ordenados = [...canticos].sort((a, b) =>
+      (a.titulo || '').localeCompare(b.titulo || '', 'pt')
+  );
 
   return (
-    <div className="canticos-kmb-topicos-container">
-      {loading && <div>Carregando...</div>}
-      {error && <div className="erro">Erro: {error}</div>}
-      {!loading && !error && lista.length === 0 && (
-        <div className="vazio">Ainda não há cânticos disponíveis neste idioma.</div>
-      )}
+      <div className="canticos-kmb-topicos-container">
+        {loading && <div>Carregando...</div>}
+        {error && <div className="erro">Erro: {error}</div>}
+        {!loading && !error && ordenados.length === 0 && (
+          <div className="vazio">Ainda não há cânticos disponíveis neste idioma.</div>
+        )}
 
-      <ul className="canticos-kmb-topicos-list">
-        {lista.map((topico) => (
-          <li
-            key={topico.id}
-            style={{ cursor: "pointer" }}
-            onClick={() => handleTopicoClick(topico)}
-          >
-            {topico.nome}
-          </li>
-        ))}
-      </ul>
+        <ul className="canticos-kmb-topicos-list">
+          {ordenados.map((cantico) => (
+            <li key={cantico.id}>
+              <Link to={`/canticos/otchikwama/cantico/${encodeURIComponent(cantico.slug)}`}>
+                {cantico.titulo}
+              </Link>
+            </li>
+          ))}
+        </ul>
     </div>
   );
 }
