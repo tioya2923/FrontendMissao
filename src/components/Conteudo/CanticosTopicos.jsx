@@ -56,13 +56,16 @@ export default function CanticosTopicos() {
 
       {!loading && !error && canticos ? (
         <ul className="canticos-topicos-list">
-          {[...canticos].sort(porNumeroOuTitulo).map(c => (
-            <li key={c.id}>
-              <Link to={`/canticos/${idioma}/cantico/${encodeURIComponent(c.slug)}`}>
-                {c.numero ? `${c.numero}. ` : ""}{c.titulo}
-              </Link>
-            </li>
-          ))}
+          {[...canticos].sort(porNumeroOuTitulo).map((c, i) => {
+            const numero = c.numero ?? i + 1;
+            return (
+              <li key={c.id}>
+                <Link to={`/canticos/${idioma}/cantico/${encodeURIComponent(c.slug)}`} state={{ numero }}>
+                  {numero}. {c.titulo}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         !loading && !error && topicos.length > 0 && (

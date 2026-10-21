@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import api from "../../api";
 import { codigoDoSlug } from "../../idiomas";
 
@@ -7,6 +7,7 @@ import { codigoDoSlug } from "../../idiomas";
 export default function CanticoCompleto() {
   const { idioma, slug } = useParams();
   const codigo = codigoDoSlug(idioma);
+  const { state } = useLocation();
   const [cantico, setCantico] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,7 +39,7 @@ export default function CanticoCompleto() {
 
       {cantico && (
         <div>
-          <h2>{cantico.numero ? `${cantico.numero}. ` : ""}{cantico.titulo}</h2>
+          <h2>{(cantico.numero ?? state?.numero) ? `${cantico.numero ?? state.numero}. ` : ""}{cantico.titulo}</h2>
           <pre className="letra">{cantico.letra || "Sem conteúdo."}</pre>
           {cantico.autor && <p className="autor">Letra e Música: {cantico.autor}</p>}
         </div>
