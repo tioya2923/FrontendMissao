@@ -40,13 +40,14 @@ export default function CanticosOtcPorTopico() {
       {!loading && !error && canticos.length > 0 && (
         <ul className="canticos-kmb-topicos-list">
           {[...canticos]
-            .sort((a, b) => (a.titulo || '').toLocaleLowerCase().localeCompare((b.titulo || '').toLocaleLowerCase()))
+            .sort((a, b) => (a.numero ?? Infinity) - (b.numero ?? Infinity)
+              || (a.titulo || '').toLocaleLowerCase().localeCompare((b.titulo || '').toLocaleLowerCase()))
             .map((c, i) => (
               <li key={c.id || i}>
                 <Link
                   to={`/canticos/otchikwama/cantico/${c.slug}`}
                 >
-                  {c.titulo}
+                  {c.numero ? `${c.numero}. ` : ''}{c.titulo}
                 </Link>
               </li>
             ))}

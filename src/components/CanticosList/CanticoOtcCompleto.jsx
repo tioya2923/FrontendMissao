@@ -34,7 +34,7 @@ export default function CanticoOtcCompleto() {
       {error && <div className="erro">Erro: {error}</div>}
       {cantico && (
         <div>
-          <h2>{cantico.titulo}</h2>
+          <h2>{cantico.numero ? `${cantico.numero}. ` : ''}{cantico.titulo}</h2>
           <pre className="letra">
             {cantico.letra || "Sem conteúdo."}
           </pre>

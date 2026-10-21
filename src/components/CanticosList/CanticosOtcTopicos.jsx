@@ -20,8 +20,10 @@ export default function CanticosOtcTopicos() {
       });
   }, []);
 
+  // Pela ordem do livro (número); sem número, por título.
   const ordenados = [...canticos].sort((a, b) =>
-      (a.titulo || '').localeCompare(b.titulo || '', 'pt')
+      (a.numero ?? Infinity) - (b.numero ?? Infinity)
+      || (a.titulo || '').localeCompare(b.titulo || '', 'pt')
   );
 
   return (
@@ -36,7 +38,7 @@ export default function CanticosOtcTopicos() {
           {ordenados.map((cantico) => (
             <li key={cantico.id}>
               <Link to={`/canticos/otchikwama/cantico/${encodeURIComponent(cantico.slug)}`}>
-                {cantico.titulo}
+                {cantico.numero ? `${cantico.numero}. ` : ''}{cantico.titulo}
               </Link>
             </li>
           ))}
