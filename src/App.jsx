@@ -5,42 +5,13 @@ import Footer from './components/Footer/Footer';
 
 import CalendarioList from './components/CalendarioList';
 
-import CanticosPtTopicos from './components/CanticosList/CanticosPtTopicos';
-import CanticosPorTopico from './components/CanticosList/CanticosPorTopico';
-import CanticoCompleto from './components/CanticosList/CanticoCompleto';
-
-import CanticosUbTopicos from './components/CanticosList/CanticosUbTopicos';
-import CanticosUbPorTopico from './components/CanticosList/CanticosUbPorTopico';
-import CanticoUbCompleto from './components/CanticosList/CanticoUbCompleto';
-
-import CanticosKmbTopicos from './components/CanticosList/CanticosKmbTopicos';
-import CanticosKmbPorTopico from './components/CanticosList/CanticosKmbPorTopico';
-import CanticoKmbCompleto from './components/CanticosList/CanticoKmbCompleto';
-
-import CanticosOtcTopicos from './components/CanticosList/CanticosOtcTopicos';
-import CanticosOtcPorTopico from './components/CanticosList/CanticosOtcPorTopico';
-import CanticoOtcCompleto from './components/CanticosList/CanticoOtcCompleto';
-
-import CanticosLatTopicos from './components/CanticosList/CanticosLatTopicos';
-import CanticosLatPorTopico from './components/CanticosList/CanticosLatPorTopico';
-import CanticoLatCompleto from './components/CanticosList/CanticoLatCompleto';
-
-import CatecismoPtTopicos from './components/CatecismoPtList/CatecismoPtTopicos';
-import CatecismoPtTitulos from './components/CatecismoPtList/CatecismoPtTitulos';
-import CatecismoPtTexto from './components/CatecismoPtList/CatecismoPtTexto';
 import Oracoes from './components/CatecismoPtList/Oracoes';
-
-import CatecismoUbTopicos from './components/CatecismoUbList/CatecismoUbTopicos';
-import CatecismoUbTitulos from './components/CatecismoUbList/CatecismoUbTitulos';
-import CatecismoUbTexto from './components/CatecismoUbList/CatecismoUbTexto';
-
-import CatecismoOtcTopicos from './components/CatecismoOtcList/CatecismoOtcTopicos';
-import CatecismoOtcTitulos from './components/CatecismoOtcList/CatecismoOtcTitulos';
-import CatecismoOtcTexto from './components/CatecismoOtcList/CatecismoOtcTexto';
-
-import CatecismoLatTopicos from './components/CatecismoLatList/CatecismoLatTopicos';
-import CatecismoLatTitulos from './components/CatecismoLatList/CatecismoLatTitulos';
-import CatecismoLatTexto from './components/CatecismoLatList/CatecismoLatTexto';
+import CanticosTopicos from './components/Conteudo/CanticosTopicos';
+import CanticosPorTopico from './components/Conteudo/CanticosPorTopico';
+import CanticoCompleto from './components/Conteudo/CanticoCompleto';
+import CatecismoTopicos from './components/Conteudo/CatecismoTopicos';
+import CatecismoTopico from './components/Conteudo/CatecismoTopico';
+import CatecismoTexto from './components/Conteudo/CatecismoTexto';
 
 import Sobre from './components/Sobre/Sobre';
 import Contacto from './components/Contacto/Contacto';
@@ -103,57 +74,18 @@ function App() {
             element={<CalendarioList />}
           />
 
-          {/* Alias Catequese → Catecismo */}
-          <Route path="/catequese/portugues" element={<CatecismoPtTopicos />} />
-          <Route path="/catequese/umbundu" element={<CatecismoUbTopicos />} />
-          <Route path="/catequese/latim" element={<CatecismoLatTopicos />} />
-          <Route path="/catequese/otchikwama" element={<CatecismoOtcTopicos />} />
-
-          {/* Catecismo Português */}
-          <Route path="/catecismo/portugues" element={<CatecismoPtTopicos />} />
-          <Route path="/catecismo/portugues/topico/:topicoId" element={<CatecismoPtTitulos />} />
-          <Route path="/catecismo/portugues/titulo/:id" element={<CatecismoPtTexto />} />
+          {/* Catecismo e orações: qualquer idioma (portugues, umbundu, latim, otchikwama, ou o código de um idioma novo) */}
+          <Route path="/catequese/:idioma" element={<CatecismoTopicos />} />
+          <Route path="/catecismo/:idioma" element={<CatecismoTopicos />} />
+          <Route path="/catecismo/:idioma/topico/:topicoId" element={<CatecismoTopico />} />
+          <Route path="/catecismo/:idioma/titulo/:id" element={<CatecismoTexto />} />
           <Route path="/catecismo/portugues/topicos/oracoes" element={<Oracoes />} />
 
-          {/* Catecismo Umbundu */}
-          <Route path="/catecismo/umbundu" element={<CatecismoUbTopicos />} />
-          <Route path="/catecismo/umbundu/topico/:topicoId" element={<CatecismoUbTitulos />} />
-          <Route path="/catecismo/umbundu/titulo/:id" element={<CatecismoUbTexto />} />
-
-          {/* Catecismo Latim */}
-          <Route path="/catecismo/latim" element={<CatecismoLatTopicos />} />
-          <Route path="/catecismo/latim/topico/:topicoId" element={<CatecismoLatTitulos />} />
-          <Route path="/catecismo/latim/titulo/:id" element={<CatecismoLatTexto />} />
-
-          {/* Catecismo Otchikwama (Ordem da Missa) */}
-          <Route path="/catecismo/otchikwama" element={<CatecismoOtcTopicos />} />
-          <Route path="/catecismo/otchikwama/topico/:topicoId" element={<CatecismoOtcTitulos />} />
-          <Route path="/catecismo/otchikwama/titulo/:id" element={<CatecismoOtcTexto />} />
-
-          {/* Cânticos Português */}
-          <Route path="/canticos/portugues" element={<CanticosPtTopicos />} />
-          <Route path="/canticos/portugues/topico/:nome" element={<CanticosPorTopico />} />
-          <Route path="/canticos/portugues/cantico/:slug" element={<CanticoCompleto />} />
-
-          {/* Cânticos Umbundu */}
-          <Route path="/canticos/umbundu" element={<CanticosUbTopicos />} />
-          <Route path="/canticos/umbundu/topicos/:nome" element={<CanticosUbPorTopico />} />
-          <Route path="/canticos/umbundu/cantico/:slug" element={<CanticoUbCompleto />} />
-
-          {/* Cânticos Kimbundu */}
-          <Route path="/canticos/kimbundu" element={<CanticosKmbTopicos />} />
-          <Route path="/canticos/kimbundu/topicos/:nome" element={<CanticosKmbPorTopico />} />
-          <Route path="/canticos/kimbundu/cantico/:slug" element={<CanticoKmbCompleto />} />
-
-          {/* Cânticos Latim */}
-          <Route path="/canticos/latim" element={<CanticosLatTopicos />} />
-          <Route path="/canticos/latim/topico/:nome" element={<CanticosLatPorTopico />} />
-          <Route path="/canticos/latim/cantico/:slug" element={<CanticoLatCompleto />} />
-
-          {/* Cânticos Otchikwama */}
-          <Route path="/canticos/otchikwama" element={<CanticosOtcTopicos />} />
-          <Route path="/canticos/otchikwama/topico/:nome" element={<CanticosOtcPorTopico />} />
-          <Route path="/canticos/otchikwama/cantico/:slug" element={<CanticoOtcCompleto />} />
+          {/* Cânticos: qualquer idioma ("topicos" é o endereço antigo de alguns idiomas e continua a funcionar) */}
+          <Route path="/canticos/:idioma" element={<CanticosTopicos />} />
+          <Route path="/canticos/:idioma/topico/:slug" element={<CanticosPorTopico />} />
+          <Route path="/canticos/:idioma/topicos/:slug" element={<CanticosPorTopico />} />
+          <Route path="/canticos/:idioma/cantico/:slug" element={<CanticoCompleto />} />
 
           {/* Calendário */}
           <Route path="/calendario" element={<CalendarioList />} />

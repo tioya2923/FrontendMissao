@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { searchContent } from "../../api/search";
+import { slugDoCodigo } from "../../idiomas";
 import "./SearchBar.css";
 
 const SECTIONS = [
@@ -19,13 +20,13 @@ const SECTIONS = [
   {
     key: "topicos",
     label: "Tópicos — Cânticos (Português)",
-    href: (item) => `/canticos/portugues/topico/${encodeURIComponent(item.nome)}`,
+    href: (item) => `/canticos/portugues/topico/${encodeURIComponent(item.slug || item.nome)}`,
     display: (item) => item.nome,
   },
   {
     key: "topicosUmb",
     label: "Tópicos — Cânticos (Umbundu)",
-    href: (item) => `/canticos/umbundu/topicos/${encodeURIComponent(item.nome)}`,
+    href: (item) => `/canticos/umbundu/topico/${encodeURIComponent(item.slug || item.nome)}`,
     display: (item) => item.nome,
   },
   {
@@ -48,38 +49,20 @@ const SECTIONS = [
   },
 ];
 
-// Idiomas além de Português e Umbundu: onde fica cada tipo de página no site.
-const ROTAS_IDIOMA = {
-  lat: {
-    cantico: (slug) => `/canticos/latim/cantico/${encodeURIComponent(slug)}`,
-    topico: (_slug, nome) => `/canticos/latim/topico/${encodeURIComponent(nome)}`,
-    catecismo: (id) => `/catecismo/latim/titulo/${id}`,
-  },
-  kmb: {
-    cantico: (slug) => `/canticos/kimbundu/cantico/${encodeURIComponent(slug)}`,
-    topico: (slug) => `/canticos/kimbundu/topicos/${encodeURIComponent(slug)}`,
-  },
-  otc: {
-    cantico: (slug) => `/canticos/otchikwama/cantico/${encodeURIComponent(slug)}`,
-    topico: (_slug, nome) => `/canticos/otchikwama/topico/${encodeURIComponent(nome)}`,
-    catecismo: (id) => `/catecismo/otchikwama/titulo/${id}`,
-  },
-};
-
+// Resultados dos outros idiomas: o endereço de cada página depende só do idioma.
 function seccoesDosOutrosIdiomas(outros) {
   const seccoes = [];
   for (const idioma of outros ?? []) {
-    const rotas = ROTAS_IDIOMA[idioma.codigo];
-    if (!rotas) continue; // idioma ainda sem páginas no site
-    if (rotas.cantico && idioma.canticos?.length)
+    const x = slugDoCodigo(idioma.codigo);
+    if (idioma.canticos?.length)
       seccoes.push({ key: `${idioma.codigo}-canticos`, label: `Cânticos (${idioma.nome})`, items: idioma.canticos,
-        href: (i) => rotas.cantico(i.slug), display: (i) => i.titulo });
-    if (rotas.topico && idioma.topicos?.length)
+        href: (i) => `/canticos/${x}/cantico/${encodeURIComponent(i.slug)}`, display: (i) => i.titulo });
+    if (idioma.topicos?.length)
       seccoes.push({ key: `${idioma.codigo}-topicos`, label: `Tópicos — Cânticos (${idioma.nome})`, items: idioma.topicos,
-        href: (i) => rotas.topico(i.slug, i.nome), display: (i) => i.nome });
-    if (rotas.catecismo && idioma.catecismos?.length)
+        href: (i) => `/canticos/${x}/topico/${encodeURIComponent(i.slug || i.nome)}`, display: (i) => i.nome });
+    if (idioma.catecismos?.length)
       seccoes.push({ key: `${idioma.codigo}-catecismo`, label: `Catecismo (${idioma.nome})`, items: idioma.catecismos,
-        href: (i) => rotas.catecismo(i.id), display: (i) => i.titulo });
+        href: (i) => `/catecismo/${x}/titulo/${i.id}`, display: (i) => i.titulo });
   }
   return seccoes;
 }
