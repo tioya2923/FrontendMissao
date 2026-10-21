@@ -34,7 +34,7 @@ export default function AdminResourceCrud() {
   // (Cânticos/Catecismo de um idioma) só resolvem depois de /api/idiomas carregar.
   const [idiomas, setIdiomas] = useState(null);
   useEffect(() => {
-    api.get('/api/idiomas').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
+    api.get('/api/idiomas/todos').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
   }, []);
 
   // Memoizado: getRecursoComIdiomas/gerarRecursosIdioma criam objetos novos a

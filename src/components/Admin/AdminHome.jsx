@@ -12,7 +12,7 @@ export default function AdminHome() {
   const [pesquisa, setPesquisa] = useState('');
 
   useEffect(() => {
-    api.get('/api/idiomas').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
+    api.get('/api/idiomas/todos').then(r => setIdiomas(r.data)).catch(() => setIdiomas([]));
   }, []);
 
   const grupos = useMemo(() => getGrupos(idiomas), [idiomas]);
