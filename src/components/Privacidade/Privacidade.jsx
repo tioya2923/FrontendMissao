@@ -6,7 +6,7 @@ export default function Privacidade() {
       <div className="texto-corrido">
 
         <h1 style={{ fontSize: '1.6rem', marginBottom: 4 }}>Política de Privacidade</h1>
-        <p style={{ color: 'var(--text-2)', marginTop: 0, marginBottom: 24 }}>Última atualização: 17 de outubro de 2026</p>
+        <p style={{ color: 'var(--text-2)', marginTop: 0, marginBottom: 24 }}>Última atualização: 10 de novembro de 2026</p>
 
         <p>
           Esta política explica que dados a aplicação e o site <strong>Ndatava</strong> ("nós", "a aplicação")
@@ -18,7 +18,10 @@ export default function Privacidade() {
         <p><strong>Conta e perfil:</strong> nome, email e palavra-passe (guardada de forma cifrada, nunca em texto simples),
           e, se preencher, fotografia de perfil, datas de sacramentos (nascimento, batismo, primeira comunhão, crisma,
           casamento, ordem), diocese e paróquia.</p>
-        <p><strong>Localização:</strong> se autorizar, usamos a localização aproximada ou exata do dispositivo apenas para
+        <p><strong>Recuperação da palavra-passe:</strong> se pedir para recuperar a palavra-passe, enviamos para o seu
+          email um código de 6 dígitos, válido durante 15 minutos e de uma só utilização. Guardamos apenas uma versão
+          cifrada do código, que é apagada depois de usada ou de expirar.</p>
+        <p><strong>Localização:</strong> se autorizar, usamos a localização aproximada do dispositivo apenas para
           mostrar lojas e artigos mais próximos de si. Não é guardada nem partilhada — é usada no momento do pedido.</p>
         <p><strong>Biometria (impressão digital / Face ID):</strong> usada apenas para desbloquear a aplicação no seu
           próprio dispositivo. Nunca sai do telemóvel nem chega aos nossos servidores.</p>
@@ -64,9 +67,12 @@ export default function Privacidade() {
         <p>Os dados ficam numa base de dados alojada por um fornecedor de serviços cloud, com ligação cifrada (HTTPS/TLS)
           entre a aplicação e os nossos servidores.</p>
 
-        <h2 style={{ fontSize: '1.2rem', marginTop: 28 }}>5. Os seus direitos</h2>
-        <p>Pode, a qualquer momento, editar o seu perfil dentro da aplicação, ou pedir-nos a eliminação completa da sua
-          conta e dados associados, escrevendo para o email abaixo. Respondemos em até 30 dias.</p>
+        <h2 style={{ fontSize: '1.2rem', marginTop: 28 }}>5. Os seus direitos e a eliminação da conta</h2>
+        <p>Pode, a qualquer momento, editar o seu perfil dentro da aplicação. Pode também{' '}
+          <strong>eliminar a sua conta e os dados associados diretamente na aplicação</strong>: em{' '}
+          <em>Eu → Partilhas → Conta → Eliminar conta</em> (para contas de utilizador) ou na área da loja, em{' '}
+          <em>Eliminar conta e dados</em>. A eliminação é imediata. Se preferir, pode pedir-nos a eliminação escrevendo
+          para o email abaixo; respondemos em até 30 dias.</p>
 
         <h2 style={{ fontSize: '1.2rem', marginTop: 28 }}>6. Crianças</h2>
         <p>A Ndatava não se dirige especificamente a crianças menores de 13 anos e não recolhe intencionalmente dados
