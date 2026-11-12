@@ -7,6 +7,17 @@ const MESES = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
+const SEPARADOR_LEITURAS = '\n\nLEITURAS NA ÍNTEGRA\n';
+
+function separarLeituras(leituras = '') {
+    const separador = leituras.indexOf(SEPARADOR_LEITURAS);
+    if (separador < 0) return { resumo: leituras.trim(), integra: leituras.trim() };
+    return {
+        resumo: leituras.slice(0, separador).trim(),
+        integra: leituras.slice(separador + SEPARADOR_LEITURAS.length).trim()
+    };
+}
+
 // O calendário só mostra de hoje em diante: hoje e os 7 dias seguintes.
 const DIAS_MOSTRADOS = 8;
 const ANO_ATUAL = new Date().getFullYear();
@@ -73,6 +84,7 @@ export default function CalendarioList() {
     const [dataBase, setDataBase] = useState(new Date());
     const [mesSelecionado, setMesSelecionado] = useState(dataBase.getMonth());
     const [anoSelecionado, setAnoSelecionado] = useState(dataBase.getFullYear());
+    const [diaSelecionado, setDiaSelecionado] = useState(null);
 
     useEffect(() => {
         api.get('/api/calendario')
@@ -80,6 +92,15 @@ export default function CalendarioList() {
             .catch(() => setErro(true))
             .finally(() => setLoading(false));
     }, []);
+
+    useEffect(() => {
+        if (!diaSelecionado) return undefined;
+        const fecharComEscape = (evento) => {
+            if (evento.key === 'Escape') setDiaSelecionado(null);
+        };
+        window.addEventListener('keydown', fecharComEscape);
+        return () => window.removeEventListener('keydown', fecharComEscape);
+    }, [diaSelecionado]);
 
     const irParaMesAno = () => {
         setDataBase(naoAntesDeHoje(new Date(anoSelecionado, mesSelecionado, 1)));
@@ -155,11 +176,25 @@ export default function CalendarioList() {
                     const cor = cores[0];
                     const fundoBadge = cor ? fundoDoDia(cores) : 'transparent';
                     const textoClaro = cores.some(c => c.claro);
+                    const selecionarDia = () => {
+                        if (doDia.length) setDiaSelecionado({ ...dia, eventos: doDia });
+                    };
                     return (
                         <article
                             key={dia.iso}
-                            className={`calendario-dia${dia.iso === hojeISO ? ' hoje' : ''}${doDia.length ? '' : ' vazio'}`}
+                            className={`calendario-dia${dia.iso === hojeISO ? ' hoje' : ''}${doDia.length ? ' clicavel' : ' vazio'}`}
                             style={cor ? { borderLeftColor: cor.claro ? '#b0aaa2' : cor.bg } : undefined}
+                            role={doDia.length ? 'button' : undefined}
+                            tabIndex={doDia.length ? 0 : undefined}
+                            aria-label={doDia.length ? `Ver leituras de ${dia.semana}, ${dia.numero} de ${MESES[new Date(`${dia.iso}T12:00:00`).getMonth()]} de ${new Date(`${dia.iso}T12:00:00`).getFullYear()}` : undefined}
+                            aria-haspopup={doDia.length ? 'dialog' : undefined}
+                            onClick={selecionarDia}
+                            onKeyDown={evento => {
+                                if (doDia.length && (evento.key === 'Enter' || evento.key === ' ')) {
+                                    evento.preventDefault();
+                                    selecionarDia();
+                                }
+                            }}
                         >
                             <header className="calendario-dia-topo">
                                 <span className="calendario-dia-semana">{dia.semana}</span>
@@ -177,7 +212,14 @@ export default function CalendarioList() {
                                     <div className="calendario-evento" key={ev.id ?? i}>
                                         {ev.titulo && <h3>{ev.titulo}</h3>}
                                         {descricao && <p className="descricao">{descricao}</p>}
-                                        {ev.leituras && <p className="meta">{ev.leituras}</p>}
+                                        {!!ev.leituras && (
+                                            <>
+                                                <p className="meta">{separarLeituras(ev.leituras).resumo}</p>
+                                                {!!separarLeituras(ev.leituras).integra && (
+                                                    <p className="calendario-ver-leituras">Clique para ver as leituras completas</p>
+                                                )}
+                                            </>
+                                        )}
                                         {observacoes && <p className="meta">{observacoes}</p>}
                                     </div>
                                 );
@@ -186,6 +228,54 @@ export default function CalendarioList() {
                     );
                 })}
             </div>
+
+            {diaSelecionado && (
+                <div className="calendario-leituras-overlay" onClick={() => setDiaSelecionado(null)}>
+                    <section
+                        className="calendario-leituras-dialog"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="calendario-leituras-titulo"
+                        onClick={evento => evento.stopPropagation()}
+                    >
+                        <header className="calendario-leituras-header">
+                            <div>
+                                <p className="calendario-leituras-data">
+                                    {new Date(`${diaSelecionado.iso}T12:00:00`).toLocaleDateString('pt-PT', {
+                                        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                                    })}
+                                </p>
+                                <h2 id="calendario-leituras-titulo">Leituras litúrgicas</h2>
+                            </div>
+                            <button
+                                type="button"
+                                className="calendario-leituras-fechar"
+                                onClick={() => setDiaSelecionado(null)}
+                                aria-label="Fechar leituras"
+                            >
+                                ×
+                            </button>
+                        </header>
+                        <div className="calendario-leituras-conteudo">
+                            {diaSelecionado.eventos.map((ev, i) => {
+                                const { resumo, integra } = separarLeituras(ev.leituras);
+                                const descricao = ev.descricao || ev['descrição'];
+                                const observacoes = ev.observacoes || ev['observações'];
+                                return (
+                                    <article className="calendario-leituras-evento" key={ev.id ?? i}>
+                                        {ev.titulo && <h3>{ev.titulo}</h3>}
+                                        {descricao && <p className="calendario-leituras-descricao">{descricao}</p>}
+                                        <p className="calendario-leituras-texto">
+                                            {integra || resumo || 'Não há leituras registadas para este dia.'}
+                                        </p>
+                                        {observacoes && <p className="calendario-leituras-descricao">{observacoes}</p>}
+                                    </article>
+                                );
+                            })}
+                        </div>
+                    </section>
+                </div>
+            )}
         </div>
     );
 }

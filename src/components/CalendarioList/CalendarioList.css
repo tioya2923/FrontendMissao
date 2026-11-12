@@ -69,6 +69,9 @@
 }
 .calendario-dia.hoje { box-shadow: var(--shadow-raised); outline: 2px solid color-mix(in srgb, var(--primary) 35%, transparent); }
 .calendario-dia.vazio { padding-bottom: 0.7rem; }
+.calendario-dia.clicavel { cursor: pointer; transition: transform 120ms ease, box-shadow 120ms ease; }
+.calendario-dia.clicavel:hover { transform: translateY(-2px); box-shadow: var(--shadow-raised); }
+.calendario-dia.clicavel:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
 
 .calendario-dia-topo {
   display: flex;
@@ -112,12 +115,74 @@
 }
 .calendario-evento p { margin: 0 0 0.3rem; font-size: 0.95rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
 .calendario-evento .meta { font-size: 0.88rem; color: var(--text-2); }
+.calendario-ver-leituras { margin: 0.45rem 0 0.2rem; color: var(--primary); font-size: 0.83rem; font-weight: 700; }
+
+.calendario-leituras-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.62);
+}
+.calendario-leituras-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 760px);
+  max-height: min(88vh, 900px);
+  overflow: hidden;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-raised);
+}
+.calendario-leituras-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.35rem;
+  border-bottom: 1px solid var(--border);
+}
+.calendario-leituras-header h2 { margin: 0; font-size: 1.3rem; }
+.calendario-leituras-data {
+  margin: 0 0 0.25rem;
+  color: var(--text-2);
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+.calendario-leituras-fechar {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.calendario-leituras-conteudo { overflow-y: auto; padding: 1.35rem; }
+.calendario-leituras-evento + .calendario-leituras-evento { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.calendario-leituras-evento h3 { margin: 0; font-size: 1.05rem; }
+.calendario-leituras-descricao { margin: 0.55rem 0 0; color: var(--text-2); line-height: 1.55; white-space: pre-line; }
+.calendario-leituras-texto { margin: 0.9rem 0 0; font-size: 1rem; line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; }
 
 .calendario .loading, .calendario .erro { text-align: center; margin: 1rem 0; }
 
 @media (max-width: 760px) {
   .calendario-grid { grid-template-columns: 1fr; }
   .calendario-titulo { font-size: 1.6rem; }
+  .calendario-leituras-overlay { align-items: flex-end; padding: 0; }
+  .calendario-leituras-dialog { width: 100%; max-height: 90vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .calendario-leituras-header, .calendario-leituras-conteudo { padding: 1rem; }
 }
 
 .calendario-evento h3 { white-space: pre-line; }
