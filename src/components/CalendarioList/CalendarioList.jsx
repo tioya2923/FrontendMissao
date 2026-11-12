@@ -8,14 +8,56 @@ const MESES = [
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
 const SEPARADOR_LEITURAS = '\n\nLEITURAS NA ÍNTEGRA\n';
+const SEPARADOR_LEITURAS_TOLERANTE = /\n{2}LEITURAS NA [^\r\n]{0,2}NTEGRA\r?\n/i;
 
 function separarLeituras(leituras = '') {
-    const separador = leituras.indexOf(SEPARADOR_LEITURAS);
-    if (separador < 0) return { resumo: leituras.trim(), integra: '' };
+    const encontrado = leituras.includes(SEPARADOR_LEITURAS)
+        ? { index: leituras.indexOf(SEPARADOR_LEITURAS), texto: SEPARADOR_LEITURAS }
+        : (() => {
+            const correspondencia = SEPARADOR_LEITURAS_TOLERANTE.exec(leituras);
+            return correspondencia && { index: correspondencia.index, texto: correspondencia[0] };
+        })();
+    if (!encontrado) return { resumo: leituras.trim(), integra: '' };
     return {
-        resumo: leituras.slice(0, separador).trim(),
-        integra: leituras.slice(separador + SEPARADOR_LEITURAS.length).trim()
+        resumo: leituras.slice(0, encontrado.index).trim(),
+        integra: leituras.slice(encontrado.index + encontrado.texto.length).trim()
     };
+}
+
+function formatarTextoLeitura(texto) {
+    const linhas = texto.split('\n');
+    const segmentos = [];
+    let inicioSegmento = 0;
+    let inicioLinha = 0;
+    let linhaAnterior = '';
+
+    for (let i = 0; i < linhas.length; i += 1) {
+        const linha = linhas[i];
+        const inicioCitacao = /^[«“"]/.test(linha.trim())
+            && /^(LEITURA(?:\s|$)|SALMO(?:\s|$)|EVANGELHO(?:\s|$)|ACLAMAÇÃO(?:\s|$)|ACLAMACAO(?:\s|$))/i.test(linhaAnterior);
+
+        if (inicioCitacao) {
+            let fimCitacao = i;
+            while (fimCitacao < linhas.length && !/[»”"]/.test(linhas[fimCitacao])) fimCitacao += 1;
+            if (fimCitacao < linhas.length) {
+                const inicio = inicioLinha;
+                const fim = inicio + linhas.slice(i, fimCitacao + 1).reduce((total, parte) => total + parte.length, 0)
+                    + (fimCitacao - i);
+                if (inicio > inicioSegmento) segmentos.push({ texto: texto.slice(inicioSegmento, inicio), citacao: false });
+                segmentos.push({ texto: texto.slice(inicio, fim).trim(), citacao: true });
+                inicioSegmento = fim;
+                for (; i < fimCitacao; i += 1) inicioLinha += linhas[i].length + 1;
+                linhaAnterior = linhas[i];
+            }
+        } else if (linha.trim()) {
+            linhaAnterior = linha.trim();
+        }
+
+        inicioLinha += linha.length + 1;
+    }
+
+    if (inicioSegmento < texto.length) segmentos.push({ texto: texto.slice(inicioSegmento), citacao: false });
+    return segmentos.length ? segmentos : [{ texto, citacao: false }];
 }
 
 // O calendário só mostra de hoje em diante: hoje e os 7 dias seguintes.
@@ -213,12 +255,7 @@ export default function CalendarioList() {
                                         {ev.titulo && <h3>{ev.titulo}</h3>}
                                         {descricao && <p className="descricao">{descricao}</p>}
                                         {!!ev.leituras && (
-                                            <>
-                                                <p className="meta">{separarLeituras(ev.leituras).resumo}</p>
-                                                {!!separarLeituras(ev.leituras).integra && (
-                                                    <p className="calendario-ver-leituras">Clique para ver as leituras completas</p>
-                                                )}
-                                            </>
+                                            <p className="meta">{separarLeituras(ev.leituras).resumo}</p>
                                         )}
                                         {observacoes && <p className="meta">{observacoes}</p>}
                                     </div>
@@ -265,11 +302,22 @@ export default function CalendarioList() {
                                     <article className="calendario-leituras-evento" key={ev.id ?? i}>
                                         {ev.titulo && <h3>{ev.titulo}</h3>}
                                         {descricao && <p className="calendario-leituras-descricao">{descricao}</p>}
-                                        <p className="calendario-leituras-texto">
-                                            {integra || (resumo
-                                                ? 'O texto integral desta leitura ainda não está disponível.'
-                                                : 'Não há leituras registadas para este dia.')}
-                                        </p>
+                                        {integra
+                                            ? <div className="calendario-leituras-texto">
+                                                {formatarTextoLeitura(integra).map((segmento, indice) => (
+                                                    <p
+                                                        className={segmento.citacao ? 'calendario-leituras-citacao' : 'calendario-leituras-paragrafo'}
+                                                        key={indice}
+                                                    >
+                                                        {segmento.texto}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                            : <p className="calendario-leituras-texto">
+                                                {resumo
+                                                    ? 'O texto integral desta leitura ainda não está disponível.'
+                                                    : 'Não há leituras registadas para este dia.'}
+                                            </p>}
                                         {observacoes && <p className="calendario-leituras-descricao">{observacoes}</p>}
                                     </article>
                                 );

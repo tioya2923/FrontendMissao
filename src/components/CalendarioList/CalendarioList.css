@@ -115,7 +115,6 @@
 }
 .calendario-evento p { margin: 0 0 0.3rem; font-size: 0.95rem; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
 .calendario-evento .meta { font-size: 0.88rem; color: var(--text-2); }
-.calendario-ver-leituras { margin: 0.45rem 0 0.2rem; color: var(--primary); font-size: 0.83rem; font-weight: 700; }
 
 .calendario-leituras-overlay {
   position: fixed;
@@ -173,7 +172,9 @@
 .calendario-leituras-evento + .calendario-leituras-evento { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
 .calendario-leituras-evento h3 { margin: 0; font-size: 1.05rem; }
 .calendario-leituras-descricao { margin: 0.55rem 0 0; color: var(--text-2); line-height: 1.55; white-space: pre-line; }
-.calendario-leituras-texto { margin: 0.9rem 0 0; font-size: 1rem; line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; }
+.calendario-leituras-texto { margin: 0.9rem 0 0; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.5; overflow-wrap: anywhere; }
+.calendario-leituras-paragrafo, .calendario-leituras-citacao { margin: 0; white-space: pre-line; }
+.calendario-leituras-citacao { margin: 0.8rem 0; color: #c0392b; font-style: italic; text-align: center; }
 
 .calendario .loading, .calendario .erro { text-align: center; margin: 1rem 0; }
 
