@@ -151,8 +151,9 @@
   margin: 0 0 0.25rem;
   color: var(--text-2);
   font-size: 0.9rem;
-  text-transform: capitalize;
 }
+/* "Quarta-feira, 4 de março de 2026": só a primeira letra em maiúscula (em português "de" fica minúsculo). */
+.calendario-leituras-data::first-letter { text-transform: uppercase; }
 .calendario-leituras-fechar {
   flex: 0 0 auto;
   display: grid;

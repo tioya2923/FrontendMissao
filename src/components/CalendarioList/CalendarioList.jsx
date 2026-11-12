@@ -136,10 +136,11 @@ function formatarTextoLeitura(texto) {
     return segmentos.length ? segmentos : [{ texto, tipo: 'texto' }];
 }
 
-// O calendário só mostra de hoje em diante: hoje e os 7 dias seguintes.
+// Mostra 8 dias de cada vez (começa em hoje) e permite recuar até ao primeiro dia com dados: 1 de janeiro de 2026.
 const DIAS_MOSTRADOS = 8;
-const ANO_ATUAL = new Date().getFullYear();
-const ANOS = Array.from({ length: 2100 - ANO_ATUAL + 1 }, (_, i) => ANO_ATUAL + i);
+const ANO_MIN = 2026;
+const DATA_MIN = new Date(ANO_MIN, 0, 1);
+const ANOS = Array.from({ length: 2100 - ANO_MIN + 1 }, (_, i) => ANO_MIN + i);
 
 // Cores litúrgicas (as mesmas da app)
 const COR_MAP = {
@@ -185,8 +186,8 @@ function fundoDoDia(cores) {
 
 const hojeInicio = () => { const h = new Date(); h.setHours(0, 0, 0, 0); return h; };
 
-// Nunca mostra dias que já passaram.
-const naoAntesDeHoje = (data) => (data < hojeInicio() ? hojeInicio() : data);
+// Nunca recua além do início dos dados do calendário.
+const naoAntesDoInicio = (data) => (data < DATA_MIN ? DATA_MIN : data);
 
 function paraISO(data) {
     const a = data.getFullYear();
@@ -221,7 +222,7 @@ export default function CalendarioList() {
     }, [diaSelecionado]);
 
     const irParaMesAno = () => {
-        setDataBase(naoAntesDeHoje(new Date(anoSelecionado, mesSelecionado, 1)));
+        setDataBase(naoAntesDoInicio(new Date(anoSelecionado, mesSelecionado, 1)));
     };
 
     const irParaHoje = () => {
@@ -234,7 +235,7 @@ export default function CalendarioList() {
     const mudarSemana = (delta) => {
         const nova = new Date(dataBase);
         nova.setDate(nova.getDate() + delta * DIAS_MOSTRADOS);
-        const limitada = naoAntesDeHoje(nova);
+        const limitada = naoAntesDoInicio(nova);
         setDataBase(limitada);
         nova.setTime(limitada.getTime());
         setMesSelecionado(nova.getMonth());
@@ -244,7 +245,7 @@ export default function CalendarioList() {
     const hojeISO = paraISO(new Date());
 
     const dias = useMemo(() => {
-        const inicio = naoAntesDeHoje(new Date(dataBase.getFullYear(), dataBase.getMonth(), dataBase.getDate()));
+        const inicio = naoAntesDoInicio(new Date(dataBase.getFullYear(), dataBase.getMonth(), dataBase.getDate()));
         return Array.from({ length: DIAS_MOSTRADOS }, (_, i) => {
             const d = new Date(inicio);
             d.setDate(inicio.getDate() + i);
@@ -273,7 +274,7 @@ export default function CalendarioList() {
                     <button onClick={irParaMesAno}>Ir</button>
                 </div>
                 <div className="calendario-navegacao">
-                    <button className="btn-contorno" onClick={() => mudarSemana(-1)} disabled={dias[0].iso <= hojeISO}>‹ Anterior</button>
+                    <button className="btn-contorno" onClick={() => mudarSemana(-1)} disabled={dias[0].iso <= paraISO(DATA_MIN)}>‹ Anterior</button>
                     <button onClick={irParaHoje}>Hoje</button>
                     <button className="btn-contorno" onClick={() => mudarSemana(1)}>Próximo ›</button>
                 </div>
