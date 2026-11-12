@@ -67,7 +67,7 @@ export default function Navbar() {
           <li><Link to="/contacto" onClick={fechar}>Contacto</Link></li>
           <li><Link to="/sobre" onClick={fechar}>Sobre</Link></li>
           <li><Link to="/apoiar" onClick={fechar}>Apoiar</Link></li>
-          <li><Link to="/loja/login" onClick={fechar}>Vender no Ndatava</Link></li>
+          <li><Link to="/loja/login" onClick={fechar}>Vender na Ndatava</Link></li>
           <li className="navbar-searchbar-wrapper">
             <SearchBar />
           </li>

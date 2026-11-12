@@ -16,7 +16,7 @@ export default function AdminLogin() {
   const destino = location.state?.from || '/admin';
 
   // Ponte para a app móvel: depois de validar as credenciais do gestor no
-  // ecrã "Vender no Ndatava", a app abre esta página com o token já emitido,
+  // ecrã "Vender na Ndatava", a app abre esta página com o token já emitido,
   // para o administrador não ter de os escrever outra vez no navegador.
   useEffect(() => {
     const params = new URLSearchParams(location.search);
