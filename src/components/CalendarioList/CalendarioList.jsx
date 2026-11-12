@@ -34,11 +34,83 @@ function formatarTextoLeitura(texto) {
         offset += linha.length + 1;
     }
 
-    let fimSegmento = 0;
+    const adicionar = (inicio, fim, tipo) => {
+        const conteudo = texto.slice(inicio, fim).trim();
+        if (conteudo) segmentos.push({ texto: conteudo, tipo });
+    };
+    const eInicioSecao = linha => /^(LEITURA(?:\s|$)|EVANGELHO(?:\s|$)|SALMO RESPONSORIAL\b|ACLAMAÇÃO(?:\s|$)|ACLAMACAO(?:\s|$))/i.test(linha.trim());
+    let cursor = 0;
     let linhaAnterior = '';
 
     for (let i = 0; i < linhas.length; i += 1) {
         const linha = linhas[i];
+        const tituloLeitura = /^(LEITURA\s+(?:I{1,3}|IV|V|VI|VII|[1-7]))(?:\s+(.+))?$/i.exec(linha.trim());
+        if (tituloLeitura) {
+            adicionar(cursor, iniciosLinha[i], 'texto');
+            segmentos.push({
+                texto: linha.trim(),
+                tipo: 'leitura-titulo',
+                etiqueta: tituloLeitura[1],
+                referencia: tituloLeitura[2] || ''
+            });
+            cursor = iniciosLinha[i] + linha.length;
+            linhaAnterior = linha.trim();
+            continue;
+        }
+
+        if (/^(?:Leitura\s+(?:do|da|de)\b|Evangelho de Nosso Senhor\b)/i.test(linha.trim())) {
+            adicionar(cursor, iniciosLinha[i], 'texto');
+            adicionar(iniciosLinha[i], iniciosLinha[i] + linha.length, 'leitura-fonte');
+            cursor = iniciosLinha[i] + linha.length;
+            linhaAnterior = linha.trim();
+            continue;
+        }
+
+        if (/^SALMO RESPONSORIAL\b/i.test(linha.trim())) {
+            adicionar(cursor, iniciosLinha[i], 'texto');
+            let fimTitulo = i + 1;
+            while (fimTitulo < linhas.length && !/^\s*Refr[aã]o:/i.test(linhas[fimTitulo]) && !eInicioSecao(linhas[fimTitulo])) fimTitulo += 1;
+            adicionar(iniciosLinha[i], fimTitulo < linhas.length ? iniciosLinha[fimTitulo] : texto.length, 'salmo-titulo');
+            cursor = fimTitulo < linhas.length ? iniciosLinha[fimTitulo] : texto.length;
+
+            if (fimTitulo < linhas.length && /^\s*Refr[aã]o:/i.test(linhas[fimTitulo])) {
+                let fimRefrao = fimTitulo + 1;
+                while (fimRefrao < linhas.length && !eInicioSecao(linhas[fimRefrao])
+                    && (!linhas[fimRefrao].trim() || /^\s/.test(linhas[fimRefrao]))) fimRefrao += 1;
+                const fim = fimRefrao > fimTitulo + 1
+                    ? iniciosLinha[fimRefrao - 1] + linhas[fimRefrao - 1].length
+                    : iniciosLinha[fimTitulo] + linhas[fimTitulo].length;
+                adicionar(iniciosLinha[fimTitulo], fim, 'salmo-refrao');
+                cursor = fim;
+
+                let linhaVerso = fimRefrao;
+                while (linhaVerso < linhas.length && !eInicioSecao(linhas[linhaVerso])) {
+                    if (!linhas[linhaVerso].trim()) {
+                        linhaVerso += 1;
+                        continue;
+                    }
+                    const inicioEstrofe = linhaVerso;
+                    let linhasEstrofe = 0;
+                    while (linhaVerso < linhas.length && !eInicioSecao(linhas[linhaVerso])) {
+                        if (linhas[linhaVerso].trim()) linhasEstrofe += 1;
+                        linhaVerso += 1;
+                        if (linhasEstrofe === 2) break;
+                    }
+                    const fimEstrofe = iniciosLinha[linhaVerso - 1] + linhas[linhaVerso - 1].length;
+                    adicionar(iniciosLinha[inicioEstrofe], fimEstrofe, 'salmo-verso');
+                    cursor = fimEstrofe;
+                }
+
+                i = linhaVerso - 1;
+                linhaAnterior = linhas[i]?.trim() ?? '';
+                continue;
+            }
+
+            i = fimTitulo - 1;
+            linhaAnterior = linhas[i]?.trim() ?? '';
+            continue;
+        }
+
         const inicioCitacao = /^[«“"]/.test(linha.trim())
             && /^(LEITURA(?:\s|$)|SALMO(?:\s|$)|EVANGELHO(?:\s|$)|ACLAMAÇÃO(?:\s|$)|ACLAMACAO(?:\s|$))/i.test(linhaAnterior);
 
@@ -48,9 +120,9 @@ function formatarTextoLeitura(texto) {
             if (fimCitacao < linhas.length) {
                 const inicio = iniciosLinha[i];
                 const fim = iniciosLinha[fimCitacao] + linhas[fimCitacao].length;
-                if (inicio > fimSegmento) segmentos.push({ texto: texto.slice(fimSegmento, inicio), citacao: false });
-                segmentos.push({ texto: texto.slice(inicio, fim).trim(), citacao: true });
-                fimSegmento = fim;
+                adicionar(cursor, inicio, 'texto');
+                adicionar(inicio, fim, 'citacao');
+                cursor = fim;
                 i = fimCitacao;
                 linhaAnterior = linhas[fimCitacao].trim();
                 continue;
@@ -60,8 +132,8 @@ function formatarTextoLeitura(texto) {
         }
     }
 
-    if (fimSegmento < texto.length) segmentos.push({ texto: texto.slice(fimSegmento), citacao: false });
-    return segmentos.length ? segmentos : [{ texto, citacao: false }];
+    adicionar(cursor, texto.length, 'texto');
+    return segmentos.length ? segmentos : [{ texto, tipo: 'texto' }];
 }
 
 // O calendário só mostra de hoje em diante: hoje e os 7 dias seguintes.
@@ -309,12 +381,17 @@ export default function CalendarioList() {
                                         {integra
                                             ? <div className="calendario-leituras-texto">
                                                 {formatarTextoLeitura(integra).map((segmento, indice) => (
-                                                    <p
-                                                        className={segmento.citacao ? 'calendario-leituras-citacao' : 'calendario-leituras-paragrafo'}
-                                                        key={indice}
-                                                    >
-                                                        {segmento.texto}
-                                                    </p>
+                                                    segmento.tipo === 'leitura-titulo'
+                                                        ? <div className="calendario-leituras-titulo" key={indice}>
+                                                            <span>{segmento.etiqueta}</span>
+                                                            {segmento.referencia && <span>{segmento.referencia}</span>}
+                                                        </div>
+                                                        : <p
+                                                            className={`calendario-leituras-${segmento.tipo}`}
+                                                            key={indice}
+                                                        >
+                                                            {segmento.texto}
+                                                        </p>
                                                 ))}
                                             </div>
                                             : <p className="calendario-leituras-texto">

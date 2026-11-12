@@ -173,8 +173,13 @@
 .calendario-leituras-evento h3 { margin: 0; font-size: 1.05rem; }
 .calendario-leituras-descricao { margin: 0.55rem 0 0; color: var(--text-2); line-height: 1.55; white-space: pre-line; }
 .calendario-leituras-texto { margin: 0.9rem 0 0; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.5; overflow-wrap: anywhere; }
-.calendario-leituras-paragrafo, .calendario-leituras-citacao { margin: 0; white-space: pre-line; }
-.calendario-leituras-citacao { margin: 0.8rem 0; color: #c0392b; font-style: italic; text-align: center; }
+.calendario-leituras-texto p { margin: 0; white-space: pre-line; }
+.calendario-leituras-titulo { display: flex; justify-content: space-between; gap: 1rem; margin: 1.15rem 0 0.45rem; color: #c0392b; font-family: var(--font-display); font-size: 1rem; }
+.calendario-leituras-fonte { margin: 0.65rem 0 0.3rem !important; color: var(--text); font-size: 1.25rem; line-height: 1.35; }
+.calendario-leituras-citacao { margin: 0.8rem 0 !important; color: #c0392b; font-style: italic; text-align: center; }
+.calendario-leituras-salmo-titulo { margin: 1rem 0 0.5rem !important; color: #c0392b; font-weight: 700; }
+.calendario-leituras-salmo-refrao { margin: 0 0 0.75rem !important; color: #c0392b; font-weight: 700; }
+.calendario-leituras-salmo-verso { margin: 0 0 0.55rem !important; }
 
 .calendario .loading, .calendario .erro { text-align: center; margin: 1rem 0; }
 
