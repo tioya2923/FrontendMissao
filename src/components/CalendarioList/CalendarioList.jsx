@@ -11,7 +11,7 @@ const SEPARADOR_LEITURAS = '\n\nLEITURAS NA ÍNTEGRA\n';
 
 function separarLeituras(leituras = '') {
     const separador = leituras.indexOf(SEPARADOR_LEITURAS);
-    if (separador < 0) return { resumo: leituras.trim(), integra: leituras.trim() };
+    if (separador < 0) return { resumo: leituras.trim(), integra: '' };
     return {
         resumo: leituras.slice(0, separador).trim(),
         integra: leituras.slice(separador + SEPARADOR_LEITURAS.length).trim()
@@ -266,7 +266,9 @@ export default function CalendarioList() {
                                         {ev.titulo && <h3>{ev.titulo}</h3>}
                                         {descricao && <p className="calendario-leituras-descricao">{descricao}</p>}
                                         <p className="calendario-leituras-texto">
-                                            {integra || resumo || 'Não há leituras registadas para este dia.'}
+                                            {integra || (resumo
+                                                ? 'O texto integral desta leitura ainda não está disponível.'
+                                                : 'Não há leituras registadas para este dia.')}
                                         </p>
                                         {observacoes && <p className="calendario-leituras-descricao">{observacoes}</p>}
                                     </article>
