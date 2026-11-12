@@ -50,8 +50,8 @@ export default function LojaRegistar() {
       setErro('Nome, email e password são obrigatórios.');
       return;
     }
-    if (form.password.length < 6) {
-      setErro('A password tem de ter pelo menos 6 caracteres.');
+    if (form.password.length < 8) {
+      setErro('A password tem de ter pelo menos 8 caracteres.');
       return;
     }
     if (form.password !== form.confirmarPassword) {
