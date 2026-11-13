@@ -3,6 +3,7 @@ import React from 'react';
 const WHATSAPP_TEXTO = '+351 920 012 727';
 const WHATSAPP_URL = 'https://wa.me/351920012727';
 const EMAIL = 'ndatava3@gmail.com';
+const INSTAGRAM_URL = 'https://www.instagram.com/amendatava/';
 
 const Contacto = () => {
   return (
@@ -16,6 +17,10 @@ const Contacto = () => {
         <li>
           <span className="contacto-etiqueta">E-mail</span>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </li>
+        <li>
+          <span className="contacto-etiqueta">Instagram</span>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">@amendatava</a>
         </li>
       </ul>
       <p className="contacto-convite">

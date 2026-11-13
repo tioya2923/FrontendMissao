@@ -8,6 +8,7 @@ export default function Footer() {
         <span>© {new Date().getFullYear()} Ndatava. Todos os direitos reservados.</span>
         <span> · <Link to="/privacidade">Política de Privacidade</Link></span>
         <span> · <Link to="/eliminar-conta">Eliminar Conta</Link></span>
+        <span> · <a href="https://www.instagram.com/amendatava/" target="_blank" rel="noopener noreferrer">Instagram</a></span>
       </div>
     </footer>
   );
